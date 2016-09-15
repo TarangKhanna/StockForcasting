@@ -32,12 +32,14 @@ def PredictML(stocksDf, useSVM):
 	if useSVM:
 		print "Using SVM Classifier"
 		clf = svm.SVC(kernel='linear', C = 1.0) # (kernel='poly',degree=1, C = 1.0)#
-		joblib.dump(clf, 'SVMClf.pkl') # save the classifier to file
+		# joblib.dump(clf, 'SVMClf.pkl') # save the classifier to file
 	else:
 		print "Using Random Forest Classifier"
 		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=50) #(n_estimators=10), min_samples_leaf = 2 seems optimum, the results vary on each run
-		joblib.dump(clf, 'RandomForestClf.pkl') # save the classifier to file
+		# joblib.dump(clf, 'RandomForestClf.pkl') # save the classifier to file
 	# X = X.reshape(-1, 1) # for one feature
+
+	stocksData.to_csv('training', sep='\t', encoding='utf-8')
 
 	print("Crunching...")
 
@@ -86,7 +88,7 @@ if __name__ == "__main__":
 	df.dropna() #drop all rows that have any NaN values
 
 	file_name = "stocksData.txt"
-	df.to_csv(file_name, sep='\t', encoding='utf-8')
+	# df.to_csv(file_name, sep='\t', encoding='utf-8')
 
 	# df_predict = df[3002]
 
