@@ -54,23 +54,21 @@ def PredictML(stocksDf, useSVM):
 	y = np.array(stocksDf['future']) # y is the 1% forcast 
 
 	print(X)
-	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2)
+	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
 
 	print(X.shape)
 	print(y.shape)
 
 	clf = LinearRegression(n_jobs=-1)
 
-	# X = X.reshape(-1, 1) # for one feature
-
 	print("Crunching...")
 
 	clf.fit(X,y)
 
-	accuracy = clf.score(X_test,y_test)
+	accuracy = clf.score(X_test,y_test) # test on data not used for training
 	print(accuracy)
 
-	# print clf.predict() 
+	# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
 
 if __name__ == "__main__":
 	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-8-30")
@@ -91,20 +89,5 @@ if __name__ == "__main__":
 	file_name = "stocksData.txt"
 	# df.to_csv(file_name, sep='\t', encoding='utf-8')
 
-	# df_predict = df[3002]
 
 	PredictML(df, False)
-
-
-	# PredictML(df, True)
-
-	# print(type(predicting))
-	# PredictCloseFromOpen(df[0:3000])
-
-	# only a good test for labeled output, not regression
-	# X_test = np.array(df[3001:6000]['Adj. Open'])
-	# X_test = X_test.reshape(-1, 1) # one feature
-	# y_test = (df[3001:6000]['Adj. Close']).astype(str)
-	# print(clf.score(X_test, y_test))
-
-	# @vectorize(["void(void)"], target='gpu')
