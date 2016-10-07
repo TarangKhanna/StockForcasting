@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>StockStokr - Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="bootstrap-3.3.7-dist/css/bootstrap.css" rel = "stylesheet" type = "text/css">
+        <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/stockr.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    
+    <body>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button>
+                    <a class="navbar-brand" href="#">StockStockr</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a data-toggle = "modal" data-target = "#login">Home</a></li>
+                        <li><a href="#">Browse</a></li>
+                        <!-- <li><a href="#">Manage Account</a></li> -->
+                        <li><a data-toggle = "modal" data-target = "#login">Account</a></li>
+                        <li><a href="#">Info</a></li>
+                        <li><a href="#">Request Training</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- LOGIN MODAL -->
+        <div class="container">
+            <div id="login" class="modal">
+                <form class="modal-content animate" action="action_page.php">
+
+                    <div class="container">
+                        <label><b>Username</b></label><br />
+                        <input type="text" placeholder="Enter Username" name="uname" required><br />
+
+                        <label><b>Password</b></label><br />
+                        <input type="password" placeholder="Enter Password" name="psw" required><br />
+        
+                        <button type="submit">Login</button>
+                        
+                        <input type="checkbox" checked="checked" class="rightbox" > 
+                        <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me   </div>
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" class="cancelbtn"><a href="#">Cancel</a></button>
+                        <span class="psw">Forgot <a href="#">password?</a></span>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        
+        <!-- MAIN PAGE -->
+        
+            <p></p>
+            <div class="container-fluid">
+                <div class="row">
+                    <p></p>
+                    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                            <div class="side-window">
+                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                    <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                </button>
+                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                    <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                </button>
+                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                    <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                </button>
+                                
+                            </div>    
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            
+                                <h3>Your Stock Watchlist</h3>
+                                <div class="window">
+                                    <h4>Google Inc.</h4>
+                                    <figure>
+                                        <img src="stockky.png" alt="graph" width="100%">
+                                    </figure>
+                                </div>    
+                             
+                    </div>
+                    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                            <div class="jumbotron">
+                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                                </div>    
+                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                                </div>
+                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Look at this shit! </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                                </div>
+                            </div>    
+                    </div>
+                </div>
+            </div>
+        
+        <!-- FOOTER -->
+        <div class="jumbotron" style="padding-bottom: 0px;">
+            <div class= "bottom-text">
+                <h5>
+                    Copyright or whatever. Maybe include some links to social media
+                </h5>
+            </div>    
+        </div>
+    </body>
+</html>    
