@@ -4,18 +4,21 @@ from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
+Predicted_Prices = {}
+Predicted_Prices['Google'] = '55.00'
+Predicted_Prices['Apple'] = '53.00'
 tasks = [
     {
         'id': 1,
         'name': u'Atul Aneja',
         'MyStocks': u'Google', 
-        'Predicted_Price': u'price'
+        'Predicted_Price': u'%s'%Predicted_Prices['Google']
     },
     {
         'id': 2,
         'name': u'Tarang Khanna',
         'MyStocks': u'Apple',
-        'Predicted_Price': u'price' 
+        'Predicted_Price': u'%s'%Predicted_Prices['Apple'] 
     }
 ]
 
