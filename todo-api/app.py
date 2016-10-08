@@ -46,6 +46,31 @@ def create_task():
     tasks.append(task)
     return jsonify({'task': task}), 201
 
+@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['ADDSTOCKS'])
+def update_task(task_id):
+    task = [task for task in tasks if task['id'] == task_id]
+    if len(task) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    if 'name' in request.json and type(request.json['name']) != unicode:
+        abort(400)
+    if 'MyStocks' in request.json and type(request.json['MyStocks']) is not unicode:
+        abort(400)
+    if 'Predicted_Price' in request.json and type(request.json['Predicted_Price']) is not unicode:
+        abort(400)
+    task[0]['name'] = request.json.get('name', task[0]['name'])
+    task[0]['MyStocks'] = task[0]['MyStocks'] + ", " + request.json.get('MyStocks', task[0]['MyStocks'])
+    task[0]['Predicted_Price'] = request.json.get('Predicted_Price', task[0]['Predicted_Price'])
+    return jsonify({'task': task[0]})
+
+@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    task = [task for task in tasks if task['id'] == task_id]
+    if len(task) == 0:
+        abort(404)
+    tasks.remove(task[0])
+    return jsonify({'result': True})
 
 if __name__ == '__main__':
     app.run(debug=True)
