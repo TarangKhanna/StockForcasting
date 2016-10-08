@@ -1,1 +1,1 @@
-# Using ARIMA to do a time series forcast on stocks
+# ARIMA algorithm

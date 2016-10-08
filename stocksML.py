@@ -39,7 +39,7 @@ def PredictML(stocksDf, useSVM):
 		# joblib.dump(clf, 'RandomForestClf.pkl') # save the classifier to file
 	# X = X.reshape(-1, 1) # for one feature
 
-	stocksData.to_csv('training', sep='\t', encoding='utf-8')
+	
 
 	print("Crunching...")
 
