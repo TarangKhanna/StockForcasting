@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify, abort, make_response, request, url_for
+from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
@@ -11,14 +11,14 @@ tasks = [
     {
         'id': 1,
         'name': u'Atul Aneja',
-        'MyStocks': u'Google', 
+        'MyStocks': u'Google',
         'Predicted_Price': u'%s'%Predicted_Prices['Google']
     },
     {
         'id': 2,
         'name': u'Tarang Khanna',
         'MyStocks': u'Apple',
-        'Predicted_Price': u'%s'%Predicted_Prices['Apple'] 
+        'Predicted_Price': u'%s'%Predicted_Prices['Apple']
     }
 ]
 
@@ -86,6 +86,15 @@ def delete_task(task_id):
         abort(404)
     tasks.remove(task[0])
     return jsonify({'result': True})
+
+#################
+# That glue tho #
+#################
+
+@app.route('/todo/api/v1.0/login', methods=['POST', 'GET'])
+def login_page():
+    return "success"
+
 
 def make_public_task(task):
     new_task = {}
