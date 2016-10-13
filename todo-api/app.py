@@ -1,9 +1,18 @@
 #!flask/bin/python
 from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS, cross_origin
+import sys
 
+
+#initilization
 app = Flask(__name__)
+CORS(app)
+
+# extenstions
 auth = HTTPBasicAuth()
+
+# Other Vars
 Predicted_Prices = {}
 Predicted_Prices['Google'] = '55.00'
 Predicted_Prices['Apple'] = '53.00'
@@ -87,14 +96,22 @@ def delete_task(task_id):
     tasks.remove(task[0])
     return jsonify({'result': True})
 
-#################
-# That glue tho #
-#################
+##################
+# Authentication #
+##################
+@app.route('/ss/v1.0/login', methods=['POST'])
+def login():
+    print("here")
+    if not request.json:
+        abort(400)  # no request.json
+    data = request.get_json()
+    username = data.get('uname')
+    password = data.get('pswd')
+    if username is None or password is None:
+        abort(400)    # missing arguments
 
-@app.route('/todo/api/v1.0/login', methods=['POST', 'GET'])
-def login_page():
-    return "success"
-
+    print(username)
+    return (jsonify({'username': username}), 201)
 
 def make_public_task(task):
     new_task = {}
