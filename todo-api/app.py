@@ -1,9 +1,18 @@
 #!flask/bin/python
-from flask import Flask, jsonify, abort, make_response, request, url_for
+from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS, cross_origin
+import sys
 
+
+#initilization
 app = Flask(__name__)
+CORS(app)
+
+# extenstions
 auth = HTTPBasicAuth()
+
+# Other Vars
 Predicted_Prices = {}
 Predicted_Prices['Google'] = '55.00'
 Predicted_Prices['Apple'] = '53.00'
@@ -11,14 +20,14 @@ tasks = [
     {
         'id': 1,
         'name': u'Atul Aneja',
-        'MyStocks': u'Google', 
+        'MyStocks': u'Google',
         'Predicted_Price': u'%s'%Predicted_Prices['Google']
     },
     {
         'id': 2,
         'name': u'Tarang Khanna',
         'MyStocks': u'Apple',
-        'Predicted_Price': u'%s'%Predicted_Prices['Apple'] 
+        'Predicted_Price': u'%s'%Predicted_Prices['Apple']
     }
 ]
 
@@ -86,6 +95,23 @@ def delete_task(task_id):
         abort(404)
     tasks.remove(task[0])
     return jsonify({'result': True})
+
+##################
+# Authentication #
+##################
+@app.route('/ss/v1.0/login', methods=['POST'])
+def login():
+    print("here")
+    if not request.json:
+        abort(400)  # no request.json
+    data = request.get_json()
+    username = data.get('uname')
+    password = data.get('pswd')
+    if username is None or password is None:
+        abort(400)    # missing arguments
+
+    print(username)
+    return (jsonify({'username': username}), 201)
 
 def make_public_task(task):
     new_task = {}

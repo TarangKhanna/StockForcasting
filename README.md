@@ -12,3 +12,6 @@ Simply replace the virtual environment with "todo-api".
 Instead of making a directory and hello.py
   * naviagate to StockForcasting/todo-api
   * use app.py
+
+after this, run
+>pip install -r requirements.txt
