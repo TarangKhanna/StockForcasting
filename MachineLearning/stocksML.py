@@ -22,9 +22,10 @@ from sklearn.ensemble import RandomForestClassifier
 # import accelerate
 
 def PredictML(stocksDf, useSVM):
-	useDataPoints = 5000
+	print df.shape
+	useDataPoints = 3982
 	df5 = df[0:useDataPoints]
-	print(df5[['Adj. Open','S&P Open']])
+	print(df5[['Adj. Open','S&P Open', 'Adj. Close']])
 
 	X = np.array(stocksDf[0:useDataPoints][['Adj. Open','S&P Open']]) # stock opening price  
 	# print(X)
@@ -45,7 +46,7 @@ def PredictML(stocksDf, useSVM):
 
 	clf.fit(X,Y)
 
-	predictIndex = 5500
+	predictIndex = 3983
 	print("Prediction for: {}".format(predictIndex))
 	df6 = df[predictIndex:predictIndex+1] # normal indexing is giving errors
 	predicting = (df6[['Adj. Open','S&P Open']])
@@ -63,11 +64,12 @@ def PredictML(stocksDf, useSVM):
 	print('Error in prediction: {0:.2f}%'.format(errorInPrediction))
 
 if __name__ == "__main__":
-	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="1990-12-12", end_date="2016-8-30")
+	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2000-12-12", end_date="2016-10-14") # can start from 1990
 
-	sp500_df = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="1990-12-12", end_date="2016-8-30")
+	sp500_df = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2000-12-12", end_date="2016-10-14")
 	df = df[['Adj. Open','Adj. Close']]
 	sp500_df = sp500_df['Open']
+	# read from csv
 
 	# print(sp500_df)
 	# df.append(sp500_df)
