@@ -6,6 +6,9 @@ $(document).ready(function() {
     $parag = $("#parag");
 });
 
+function closeModal() {
+    $("#login").modal("toggle");
+}
 
 function requestLogin() {
     var uri = "http://127.0.0.1:5000/ss/v1.0/login";
@@ -24,9 +27,12 @@ function requestLogin() {
         contentType: "application/json",
         dataType: 'json',
         data: JSON.stringify(dataToSend),
-        complete: function(data) {
+        success: function(data) {
+            window.location.replace("account.html");
+            //closeModal();
+        },
+        error: function(data) {
             alert(data.responseJSON.response);
-            console.log(data);
         }
     });
     /*
