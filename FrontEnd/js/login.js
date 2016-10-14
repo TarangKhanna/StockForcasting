@@ -25,7 +25,7 @@ function requestLogin() {
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         complete: function(data) {
-            alert("user name: " + data.responseJSON.username);
+            alert(data.responseJSON.response);
             console.log(data);
         }
     });

@@ -33,6 +33,7 @@ tasks = [
 
 @auth.get_password
 def get_password(username):
+    # compare passwords and usernames
     if username == 'miguel':
         return 'python'
     return None
@@ -107,11 +108,14 @@ def login():
     data = request.get_json()
     username = data.get('uname')
     password = data.get('pswd')
+
     if username is None or password is None:
         abort(400)    # missing arguments
 
-    print(username)
-    return (jsonify({'username': username}), 201)
+    if get_password(username) == password:
+        return (jsonify({'response': "Welcome " + username}), 201)
+    else:
+        return (jsonify({'response': "Incorrect Username or Password. Please try again"}), 201)
 
 def make_public_task(task):
     new_task = {}
