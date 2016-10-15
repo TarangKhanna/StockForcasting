@@ -1,4 +1,6 @@
 # sentiment analysis on tweets for AAPL
+# TODO-get more tweets 
+# TODO-tweets from reliable accounts
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -20,23 +22,29 @@ auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
-public_tweets = api.search('$AAPL')
-tweets = pd.DataFrame()
-analysis_list = []
-tweet_text = []
-for tweet in public_tweets:
-	# print(tweet.text)
-	# .to_csv needs utf-8
-	tweet_text.append(tweet.text.encode("utf-8"))
-	# tweets['text'] = tweet.text
-	analysis = TextBlob(tweet.text)
-	# prints-Sentiment(polarity=0.0, subjectivity=0.0), polarity is how positive or negative, subjectivity is if opinion or fact
-	# print(analysis.sentiment)
-	analysis_list.append('polarity:' + str(analysis.sentiment.polarity) + ' subjectivity:' + str(analysis.sentiment.subjectivity))
-	# tweets['sentiment'] = analysis.sentiment
+def analyze_stock(stock):
+	public_tweets = api.search(stock)
+	tweets = pd.DataFrame()
+	analysis_list = []
+	polarity_list = []
+	subjectivity_list = []
+	tweet_text = []
+	for tweet in public_tweets:
+		tweet_text.append(tweet.text.encode("utf-8"))
+		analysis = TextBlob(tweet.text)
+		# prints-Sentiment(polarity=0.0, subjectivity=0.0), polarity is how positive or negative, subjectivity is if opinion or fact
+		# analysis_list.append('polarity:' + str(analysis.sentiment.polarity) + ' subjectivity:' + str(analysis.sentiment.subjectivity))
+		polarity_list.append(str(analysis.sentiment.polarity))
+		subjectivity_list.append(str(analysis.sentiment.subjectivity))
 
-tweets['text'] = np.array(tweet_text)
-tweets['analysis'] = np.array(analysis_list)
-print tweets
-# print analysis_list
-tweets.to_csv('$AAPL.csv')
+	tweets['text'] = np.array(tweet_text)
+	# tweets['analysis'] = np.array(analysis_list)
+	tweets['polarity'] = np.array(polarity_list)
+	tweets['subjectivity'] = np.array(subjectivity_list)
+	tweets = tweets.sort_values(by=['subjectivity'], ascending=0)
+	print tweets
+	tweets.to_csv('%s.csv' % stock)
+
+analyze_stock('$AAPL')
+analyze_stock('$GOOGL')
+
