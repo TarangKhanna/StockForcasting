@@ -81,9 +81,9 @@ if __name__ == '__main__':
     # stream = Stream(auth, l)
 
     # # filter Twitter Streams to capture data by the keywords
-    # stream.filter(track=['stocks', '$AAPL', 'higher in pre market', 'hot stocks', 'pre market'])
+    # stream.filter(track=['stock', '$AAPL', 'higher in pre market', 'hot stock', 'pre market'])
 
-    get_all_tweets('StockTwits')
+    # get_all_tweets('StockTwits')
 
     tweets_data_path = 'twitter_data.txt'
 
@@ -106,6 +106,9 @@ if __name__ == '__main__':
     tweets_by_lang = tweets['lang'].value_counts()
 
     print(tweets)
+
+
+
 
     # fig, ax = plt.subplots()
     # ax.tick_params(axis='x', labelsize=15)

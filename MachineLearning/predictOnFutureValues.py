@@ -72,7 +72,6 @@ def PredictML(stocksDf, useSVM):
 	# print(accuracy)
 	print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 	# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-	# 2016-09-20 is Nan for future, use X values after that for prediction for current prediction
 
 if __name__ == "__main__":
 	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
