@@ -76,7 +76,7 @@ def predictML(stocksDf, useLinear):
 		y = stocksDf['future'] # y is the 1% forcast 
 		# y = y[:predict_index-2] # to keep consistent
 		X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
-		y_train = np.asarray(stocksDf['future'], dtype="|S6")
+		y_train = np.asarray(stocksDf['future'], dtype="float64")
 		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=50)
 		print("Crunching...")
 		# clf.fit(X_train,y_train)

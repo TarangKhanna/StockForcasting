@@ -2,7 +2,6 @@
 # TODO-get more tweets 
 # TODO-tweets from reliable accounts
 # TODO-take into account retweets,likes,time,followers
-# sentiment scores of one day’s tweets to be the feature X, and the direction of stock price movement to be the label Y
 # analyze google searches to predict stock market
 import tweepy
 from tweepy.streaming import StreamListener
@@ -26,13 +25,14 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 def analyze_stock(stock):
-	public_tweets = api.search(stock)
+	
+	all_tweets = get_tweets(stock)
 	tweets = pd.DataFrame()
 	analysis_list = []
 	polarity_list = []
 	subjectivity_list = []
 	tweet_text = []
-	for tweet in public_tweets:
+	for tweet in all_tweets:
 		tweet_text.append(tweet.text.encode("utf-8"))
 		analysis = TextBlob(tweet.text)
 		# prints-Sentiment(polarity=0.0, subjectivity=0.0), polarity is how positive or negative, subjectivity is if opinion or fact
@@ -47,6 +47,36 @@ def analyze_stock(stock):
 	tweets = tweets.sort_values(by=['subjectivity'], ascending=0)
 	print tweets
 	tweets.to_csv('%s.csv' % stock)
+	
+
+def get_tweets(stock):
+	alltweets = []  
+	public_tweets = api.search(stock)
+	alltweets.extend(public_tweets)
+	oldest = alltweets[-1].id - 1
+
+	#keep grabbing tweets until there are no tweets left to grab
+	while len(public_tweets) > 0:
+	    print "getting tweets before %s" % (oldest)
+	    
+	    #all subsiquent requests use the max_id param to prevent duplicates
+	    public_tweets = api.search(stock,count=200,max_id=oldest)
+	    
+	    #save most recent tweets
+	    alltweets.extend(public_tweets)
+	    
+	    #update the id of the oldest tweet less one
+	    oldest = alltweets[-1].id - 1
+	    
+	    print "...%s tweets downloaded so far" % (len(alltweets))
+
+	    if len(alltweets) > 1000:
+	    	break
+
+	#transform the tweepy tweets into a 2D array that will populate the csv 
+	outtweets = [[tweet.id_str, tweet.created_at, tweet.text.encode("utf-8")] for tweet in public_tweets]
+	print outtweets
+	return alltweets
 
 analyze_stock('$AAPL')
 analyze_stock('$GOOGL')
