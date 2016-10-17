@@ -40,8 +40,6 @@ def PredictML(stocksDf, useSVM):
 		# joblib.dump(clf, 'RandomForestClf.pkl') # save the classifier to file
 	# X = X.reshape(-1, 1) # for one feature
 
-	
-
 	print("Crunching...")
 
 	clf.fit(X,Y)
@@ -61,7 +59,7 @@ def PredictML(stocksDf, useSVM):
 	errorInPrediction = ((math.fabs(float(predicted) - float(exact_value)))/float(exact_value)) * 100
 	# print(type(errorInPrediction))
 	# print(errorInPrediction)
-	print('Error in prediction: {0:.2f}%'.format(errorInPrediction))
+	print clf.score()
 
 if __name__ == "__main__":
 	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2000-12-12", end_date="2016-10-14") # can start from 1990
@@ -94,7 +92,7 @@ if __name__ == "__main__":
 
 	# df_predict = df[3002]
 
-	PredictML(df, False)
+	# PredictML(df, False)
 
 
 	# PredictML(df, True)
