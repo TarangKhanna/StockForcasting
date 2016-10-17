@@ -1,6 +1,9 @@
 # sentiment analysis on tweets for AAPL
 # TODO-get more tweets 
 # TODO-tweets from reliable accounts
+# TODO-take into account retweets,likes,time,followers
+# sentiment scores of one day’s tweets to be the feature X, and the direction of stock price movement to be the label Y
+# analyze google searches to predict stock market
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -33,7 +36,7 @@ def analyze_stock(stock):
 		tweet_text.append(tweet.text.encode("utf-8"))
 		analysis = TextBlob(tweet.text)
 		# prints-Sentiment(polarity=0.0, subjectivity=0.0), polarity is how positive or negative, subjectivity is if opinion or fact
-		# analysis_list.append('polarity:' + str(analysis.sentiment.polarity) + ' subjectivity:' + str(analysis.sentiment.subjectivity))
+		# analysis_list.append('polarity:' + str(analysis.se 1ntiment.polarity) + ' subjectivity:' + str(analysis.sentiment.subjectivity))
 		polarity_list.append(str(analysis.sentiment.polarity))
 		subjectivity_list.append(str(analysis.sentiment.subjectivity))
 

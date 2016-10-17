@@ -18,6 +18,8 @@ from sklearn.externals import joblib
 from sklearn import preprocessing
 from sklearn import cross_validation
 from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import pylab
 
 
 # use ensemble for faster classification
@@ -73,12 +75,31 @@ def PredictML(stocksDf, useSVM):
 	print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 	# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
 
+def dailyReturn(data):
+	# make chart
+	# did price go up or down on a particular day
+	daily_returns = data.copy()
+	daily_returns = (data/data.shift(1)) - 1
+	daily_returns.ix[0] = 0  # set daily return for row 0 to 0
+	plot(daily_returns, "Stock Analysis" ,"Date", "Daily Returns")
+	# print daily_returns
+ 	return daily_returns
+
+def plot(data_frame, title_label, x_label, y_label):
+	ax = data_frame.plot(title=title_label)
+	ax.set_xlabel(x_label)
+	ax.set_ylabel(y_label)
+	pylab.show()
+
+# def isStockGood(data_frame):
+
+
 if __name__ == "__main__":
 	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 
-	sp500_df = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
+	sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 	df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
-	sp500_df = sp500_df['Open']
+	sp500_df = sp500_df_all['Open']
 
 	frames = [df, sp500_df]
 	df = pd.concat(frames, axis=1) # concatenate column-wise, remove Nan Data
@@ -92,5 +113,11 @@ if __name__ == "__main__":
 	file_name = "stocksData.txt"
 	# df.to_csv(file_name, sep='\t', encoding='utf-8')
 
+	# max
+	# print df['Adj. Close'].max()''
 
-	PredictML(df, False)
+	# compare with S&P 
+	# dailyReturn(df['Adj. Close'])
+	# dailyReturn(sp500_df_all['Close'])
+
+	# PredictML(df, False)

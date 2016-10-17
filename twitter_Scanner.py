@@ -107,9 +107,6 @@ if __name__ == '__main__':
 
     print(tweets)
 
-
-
-
     # fig, ax = plt.subplots()
     # ax.tick_params(axis='x', labelsize=15)
     # ax.tick_params(axis='y', labelsize=10)
