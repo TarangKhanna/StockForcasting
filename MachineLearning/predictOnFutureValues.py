@@ -2,9 +2,7 @@
 
 # clf = joblib.load('filename.pkl')  # load classifier 
 
-
 # given ['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low'], we can predict 1% into future 
-
 
 # In our case 'adj close' is clearly correlated to 'label' (we can verify this by doing a df.corr() before all the transforms).
 from __future__ import division 
@@ -31,7 +29,7 @@ from sklearn.ensemble import RandomForestClassifier
 # can make more fast using csv instead of calling from quandl
 # import accelerate
 
-def PredictML(stocksDf, useSVM):
+def predictML(stocksDf, useSVM):
 	forecast_out = int(math.ceil(0.01*len(stocksDf))) # train 1% into future
 	print(forecast_out)
 
@@ -70,10 +68,32 @@ def PredictML(stocksDf, useSVM):
 
 	# clf.fit(X_train,y_train)
 	clf.fit(X,y) # all data till now
-	# accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
-	# print(accuracy)
+	joblib.dump(clf, 'LinearRegressionClf.pkl') # save the classifier to file
+
+	# clf = joblib.load('LinearRegressionClf.pkl')
+	# print clf
+	accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
+	print(accuracy)
 	print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 	# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+
+def predictMLSaved(stocksDf):
+	stocksDf = stocksDf.dropna(how='any')
+	X = np.array(stocksDf)
+	# use same preprocessing scale used while training
+	X = preprocessing.scale(X)
+	predict_index = len(X)-2
+	predict_value = X[predict_index-20:]
+
+	clf = LinearRegression(n_jobs=-1)
+
+	print("Loading Classifier...")
+
+	clf = joblib.load('LinearRegressionClf.pkl')
+	# graph prediction and show dates of prediction
+	print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
+	# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+
 
 def dailyReturn(data):
 	# make chart
@@ -95,6 +115,8 @@ def plot(data_frame, title_label, x_label, y_label):
 
 
 if __name__ == "__main__":
+	symbols = ['AAPL', 'GOOGL', 'GLD']
+
 	df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 
 	sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
@@ -104,7 +126,6 @@ if __name__ == "__main__":
 	frames = [df, sp500_df]
 	df = pd.concat(frames, axis=1) # concatenate column-wise, remove Nan Data
 	df.columns = ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-	# print(df)
 
 	# save to csv after making the correct data frame
 
@@ -120,4 +141,10 @@ if __name__ == "__main__":
 	# dailyReturn(df['Adj. Close'])
 	# dailyReturn(sp500_df_all['Close'])
 
-	# PredictML(df, False)
+	# only when need new classifier
+	# predictML(df, False)
+
+	# use trained classifier
+	predictMLSaved(df)
+
+
