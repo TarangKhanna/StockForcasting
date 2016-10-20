@@ -8,8 +8,7 @@
 # label buy or sell based on increasing future then do f1 score test-recall and precision
 
 
-from __future__ import division 
-# if using python 2.7, need this to prevent division issue in 2.7
+from __future__ import division # preventing division issue in 2.7
 import pandas as pd 
 import quandl
 import math
@@ -22,10 +21,8 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import pylab
 from sklearn.metrics import f1_score
-
-# use ensemble for faster classification
-
 from sklearn.ensemble import RandomForestClassifier
+import time
 
 # ensemble learning
 # good results with 1000 data rows and linear svm kernel
@@ -34,7 +31,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 def predictML(stocksDf, useLinear, symbol):
 	forecast_out = int(math.ceil(0.01*len(stocksDf))) # train 1% into future
-	print(forecast_out)
+	print 'predicting into: ' + str(forecast_out)
 
 	stocksDf['future'] = stocksDf['Adj. Close'].shift(-forecast_out)
 	# stocksDf['future'] = stocksDf['future'].dropna(how='any') 
@@ -65,8 +62,8 @@ def predictML(stocksDf, useLinear, symbol):
 
 		# clf.fit(X_train,y_train)
 		clf.fit(X_train,y_train) # all data till now
-		# file_name = 'LinearRegressionClf_%s.pkl' %symbol
-		# joblib.dump(clf, file_name) # save the classifier to file
+		file_name = 'LinearRegressionClf_%s.pkl' %symbol
+		joblib.dump(clf, file_name) # save the classifier to file
 
 		# clf = joblib.load('LinearRegressionClf.pkl')
 		# print clf
@@ -74,9 +71,9 @@ def predictML(stocksDf, useLinear, symbol):
 		print(accuracy)
 		print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-		y_true = y_test
-		y_pred = clf.predict(X_test)
-		print f1_score(y_true, y_pred, average='macro')  
+		# y_true = y_test
+		# y_pred = clf.predict(X_test)
+		# print f1_score(y_true, y_pred, average='macro')  
 	else:
 		X = np.array(stocksDf.drop(['future'],1))
 		X = preprocessing.scale(X)
@@ -135,20 +132,32 @@ def plot(data_frame, title_label, x_label, y_label):
 	ax.set_ylabel(y_label)
 	pylab.show()
 
-if __name__ == "__main__":
-	symbols = ['AAPL', 'GOOGL', 'GLD']
-
+# download and clean symbol data
+def download_data(symbol):
 	# use current date
-	# df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
+	till_date = time.strftime("%Y-%m-%d")
+	print till_date
+	to_download = 'Wiki/%s' %symbol
+	df = quandl.get(to_download, authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
 	# df = quandl.get('Wiki/GOOGL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 
-	# sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
-	# df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
-	# sp500_df = sp500_df_all['Open']
+	sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
+	df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
+	sp500_df = sp500_df_all['Open']
 
-	# frames = [df, sp500_df]
-	# df = pd.concat(frames, axis=1) # concatenate column-wise, remove Nan Data
-	# df.columns = ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+	frames = [df, sp500_df]
+	df = pd.concat(frames, axis=1) # concatenate column-wise, remove Nan Data
+	df.columns = ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+
+	df = df.dropna(how='any')
+	print df
+	file_name = 'data/%s_training.csv' %symbol
+	df.to_csv(file_name, encoding='utf-8')
+
+if __name__ == "__main__":
+	symbols = ['AAPL', 'GOOGL', 'GLD']
+	symbol = 'AAPL'
+	download_data(symbol)
 
 	# max
 	# print df['Adj. Close'].max()''
@@ -162,14 +171,13 @@ if __name__ == "__main__":
 
 	# use trained classifier
 
-	# df = df.dropna(how='any')
-	# print df
-	# df.to_csv('data/GOOGL_training.csv', encoding='utf-8')
-	# df.to_csv('data/AAPL_training.csv', encoding='utf-8')
-
 	# read_df = pd.read_csv('data/AAPL_training.csv', index_col = "Date")
-	read_df = pd.read_csv('data/GOOGL_training.csv', index_col = "Date")
+	file_name = 'data/%s_training.csv' %symbol
+	read_df = pd.read_csv(file_name, index_col = "Date")
 
 	# print read_df
-	# predictMLSaved(read_df, 'GOOGL')
-	predictML(read_df, True, 'GOOGL')
+	
+	# predictML(read_df, True, symbol)
+	predictMLSaved(read_df, symbol)
+
+	# if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
