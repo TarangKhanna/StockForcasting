@@ -5,6 +5,8 @@
 # given ['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low'], we can predict 1% into future 
 
 # In our case 'adj close' is clearly correlated to 'label' (we can verify this by doing a df.corr() before all the transforms).
+# do f1 score test-recall and precision
+
 from __future__ import division 
 # if using python 2.7, need this to prevent division issue in 2.7
 import pandas as pd 
@@ -29,7 +31,7 @@ from sklearn.ensemble import RandomForestClassifier
 # can make more fast using csv instead of calling from quandl
 # import accelerate
 
-def predictML(stocksDf, useLinear):
+def predictML(stocksDf, useLinear, symbol):
 	forecast_out = int(math.ceil(0.01*len(stocksDf))) # train 1% into future
 	print(forecast_out)
 
@@ -62,7 +64,8 @@ def predictML(stocksDf, useLinear):
 
 		# clf.fit(X_train,y_train)
 		clf.fit(X_train,y_train) # all data till now
-		# joblib.dump(clf, 'LinearRegressionClf.pkl') # save the classifier to file
+		# file_name = 'LinearRegressionClf_%s.pkl' %symbol
+		# joblib.dump(clf, file_name) # save the classifier to file
 
 		# clf = joblib.load('LinearRegressionClf.pkl')
 		# print clf
@@ -91,7 +94,7 @@ def predictML(stocksDf, useLinear):
 		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
 	
 
-def predictMLSaved(stocksDf):
+def predictMLSaved(stocksDf, symbol):
 	stocksDf = stocksDf.dropna(how='any')
 	X = np.array(stocksDf)
 	# use same preprocessing scale used while training
@@ -104,7 +107,8 @@ def predictMLSaved(stocksDf):
 
 	print("Loading Classifier...")
 
-	clf = joblib.load('LinearRegressionClf.pkl')
+	file_name = 'LinearRegressionClf_%s.pkl' %symbol
+	clf = joblib.load(file_name)
 	# graph prediction and show dates of prediction
 	print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
 	
@@ -130,6 +134,7 @@ if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
 
 	# df = quandl.get('Wiki/AAPL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
+	# df = quandl.get('Wiki/GOOGL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 
 	# sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 	# df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
@@ -153,9 +158,12 @@ if __name__ == "__main__":
 
 	# df = df.dropna(how='any')
 	# print df
-	# df.to_csv('data/training.csv', encoding='utf-8')
+	# df.to_csv('data/GOOGL_training.csv', encoding='utf-8')
+	# df.to_csv('data/AAPL_training.csv', encoding='utf-8')
 
-	read_df = pd.read_csv('data/training.csv', index_col = "Date")
+	# read_df = pd.read_csv('data/AAPL_training.csv', index_col = "Date")
+	read_df = pd.read_csv('data/GOOGL_training.csv', index_col = "Date")
+
 	# print read_df
-	# predictMLSaved(read_df)
-	predictML(read_df, True)
+	predictMLSaved(read_df, 'GOOGL')
+	# predictML(read_df, True, 'GOOGL')

@@ -3,6 +3,7 @@
 # TODO-tweets from reliable accounts
 # TODO-take into account retweets,likes,time,followers
 # analyze google searches to predict stock market
+# remove tweets from other languages?
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -32,6 +33,7 @@ def analyze_stock(stock):
 	polarity_list = []
 	subjectivity_list = []
 	tweet_text = []
+	tweet_dates = []
 	for tweet in all_tweets:
 		tweet_text.append(tweet.text.encode("utf-8"))
 		analysis = TextBlob(tweet.text)
@@ -39,11 +41,13 @@ def analyze_stock(stock):
 		# analysis_list.append('polarity:' + str(analysis.se 1ntiment.polarity) + ' subjectivity:' + str(analysis.sentiment.subjectivity))
 		polarity_list.append(str(analysis.sentiment.polarity))
 		subjectivity_list.append(str(analysis.sentiment.subjectivity))
+		tweet_dates.append(tweet.created_at)
 
 	tweets['text'] = np.array(tweet_text)
 	# tweets['analysis'] = np.array(analysis_list)
 	tweets['polarity'] = np.array(polarity_list)
 	tweets['subjectivity'] = np.array(subjectivity_list)
+	tweets['date'] = np.array(tweet_dates)
 	tweets = tweets.sort_values(by=['subjectivity'], ascending=0)
 	print tweets
 	tweets.to_csv('%s.csv' % stock)
@@ -58,7 +62,7 @@ def get_tweets(stock):
 	#keep grabbing tweets until there are no tweets left to grab
 	while len(public_tweets) > 0:
 	    print "getting tweets before %s" % (oldest)
-	    
+	    # filter by users too
 	    #all subsiquent requests use the max_id param to prevent duplicates
 	    public_tweets = api.search(stock,count=200,max_id=oldest)
 	    
