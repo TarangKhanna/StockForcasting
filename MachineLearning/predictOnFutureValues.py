@@ -115,10 +115,18 @@ def predictMLSaved(stocksDf, symbol):
 	file_name = 'LinearRegressionClf_%s.pkl' %symbol
 	clf = joblib.load(file_name)
 	# graph prediction and show dates of prediction
-	print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
+	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
 	
 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
 
+	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
+	# len(clf.predict(predict_values))
+	# print df2
+	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
+	frames = [predicted_df, temp_df]
+	result = pd.concat(frames, axis=1)
+	print result
+	
 def dailyReturn(data):
 	# make chart
 	# did price go up or down on a particular day

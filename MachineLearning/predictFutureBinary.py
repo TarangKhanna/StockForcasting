@@ -54,14 +54,14 @@ def predictML(stocksDf, useLinear, symbol):
 
 	y = np.array(stocksDf['future']) # y is the 1% forcast 
 	y = y[:predict_index-2] # to keep consistent
-	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
+	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
 
 	if useLinear:
 		clf = LinearRegression(n_jobs=-1)
 		print("Crunching...")
 
-		# clf.fit(X_train,y_train)
-		clf.fit(X_train,y_train) # all data till now
+		clf.fit(X_train,y_train)
+		# clf.fit(X,y) # all data till now
 		file_name = 'LinearRegressionClf_%s.pkl' %symbol
 		joblib.dump(clf, file_name) # save the classifier to file
 
@@ -97,13 +97,20 @@ def predictML(stocksDf, useLinear, symbol):
 		
 
 def predictMLSaved(stocksDf, symbol):
+	predict_index = 16
 	stocksDf = stocksDf.dropna(how='any')
 	X = np.array(stocksDf)
 	# use same preprocessing scale used while training
-	print stocksDf.tail(10)
+	# predicted_df = pd.DataFrame(clf.predict(to_predict), columns=['Predicted_Winner'])
+	# predicted_df.to_csv('predictions.csv', encoding='utf-8')
+	print len(stocksDf['Adj. Close'].tail(predict_index))
+	predicted_df = pd.DataFrame()
+	predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
+	predicted_df = predicted_df.reset_index(drop=True)
+	print stocksDf['Adj. Close'].tail(predict_index)
 	X = preprocessing.scale(X)
-	predict_index = len(X)-1
-	predict_values = X[predict_index-20:] # future for last 20 dates
+	
+	predict_values = X[len(X)-predict_index:] # future for last 10 dates
 
 	clf = LinearRegression(n_jobs=-1)
 
@@ -112,9 +119,16 @@ def predictMLSaved(stocksDf, symbol):
 	file_name = 'LinearRegressionClf_%s.pkl' %symbol
 	clf = joblib.load(file_name)
 	# graph prediction and show dates of prediction
-	print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
-	
+	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
+	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
+	# df2 = pd.DataFrame()
+	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
+	# len(clf.predict(predict_values))
+	# print df2
 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
+	frames = [predicted_df, temp_df]
+	result = pd.concat(frames, axis=1)
+	print result
 
 def dailyReturn(data):
 	# make chart
@@ -139,7 +153,6 @@ def download_data(symbol):
 	print till_date
 	to_download = 'Wiki/%s' %symbol
 	df = quandl.get(to_download, authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
-	# df = quandl.get('Wiki/GOOGL', authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date="2016-10-14")
 
 	sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
 	df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
@@ -181,3 +194,5 @@ if __name__ == "__main__":
 	predictMLSaved(read_df, symbol)
 
 	# if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
+
+	
