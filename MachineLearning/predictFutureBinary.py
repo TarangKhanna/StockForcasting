@@ -46,54 +46,68 @@ def predictML(stocksDf, useLinear, symbol):
 	y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 	y = y[:predict_index-2] # to keep consistent
 	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
+	
 
-	if useLinear:
-		# use KNN or other binary classifiers
-		clf = LinearRegression(n_jobs=-1)
-		print("Crunching...")
+	best_clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
+	# best_clf = KNeighborsClassifier(n_neighbors=10, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski', metric_params=None, n_jobs=-1)
+	best_accuracy = 0.0
+	best_algo = 'RF'
 
-		clf.fit(X_train,y_train)
-		# clf.fit(X,y) # all data till now
-		file_name = 'KNNClf_%s.pkl' %symbol
-		joblib.dump(clf, file_name) # save the classifier to file
+	num_runs = 15
+	for _ in xrange(num_runs):
+		if useLinear:
+			# use KNN or other binary classifiers
+			clf = LinearRegression(n_jobs=-1)
+			print("Crunching...")
 
-		# clf = joblib.load('LinearRegressionClf.pkl')
-		# print clf
-		accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
-		print(accuracy)
-		print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
-		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-		# y_true = y_test
-		# y_pred = clf.predict(X_test)
-		# print f1_score(y_true, y_pred, average='macro')  
-	else:
-		X = np.array(stocksDf.drop(['Decision'],1))
-		X = preprocessing.scale(X)
-		y = np.array(stocksDf['Decision']) # y is the 1% forcast 
-		# y = y[:predict_index-2] # to keep consistent
-		X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
-		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
-		print("Crunching...")
-		# clf.fit(X_train,y_train)
-		clf.fit(X_train,y_train) # all data till now
-		file_name = 'RFClf_%s.pkl' %symbol
-		joblib.dump(clf, file_name) # save the classifier to file
+			clf.fit(X_train,y_train)
+			# clf.fit(X,y) # all data till now
+			file_name = 'KNNClf_%s.pkl' %symbol
+			joblib.dump(clf, file_name) # save the classifier to file
 
-		# clf = joblib.load('LinearRegressionClf.pkl')
-		# print clf
-		accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
-		
-		print(accuracy)
-		print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
-		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-		# f1 score
-		# y_true = y_test
-		# y_pred = clf.predict(X_test)
-		# print f1_score(y_true, y_pred, average='binary') 
+			# clf = joblib.load('LinearRegressionClf.pkl')
+			# print clf
+			accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
+			print(accuracy)
+			print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
+			# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+			# y_true = y_test
+			# y_pred = clf.predict(X_test)
+			# print f1_score(y_true, y_pred, average='macro')  
+		else:
+			X = np.array(stocksDf.drop(['Decision'],1))
+			X = preprocessing.scale(X)
+			y = np.array(stocksDf['Decision']) # y is the 1% forcast 
+			# y = y[:predict_index-2] # to keep consistent
+			X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
+			clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
+			# print("Crunching...")
+			# clf.fit(X_train,y_train)
+			clf.fit(X_train,y_train) # all data till now
+			
+
+			# clf = joblib.load('LinearRegressionClf.pkl')
+			# print clf
+			accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
+			
+			# print(accuracy)
+			# print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
+			# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
+			# f1 score
+			# y_true = y_test
+			# y_pred = clf.predict(X_test)
+			# print f1_score(y_true, y_pred, average='binary') 
+			if accuracy > best_accuracy:
+				best_clf = clf
+				best_accuracy = accuracy
+				best_algo = 'RF'
+	file_name = 'RFClf_%s.pkl' %symbol
+	joblib.dump(best_clf, file_name) # save the classifier to file
+	print 'best accuracy:'
+	print best_accuracy
 
 def predictMLSaved(stocksDf, symbol):
 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
-
 	predict_index = 14
 	stocksDf = stocksDf.dropna(how='any')
 	X = np.array(stocksDf)
@@ -162,7 +176,7 @@ def download_data(symbol):
 
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
-	symbol = 'AAPL'
+	symbol = 'GOOGL'
 	download_data(symbol)
 
 	# max
@@ -179,7 +193,7 @@ if __name__ == "__main__":
 	file_name = 'data/%s_training.csv' %symbol
 	read_df = pd.read_csv(file_name, index_col = "Date")
 
-	read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
+	# read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
 	# dailyReturn(sp500_df_all['Close'])
 	print read_df
 	# add decision column
