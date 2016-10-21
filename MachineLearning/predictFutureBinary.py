@@ -30,19 +30,10 @@ import time
 # import accelerate
 
 def predictML(stocksDf, useLinear, symbol):
-	forecast_out = int(math.ceil(0.01*len(stocksDf))) # train 1% into future
-	print 'predicting into: ' + str(forecast_out)
-
-	stocksDf['future'] = stocksDf['Adj. Close'].shift(-forecast_out)
-	# stocksDf['future'] = stocksDf['future'].dropna(how='any') 
-	# print(stocksDf)
-
-	# print stocksDf
-	# stocksDf = stocksDf.dropna(inplace=True) # drop na 
 	stocksDf = stocksDf.dropna(how='any')
-	# print stocksDf
-	
-	X = np.array(stocksDf.drop(['future'],1))
+	print stocksDf
+
+	X = np.array(stocksDf.drop(['Decision'],1))
 	X = preprocessing.scale(X)
 	predict_index = len(X)-2
 	predict_value = X[predict_index-20:]
@@ -52,17 +43,18 @@ def predictML(stocksDf, useLinear, symbol):
 	# X_lately = X[-forecast_out:]
 	# X = X[:-forecast_out:]
 
-	y = np.array(stocksDf['future']) # y is the 1% forcast 
+	y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 	y = y[:predict_index-2] # to keep consistent
 	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
 
 	if useLinear:
+		# use KNN or other binary classifiers
 		clf = LinearRegression(n_jobs=-1)
 		print("Crunching...")
 
 		clf.fit(X_train,y_train)
 		# clf.fit(X,y) # all data till now
-		file_name = 'LinearRegressionClf_%s.pkl' %symbol
+		file_name = 'KNNClf_%s.pkl' %symbol
 		joblib.dump(clf, file_name) # save the classifier to file
 
 		# clf = joblib.load('LinearRegressionClf.pkl')
@@ -75,17 +67,17 @@ def predictML(stocksDf, useLinear, symbol):
 		# y_pred = clf.predict(X_test)
 		# print f1_score(y_true, y_pred, average='macro')  
 	else:
-		X = np.array(stocksDf.drop(['future'],1))
+		X = np.array(stocksDf.drop(['Decision'],1))
 		X = preprocessing.scale(X)
-		y = stocksDf['future'] # y is the 1% forcast 
+		y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 		# y = y[:predict_index-2] # to keep consistent
 		X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
-		y_train = np.asarray(stocksDf['future'], dtype="float64")
 		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=50)
 		print("Crunching...")
 		# clf.fit(X_train,y_train)
 		clf.fit(X_train,y_train) # all data till now
-		# joblib.dump(clf, 'LinearRegressionClf.pkl') # save the classifier to file
+		file_name = 'RFClf_%s.pkl' %symbol
+		joblib.dump(clf, file_name) # save the classifier to file
 
 		# clf = joblib.load('LinearRegressionClf.pkl')
 		# print clf
@@ -97,7 +89,9 @@ def predictML(stocksDf, useLinear, symbol):
 		
 
 def predictMLSaved(stocksDf, symbol):
-	predict_index = 16
+	# stocksDf = stocksDf.drop(['Decision'], axis=1)
+
+	predict_index = 14
 	stocksDf = stocksDf.dropna(how='any')
 	X = np.array(stocksDf)
 	# use same preprocessing scale used while training
@@ -110,21 +104,16 @@ def predictMLSaved(stocksDf, symbol):
 	print stocksDf['Adj. Close'].tail(predict_index)
 	X = preprocessing.scale(X)
 	
-	predict_values = X[len(X)-predict_index:] # future for last 10 dates
-
-	clf = LinearRegression(n_jobs=-1)
+	predict_values = X[len(X)-predict_index:] # future for last 14 dates
 
 	print("Loading Classifier...")
 
-	file_name = 'LinearRegressionClf_%s.pkl' %symbol
+	file_name = 'RFClf_%s.pkl' %symbol
 	clf = joblib.load(file_name)
 	# graph prediction and show dates of prediction
 	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
 	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
-	# df2 = pd.DataFrame()
 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
-	# len(clf.predict(predict_values))
-	# print df2
 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
 	frames = [predicted_df, temp_df]
 	result = pd.concat(frames, axis=1)
@@ -170,17 +159,15 @@ def download_data(symbol):
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
 	symbol = 'AAPL'
-	download_data(symbol)
+	# download_data(symbol)
 
 	# max
 	# print df['Adj. Close'].max()''
 
 	# compare with S&P 
-	# dailyReturn(df['Adj. Close'])
-	# dailyReturn(sp500_df_all['Close'])
+	
 
 	# only when need new classifier
-	# predictML(df, False)
 
 	# use trained classifier
 
@@ -188,11 +175,41 @@ if __name__ == "__main__":
 	file_name = 'data/%s_training.csv' %symbol
 	read_df = pd.read_csv(file_name, index_col = "Date")
 
-	# print read_df
-	
-	# predictML(read_df, True, symbol)
-	predictMLSaved(read_df, symbol)
+	# dailyReturn(read_df['Adj. Close'])
+	# dailyReturn(sp500_df_all['Close'])
 
+	# add decision column
 	# if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
-
 	
+	# forecast_out = int(math.ceil(0.01*len(read_df))) # train 1% into future
+	forecast_out = 14
+	print 'predicting into: ' + str(forecast_out)
+	to_predict_df = read_df.copy(deep=True)
+
+	read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
+
+	read_df = read_df.dropna(how='any')
+
+	decisions = []
+	for index, row in read_df.iterrows():
+		# floating point comparison careful
+		# if 2 % increase in two weeks, then classify as a buy
+		# another method is to get historical buy-sell ratings
+		if (round(row['Future'],3) > round((1.03*row['Adj. Close']),3)):
+			decisions.append('Buy')
+		elif (round(row['Future'],3) < ((1.03*row['Adj. Close']),3)):
+			decisions.append('Sell')
+		else:
+			decisions.append('Hold')
+
+	read_df['Decision'] = decisions
+	print read_df['Decision'].value_counts()
+
+	read_df = read_df.drop(['Future'], axis=1)
+	# print read_df
+	# predictML(read_df, False, symbol)
+	predictMLSaved(to_predict_df, symbol)
+
+
+
+
