@@ -6,7 +6,7 @@
 
 # In our case 'adj close' is clearly correlated to 'label' (we can verify this by doing a df.corr() before all the transforms).
 # label buy or sell based on increasing future then do f1 score test-recall and precision
-
+# ~ 77% accurate, increase 
 
 from __future__ import division # preventing division issue in 2.7
 import pandas as pd 
@@ -72,7 +72,7 @@ def predictML(stocksDf, useLinear, symbol):
 		y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 		# y = y[:predict_index-2] # to keep consistent
 		X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
-		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=50)
+		clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
 		print("Crunching...")
 		# clf.fit(X_train,y_train)
 		clf.fit(X_train,y_train) # all data till now
@@ -86,7 +86,10 @@ def predictML(stocksDf, useLinear, symbol):
 		print(accuracy)
 		print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-		
+		# f1 score
+		# y_true = y_test
+		# y_pred = clf.predict(X_test)
+		# print f1_score(y_true, y_pred, average='binary') 
 
 def predictMLSaved(stocksDf, symbol):
 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
@@ -125,7 +128,7 @@ def dailyReturn(data):
 	daily_returns = data.copy()
 	daily_returns = (data/data.shift(1)) - 1
 	daily_returns.ix[0] = 0  # set daily return for row 0 to 0
-	plot(daily_returns, "Stock Analysis" ,"Date", "Daily Returns")
+	# plot(daily_returns, "Stock Analysis" ,"Date", "Daily Returns")
 	# print daily_returns
  	return daily_returns
 
@@ -145,12 +148,13 @@ def download_data(symbol):
 
 	sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
 	df = df[['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low']]
-	sp500_df = sp500_df_all['Open']
+	print sp500_df_all
+	sp500_df = sp500_df_all[['Open', 'Adjusted Close']]
 
 	frames = [df, sp500_df]
 	df = pd.concat(frames, axis=1) # concatenate column-wise, remove Nan Data
-	df.columns = ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-
+	df.columns = ['Adj. Open','Adj. Close','S&P Open','Adj. High', 'Adj. Low', 'Adj. Volume',  'S&P Adj. Close']
+	# add moving average
 	df = df.dropna(how='any')
 	print df
 	file_name = 'data/%s_training.csv' %symbol
@@ -159,7 +163,7 @@ def download_data(symbol):
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
 	symbol = 'AAPL'
-	# download_data(symbol)
+	download_data(symbol)
 
 	# max
 	# print df['Adj. Close'].max()''
@@ -175,9 +179,9 @@ if __name__ == "__main__":
 	file_name = 'data/%s_training.csv' %symbol
 	read_df = pd.read_csv(file_name, index_col = "Date")
 
-	# dailyReturn(read_df['Adj. Close'])
+	read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
 	# dailyReturn(sp500_df_all['Close'])
-
+	print read_df
 	# add decision column
 	# if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
 	
@@ -207,9 +211,8 @@ if __name__ == "__main__":
 
 	read_df = read_df.drop(['Future'], axis=1)
 	# print read_df
-	# predictML(read_df, False, symbol)
+	predictML(read_df, False, symbol)
 	predictMLSaved(to_predict_df, symbol)
-
 
 
 
