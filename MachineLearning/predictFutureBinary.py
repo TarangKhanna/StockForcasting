@@ -7,7 +7,10 @@
 # In our case 'adj close' is clearly correlated to 'label' (we can verify this by doing a df.corr() before all the transforms).
 # label buy or sell based on increasing future then do f1 score test-recall and precision
 # ~ 77% accurate, increase 
+# wolframalpha for more data
+# find pre market movers
 
+# mean reversion for long term prediction
 from __future__ import division # preventing division issue in 2.7
 import pandas as pd 
 import quandl
@@ -29,11 +32,15 @@ import time
 # can make more fast using csv instead of calling from quandl
 # import accelerate
 
-def predictML(stocksDf, useLinear, symbol):
+def predictML(stocksDf, useRegression, symbol):
 	stocksDf = stocksDf.dropna(how='any')
 	print stocksDf
+	# X = np.array()
+	if useRegression:
+		X = np.array(stocksDf.drop(['Future'],1))
+	else:
+		X = np.array(stocksDf.drop(['Decision'],1))
 
-	X = np.array(stocksDf.drop(['Decision'],1))
 	X = preprocessing.scale(X)
 	predict_index = len(X)-2
 	predict_value = X[predict_index-20:]
@@ -42,8 +49,12 @@ def predictML(stocksDf, useLinear, symbol):
 	
 	# X_lately = X[-forecast_out:]
 	# X = X[:-forecast_out:]
+	# y = np.array()
+	if useRegression:
+		y = np.array(stocksDf['Future']) # y is the 1% forcast 
+	else:
+		y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 
-	y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 	y = y[:predict_index-2] # to keep consistent
 	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
 	
@@ -55,25 +66,29 @@ def predictML(stocksDf, useLinear, symbol):
 
 	num_runs = 15
 	for _ in xrange(num_runs):
-		if useLinear:
+		if useRegression:
 			# use KNN or other binary classifiers
 			clf = LinearRegression(n_jobs=-1)
 			print("Crunching...")
 
 			clf.fit(X_train,y_train)
 			# clf.fit(X,y) # all data till now
-			file_name = 'KNNClf_%s.pkl' %symbol
+			file_name = 'LinearRegressionClf_%s.pkl' %symbol
 			joblib.dump(clf, file_name) # save the classifier to file
 
 			# clf = joblib.load('LinearRegressionClf.pkl')
 			# print clf
 			accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
-			print(accuracy)
-			print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
+			# print(accuracy)
+			# print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 			# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
 			# y_true = y_test
 			# y_pred = clf.predict(X_test)
-			# print f1_score(y_true, y_pred, average='macro')  
+			# print f1_score(y_true, y_pred, average='macro') 
+			if accuracy > best_accuracy:
+				best_clf = clf
+				best_accuracy = accuracy
+				best_algo = 'Linear' 
 		else:
 			X = np.array(stocksDf.drop(['Decision'],1))
 			X = preprocessing.scale(X)
@@ -106,7 +121,7 @@ def predictML(stocksDf, useLinear, symbol):
 	print 'best accuracy:'
 	print best_accuracy
 
-def predictMLSaved(stocksDf, symbol):
+def binaryClassifySaved(stocksDf, symbol):
 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
 	predict_index = 14
 	stocksDf = stocksDf.dropna(how='any')
@@ -132,6 +147,28 @@ def predictMLSaved(stocksDf, symbol):
 	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
+	frames = [predicted_df, temp_df]
+	result = pd.concat(frames, axis=1)
+	print result
+
+def regressionSaved(stocksDf, symbol):
+	predict_index = 14
+	stocksDf = stocksDf.dropna(how='any')
+	X = np.array(stocksDf)
+	print len(stocksDf['Adj. Close'].tail(predict_index))
+	predicted_df = pd.DataFrame()
+	predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
+	predicted_df = predicted_df.reset_index(drop=True)
+	print stocksDf['Adj. Close'].tail(predict_index)
+	X = preprocessing.scale(X)
+	
+	predict_values = X[len(X)-predict_index:] # future for last 14 dates
+
+	print("Loading Classifier...")
+
+	file_name = 'LinearRegressionClf_%s.pkl' %symbol
+	clf = joblib.load(file_name)
+	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
 	frames = [predicted_df, temp_df]
 	result = pd.concat(frames, axis=1)
 	print result
@@ -209,6 +246,7 @@ if __name__ == "__main__":
 	read_df = read_df.dropna(how='any')
 
 	decisions = []
+	pe_ratio = []
 	for index, row in read_df.iterrows():
 		# floating point comparison careful
 		# if 2 % increase in two weeks, then classify as a buy
@@ -220,13 +258,17 @@ if __name__ == "__main__":
 		else:
 			decisions.append('Hold')
 
-	read_df['Decision'] = decisions
-	print read_df['Decision'].value_counts()
+	# read_df['P/E Ratio'] = pe_ratio	
+	read_df_binary = read_df.copy(deep=True)
+	read_df_binary['Decision'] = decisions
+	print read_df_binary['Decision'].value_counts()
 
-	read_df = read_df.drop(['Future'], axis=1)
+	read_df_regression = read_df.copy(deep=True)
+
+	read_df_binary = read_df_binary.drop(['Future'], axis=1)
 	# print read_df
-	predictML(read_df, False, symbol)
-	predictMLSaved(to_predict_df, symbol)
-
+	predictML(read_df_regression, True, symbol)
+	# binaryClassifySaved(to_predict_df, symbol)
+	regressionSaved(to_predict_df, symbol)
 
 
