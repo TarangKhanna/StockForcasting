@@ -70,7 +70,7 @@
         </div>
         
         <!-- MAIN PAGE -->
-        
+    
             <p></p>
             <div class="container-fluid">
                 <div class="row">
@@ -133,16 +133,19 @@
                                     </tr>    
                                 </tbody>    
                             </table>
-                            <figure>
-                                <img src="stockky.png" alt="graph" width="100%">
-                            </figure>
-                        </div>    
-                        <div class="window">
-                            <h4>Apple Inc.</h4>
-                            <figure>
-                                <img src="stockky.png" alt="graph" width="100%">
-                            </figure>
-                        </div>           
+                            <div>
+                                
+                                <!-- CHART -->
+                                <svg id="chart" width="900" height="500"
+                                    viewBox="0 0 900 500"
+                                    preserveAspectRatio="xMidYMid meet">
+                                </svg>
+                                <script src="https://d3js.org/d3.v4.min.js"></script>
+                                <script src="lgraph.js"></script>
+                                
+                            </div>
+                        </div>
+                        
                     </div>   
                 </div>
             </div>
