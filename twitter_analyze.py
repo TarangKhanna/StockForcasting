@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import csv 
 from textblob import TextBlob
 import numpy as np
+from pylab import *
 
 #Variables that contains the user credentials to access Twitter API 
 access_token = "301847288-lWXEQAwNc7kvyIF4E6w3TCzj7FfWYyUs2FKXbkcR"
@@ -24,6 +25,27 @@ consumer_secret = "ZBZrMl7jEv1DGt76hCV60K7j8Z8uDx8K710cO1w6SBelNVSeqD"
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
+
+# current feelings about stock
+# plot according to location
+def analyze_feelings(stock):
+	tweets = pd.read_csv('%s.csv' %stock)
+
+	sentiment = []
+	for index, row in tweets.iterrows():
+		value = round(row['polarity'], 3)
+		if value < 0.0:
+			sentiment.append('negative')
+		elif value == 0.0:
+			sentiment.append('neutral')
+		else:
+			sentiment.append('positive')
+
+	tweets['sentiment'] = sentiment
+	# tweets['sentiment'].value_counts().plot(kind='bar')
+	tweets['sentiment'].value_counts().plot(kind='pie')
+	plt.show()
+	print tweets
 
 def analyze_stock(stock):
 	
@@ -82,6 +104,7 @@ def get_tweets(stock):
 	print outtweets
 	return alltweets
 
-analyze_stock('$AAPL')
-analyze_stock('$GOOGL')
+# analyze_stock('$AAPL')
+# analyze_stock('$GOOGL')
+analyze_feelings('$AAPL')
 
