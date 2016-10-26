@@ -4,6 +4,7 @@
 # TODO-take into account retweets,likes,time,followers
 # analyze google searches to predict stock market
 # remove tweets from other languages?
+from __future__ import division
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -27,18 +28,22 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 # current feelings about stock
-# plot according to location
+# Todo plot according to location
 def analyze_feelings(stock):
 	tweets = pd.read_csv('%s.csv' %stock)
 
+	total = 0
+	positive = 0
 	sentiment = []
 	for index, row in tweets.iterrows():
+		total = total+1
 		value = round(row['polarity'], 3)
 		if value < 0.0:
 			sentiment.append('negative')
 		elif value == 0.0:
 			sentiment.append('neutral')
 		else:
+			positive = positive + 1
 			sentiment.append('positive')
 
 	tweets['sentiment'] = sentiment
@@ -46,6 +51,7 @@ def analyze_feelings(stock):
 	tweets['sentiment'].value_counts().plot(kind='pie')
 	plt.show()
 	print tweets
+	print positive/total
 
 def analyze_stock(stock):
 	
@@ -81,11 +87,12 @@ def get_tweets(stock):
 	alltweets.extend(public_tweets)
 	oldest = alltweets[-1].id - 1
 
+	# Todo date constraint?
+
 	#keep grabbing tweets until there are no tweets left to grab
 	while len(public_tweets) > 0:
 	    print "getting tweets before %s" % (oldest)
-	    # filter by users too
-	    #all subsiquent requests use the max_id param to prevent duplicates
+	    # filter by users too, todo
 	    public_tweets = api.search(stock,count=200,max_id=oldest)
 	    
 	    #save most recent tweets
@@ -107,4 +114,5 @@ def get_tweets(stock):
 # analyze_stock('$AAPL')
 # analyze_stock('$GOOGL')
 analyze_feelings('$AAPL')
+# analyze_feelings('$GOOGL')
 

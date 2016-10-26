@@ -9,6 +9,7 @@
 # ~ 77% accurate, increase 
 # wolframalpha for more data
 # find pre market movers
+# use xgboost
 
 # mean reversion for long term prediction
 from __future__ import division # preventing division issue in 2.7
@@ -26,11 +27,9 @@ import pylab
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestClassifier
 import time
-
-# ensemble learning
-# good results with 1000 data rows and linear svm kernel
-# can make more fast using csv instead of calling from quandl
-# import accelerate
+# for tuning we use grid search
+from sklearn.grid_search import GridSearchCV   #Perforing grid search
+import xgboost
 
 def predictML(stocksDf, useRegression, symbol):
 	stocksDf = stocksDf.dropna(how='any')
@@ -55,9 +54,24 @@ def predictML(stocksDf, useRegression, symbol):
 	else:
 		y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 
+	# lb = preprocessing.LabelBinarizer(neg_label=0, pos_label=1, sparse_output=False)
+	# # lb.fit([0,1])
+	# y = lb.fit_transform(y)
+
+	le_decision = preprocessing.LabelEncoder()
+
+	#to convert into numbers
+
+	# y = le_decision.fit_transform(y)
+
+	#to convert back
+
+	# y = le_decision.inverse_transform(y)
+
 	y = y[:predict_index-2] # to keep consistent
 	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
 	
+	print y
 
 	best_clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
 	# best_clf = KNeighborsClassifier(n_neighbors=10, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski', metric_params=None, n_jobs=-1)
@@ -94,13 +108,31 @@ def predictML(stocksDf, useRegression, symbol):
 			X = preprocessing.scale(X)
 			y = np.array(stocksDf['Decision']) # y is the 1% forcast 
 			# y = y[:predict_index-2] # to keep consistent
+
+			# to convert into numbers
+			# y = le_decision.fit_transform(y)
 			X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.2) # 20% training data, 80% testing 
-			clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
+			# clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
+
+			# best is {'max_depth': 8, 'min_child_weight': 2}
+
+			clf = xgboost.XGBClassifier(
+										learning_rate =0.1,
+										n_estimators=1000,
+										max_depth=8,
+										min_child_weight=2,
+										gamma=0,
+										subsample=0.8,
+										colsample_bytree=0.8,
+										objective= 'binary:logistic',
+										nthread=4,
+										scale_pos_weight=1,
+										seed=27)
+
 			# print("Crunching...")
 			# clf.fit(X_train,y_train)
 			clf.fit(X_train,y_train) # all data till now
 			
-
 			# clf = joblib.load('LinearRegressionClf.pkl')
 			# print clf
 			accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
@@ -115,11 +147,44 @@ def predictML(stocksDf, useRegression, symbol):
 			if accuracy > best_accuracy:
 				best_clf = clf
 				best_accuracy = accuracy
-				best_algo = 'RF'
-	file_name = 'RFClf_%s.pkl' %symbol
+				best_algo = 'XG'
+	file_name = 'XGClf_%s.pkl' %symbol
 	joblib.dump(best_clf, file_name) # save the classifier to file
 	print 'best accuracy:'
 	print best_accuracy
+
+def modelOptimization():	
+	# param_test1 = {
+	# 	'max_depth':range(3,10,2),
+	# 	'min_child_weight':range(1,6,2)
+	# }
+	# gsearch1 = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate =0.1, n_estimators=140, max_depth=5,
+	# 	min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
+	# 	objective= 'binary:logistic', nthread=4, scale_pos_weight=1, seed=27), 
+	# 	param_grid = param_test1, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
+	# gsearch1.fit(X_train,y_train)
+	# print gsearch1.grid_scores_, gsearch1.best_params_, gsearch1.best_score_	
+	# param_test2 = {
+	#  'max_depth':[6,7,8],
+	#  'min_child_weight':[2,3,4]
+	# }
+	# gsearch2 = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate=0.1, n_estimators=140, max_depth=5,
+	#  min_child_weight=2, gamma=0, subsample=0.8, colsample_bytree=0.8,
+	#  objective= 'binary:logistic', nthread=4, scale_pos_weight=1,seed=27), 
+	#  param_grid = param_test2, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
+	# gsearch2.fit(X_train,y_train)
+	# print gsearch2.grid_scores_, gsearch2.best_params_, gsearch2.best_score_
+
+	# param_test2b = {
+	#  'min_child_weight':[2,6,8,10,12]
+	# }
+	# gsearch2b = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate=0.1, n_estimators=140, max_depth=4,
+	#  min_child_weight=2, gamma=0, subsample=0.8, colsample_bytree=0.8,
+	#  objective= 'binary:logistic', nthread=4, scale_pos_weight=1,seed=27), 
+	#  param_grid = param_test2b, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
+	# gsearch2b.fit(X_train,y_train)	
+	# print gsearch2b.grid_scores_, gsearch2b.best_params_, gsearch2b.best_score_
+	pass	
 
 def binaryClassifySaved(stocksDf, symbol):
 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
@@ -140,7 +205,7 @@ def binaryClassifySaved(stocksDf, symbol):
 
 	print("Loading Classifier...")
 
-	file_name = 'RFClf_%s.pkl' %symbol
+	file_name = 'XGClf_%s.pkl' %symbol
 	clf = joblib.load(file_name)
 	# graph prediction and show dates of prediction
 	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
@@ -149,6 +214,10 @@ def binaryClassifySaved(stocksDf, symbol):
 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
 	frames = [predicted_df, temp_df]
 	result = pd.concat(frames, axis=1)
+
+	le = preprocessing.LabelEncoder()
+	# le.classes_ = np.load('Label_Encoder.npy')
+
 	print result
 
 def regressionSaved(stocksDf, symbol):
@@ -213,7 +282,7 @@ def download_data(symbol):
 
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
-	symbol = 'GOOGL'
+	symbol = 'AAPL'
 	download_data(symbol)
 
 	# max
@@ -249,7 +318,7 @@ if __name__ == "__main__":
 	pe_ratio = []
 	for index, row in read_df.iterrows():
 		# floating point comparison careful
-		# if 2 % increase in two weeks, then classify as a buy
+		# if 3 % increase in two weeks, then classify as a buy
 		# another method is to get historical buy-sell ratings
 		if (round(row['Future'],3) > round((1.03*row['Adj. Close']),3)):
 			decisions.append('Buy')
@@ -266,9 +335,12 @@ if __name__ == "__main__":
 	read_df_regression = read_df.copy(deep=True)
 
 	read_df_binary = read_df_binary.drop(['Future'], axis=1)
-	# print read_df
-	predictML(read_df_regression, True, symbol)
+	# for regression
+	# predictML(read_df_regression, True, symbol)
+	# for classification 
+	predictML(read_df_binary, False, symbol)
 	# binaryClassifySaved(to_predict_df, symbol)
-	regressionSaved(to_predict_df, symbol)
+	# regressionSaved(to_predict_df, symbol)
+	binaryClassifySaved(to_predict_df, symbol)
 
 
