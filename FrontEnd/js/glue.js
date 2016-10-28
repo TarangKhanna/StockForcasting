@@ -1,4 +1,4 @@
-function post(uri, dataToSend, ) {
+function post(uri, dataToSend) {
     $.post({
         url: uri,
         contentType: "application/json",
