@@ -1,9 +1,18 @@
 var $parag;
+var dispName;
+var $welcomeDisp;
+var isLoggedIn = false;
 
 $(document).ready(function() {
     // On ready things
     // Also gets run when the login modal is closed
-    $parag = $("#parag");
+    if (document.title == "StockStokr - Home") {
+        $parag = $("#parag");
+    }
+    if (document.title == "StockStokr - Account") {
+        $welcomeDisp = $("#welcomeDisp");
+        loadAccountPage();
+    }
 });
 
 function closeModal() {
@@ -16,11 +25,9 @@ function requestLogin() {
     var uname = info[0].value;
     var pswd = info[1].value;
     var dataToSend = {
-            "uname": uname,
-            "pswd": pswd
-        }
-        //alert(uname);
-        //alert(pswd);
+        "uname": uname,
+        "pswd": pswd
+    }
 
     $.post({
         url: uri,
@@ -28,17 +35,20 @@ function requestLogin() {
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         success: function(data) {
-            window.location.replace("account.html");
-            //closeModal();
+            isLoggedIn = true;
+            alert(data.response[0].dispName);
+            dispName = data.response[0].dispName;
+            alert(dispName);
+            window.location.assign("account.html");
+            //loadAccountPage();
         },
         error: function(data) {
             alert(data.responseJSON.response);
         }
     });
-    /*
-    .done(function(data) {
-        alert("it worked!");
-        alert(data);
-    });
-    */
+}
+
+function loadAccountPage() {
+    console.log(dispName);
+    $welcomeDisp.text("Welcome " + dispName);
 }

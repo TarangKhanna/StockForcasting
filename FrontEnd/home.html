@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" class="cancelbtn" onClick="closeModal">Cancel</a></button>
+                    <button type="button" class="cancelbtn" onClick="closeModal()">Cancel</a></button>
                     <span class="psw">Forgot <a href="#">password?</a></span>
                 </div>
             </form>
@@ -89,59 +89,59 @@
             <p></p>
             <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
                 <div class="side-window">
-                    
+
                     <h3 style="margin-left: 10px;"> Other Stocks to Consider </h3>
-                    
-                    <div class = "dropdown">      
-                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" 
+
+                    <div class = "dropdown">
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
                             style="padding: 0px; margin-bottom: 5px;">
-                            
+
                             <h3 style="text-align: left; margin-left: 10px;"> Google Inc. </h3>
                             <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
-                            
+
                         </button>
-                        
+
                         <ul class="dropdown-menu dropdown-menu-center">
                             <li style="background-color: #ffffff; text-align: center;">
                                 <h4>Add Google to Watchlist</h4>
                             </li>
-                        </ul>    
+                        </ul>
                     </div>
-                    
+
                     <div class = "dropdown">
-                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" 
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
                             style="padding: 0px; margin-bottom: 5px;">
-                            
+
                             <h3 style="text-align: left; margin-left: 10px;"> Apple Inc. </h3>
                             <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
-                            
+
                         </button>
-                        
+
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li style="background-color: #ffffff; text-align: center;">
                                 <h4>Add Apple to Watchlist</h4>
                             </li>
                         </ul>
                     </div>
-                    
+
                     <div class = "dropdown">
-                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" 
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
                             style="padding: 0px; margin-bottom: 5px;">
-                            
+
                             <h3 style="text-align: left; margin-left: 10px;"> Microsoft Inc. </h3>
                             <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
-                            
+
                         </button>
-                        
+
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li style="background-color: #ffffff; text-align: center;">
                                 <h4>Add Microsoft to Watchlist</h4>
@@ -151,14 +151,14 @@
 
                 </div>
             </div>
-            
+
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 
                 <h3>Your Stock Watchlist</h3>
                 <div class="window">
-                    
+
                     <h3 style="margin-left: 25px;">Google Inc.</h3>
-                    
+
                     <div id="chart1">
                                 <!-- CHART -->
                                 <svg id="chart" width="900" height="500"
@@ -168,9 +168,9 @@
                                 <script src="https://d3js.org/d3.v4.min.js"></script>
                                 <script src="lgraph.js"></script>
                     </div>
-                    
+
                     <button data-toggle="collapse" data-target="#demo1">More</button>
-                    
+
                     <div id="demo1" class="collapse">
                     <table class="table table-responsive">
                         <thead>
@@ -194,13 +194,13 @@
                             </tr>
                         </tbody>
                     </table>
-                    </div>    
+                    </div>
                 </div>
-                
+
                 <div class="window">
-                    
+
                     <h3 style="margin-left: 25px;">Apple Inc.</h3>
-                    
+
                     <div id="chart2">
                         <!-- CHART -->
                                 <svg id="chart" width="900" height="500"
@@ -210,9 +210,9 @@
                                 <script src="https://d3js.org/d3.v4.min.js"></script>
                                 <script src="lgraph2.js"></script>
                     </div>
-                    
+
                     <button data-toggle="collapse" data-target="#demo2">More</button>
-                    
+
                     <div id="demo2" class="collapse">
                     <table class="table table-responsive">
                         <thead>
@@ -236,16 +236,16 @@
                             </tr>
                         </tbody>
                     </table>
-                    </div> 
-                    
+                    </div>
+
                 </div>
 
             </div>
             <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
                 <div class="jumbotron" style="box-shadow: 0 0 3pt 2pt #545454;">
-                    
+
                     <h3 style="margin-left: 10px;"> Other Stocks to Consider </h3>
-                    
+
                     <div class="hidden-lg hidden-md col-sm-4 col-xs-12">
                         <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                             <h3 style="text-align: left; margin-left: 10px;"> Google Inc. </h3>
@@ -255,7 +255,7 @@
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
                         </button>
                     </div>
-                    
+
                     <div class="hidden-lg hidden-md col-sm-4 col-xs-12">
                         <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                             <h3 style="text-align: left; margin-left: 10px;"> Apple Inc. </h3>
@@ -265,7 +265,7 @@
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
                         </button>
                     </div>
-                    
+
                     <div class="hidden-lg hidden-md col-sm-4 col-xs-12">
                         <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                             <h3 style="text-align: left; margin-left: 10px;"> Microsoft Inc. </h3>
@@ -275,8 +275,8 @@
                             <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
                         </button>
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
         </div>
