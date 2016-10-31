@@ -3,7 +3,7 @@ from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
 from flask_cors import CORS, cross_origin
 import sys
-
+import cx_Oracle
 
 #initilization
 app = Flask(__name__)
@@ -11,6 +11,13 @@ CORS(app)
 
 # extenstions
 auth = HTTPBasicAuth()
+
+conn_str = u'user/password@host:port/service'
+conn = cx_Oracle.connect(conn_str)
+c = conn.cursor()
+c.execute(u'select your_col_1, your_col_2 from your_table')
+for row in c:
+    print row[0], "-", row[1]
 
 # Other Vars
 Predicted_Prices = {}
