@@ -8,7 +8,6 @@ $(document).ready(function() {
     // Also gets run when the login modal is closed
 
 
-
     // Page specific js
 
     if (document.title == "StockStokr - Home") {
