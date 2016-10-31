@@ -7,7 +7,6 @@ $(document).ready(function() {
     // On ready things
     // Also gets run when the login modal is closed
 
-    //edit
     // Page specific js
 
     if (document.title == "StockStokr - Home") {
