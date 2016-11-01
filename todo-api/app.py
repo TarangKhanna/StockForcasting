@@ -3,8 +3,7 @@ from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
 from flask_cors import CORS, cross_origin
 import sys
-import cx_Oracle
-
+import mysql.connector
 #initilization
 app = Flask(__name__)
 CORS(app)
@@ -12,13 +11,22 @@ CORS(app)
 # extenstions
 auth = HTTPBasicAuth()
 
-conn_str = u'user/password@host:port/service'
-conn = cx_Oracle.connect(conn_str)
-c = conn.cursor()
-c.execute(u'select your_col_1, your_col_2 from your_table')
-for row in c:
-    print row[0], "-", row[1]
 
+cnx = mysql.connector.connect(user='root', password='hellostocks',
+                              host='localhost',
+                              database='stocks')
+cursor = cnx.cursor()
+add_user = ("INSERT INTO USER_BASIC_INFO "
+               "(userID, firstName, lastName, age, phoneNumber, password, email) "
+               "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+
+data_user = ('2', 'Atul', 'Aneja', '21', '4794228206', 'hello', 'atul.aneja75@gmail.com')
+
+cursor.execute(add_user, data_user)
+
+cnx.commit()
+cursor.close()
+cnx.close()
 # Other Vars
 Predicted_Prices = {}
 Predicted_Prices['Google'] = '55.00'
