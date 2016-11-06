@@ -12,21 +12,9 @@ id = 0
 auth = HTTPBasicAuth()
 
 
-# cnx = mysql.connector.connect(user='root', password='hellostocks',
-#                               host='localhost',
-#                               database='stocks')
-# cursor = cnx.cursor()
-# add_user = ("INSERT INTO USER_BASIC_INFO "
-#                "(userID, firstName, lastName, age, phoneNumber, password, email) "
-#                "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+                              host='localhost',
+                              database='stocks')
 
-# data_user = ('2', 'Atul', 'Aneja', '21', '4794228206', 'hello', 'atul.aneja75@gmail.com')
-
-# cursor.execute(add_user, data_user)
-
-# cnx.commit()
-# cursor.close()
-# cnx.close()
 # Other Vars
 Predicted_Prices = {}
 Predicted_Prices['Google'] = '55.00'
@@ -73,15 +61,22 @@ def get_task(task_id):
 
 @app.route('/todo/api/v1.0/tasks', methods=['ADDUSER'])
 def add_user():
-    # if not request.json:
-    #     print("aborted here")
-    #     abort(400)
+    if not request.json:
+        print("aborted here")
+        abort(400)
     
     id = 1
-    print("Print first name")
-    print(request.json['firstName'])
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
-    print(new_user)
+    cursor = cnx.cursor()
+    add_user = ("INSERT INTO USER_BASIC_INFO "
+                   "(userID, firstName, lastName, age, phoneNumber, password, email) "
+                   "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+
+    cursor.execute(add_user, new_user)
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
     return jsonify({'new_user': new_user}), 201
 
 
