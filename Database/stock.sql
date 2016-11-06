@@ -1,4 +1,3 @@
-DROP DATABASE stocks;
 CREATE DATABASE stocks;
 
 USE stocks;
