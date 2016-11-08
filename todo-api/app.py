@@ -3,14 +3,17 @@ from flask import Flask, jsonify, abort, make_response, request, url_for, flash
 from flask_httpauth import HTTPBasicAuth
 from flask_cors import CORS, cross_origin
 import sys
-
-
+import mysql.connector
 #initilization
 app = Flask(__name__)
 CORS(app)
-
+id = 0
 # extenstions
 auth = HTTPBasicAuth()
+
+
+                              host='localhost',
+                              database='stocks')
 
 # Other Vars
 Predicted_Prices = {}
@@ -18,16 +21,13 @@ Predicted_Prices['Google'] = '55.00'
 Predicted_Prices['Apple'] = '53.00'
 tasks = [
     {
-        'id': 1,
-        'name': u'Atul Aneja',
-        'MyStocks': u'Google',
-        'Predicted_Price': u'%s'%Predicted_Prices['Google']
-    },
-    {
-        'id': 2,
-        'name': u'Tarang Khanna',
-        'MyStocks': u'Apple',
-        'Predicted_Price': u'%s'%Predicted_Prices['Apple']
+        'userId': 2,
+        'firstName': u'Tarang',
+        'lastName': u'Khanna',
+        'age': u'20',
+        'phoneNumber': u'4794228206',
+        'password': u'Khanna',
+        'email': u'TarangKhanna',
     }
 ]
 
@@ -60,9 +60,32 @@ def get_task(task_id):
         abort(404)
     return jsonify({'task': task[0]})
 
+
+@app.route('/todo/api/v1.0/tasks', methods=['ADDUSER'])
+def add_user():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+    
+    id = 1
+    new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+    cursor = cnx.cursor()
+    add_user = ("INSERT INTO USER_BASIC_INFO "
+                   "(userID, firstName, lastName, age, phoneNumber, password, email) "
+                   "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+
+    cursor.execute(add_user, new_user)
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return jsonify({'new_user': new_user}), 201
+
+
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
 def create_task():
     if not request.json or not 'name' in request.json:
+        print("aborts here")
         abort(400)
     task = {
         'id': tasks[-1]['id'] + 1,

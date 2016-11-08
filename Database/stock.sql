@@ -1,10 +1,14 @@
+CREATE DATABASE stocks;
+
+USE stocks;
+
 /*  */
 CREATE TABLE USER_BASIC_INFO (
 	userID integer,
 	firstName varchar(200),
 	lastName varchar(200),
  	age integer,
-	phoneNumber integer,
+	phoneNumber varchar(200),
 	password varchar(200),
 	email varchar(200),
 	/* requstedStock varchar(200), */
@@ -59,6 +63,24 @@ CREATE TABLE PREDICTION_INFO (
 	foreign key(stockID) references STOCK_STATIC_INFO(stockID)
 );
 
+
+CREATE TABLE ML_ALGORITHMS (
+	algorithmID integer,
+	algorithmName varchar(200),
+	usageComments varchar(200),
+	primary key(algorithmID)
+);
+
+
+CREATE TABLE ML_STOCK (
+	stockID integer,
+	algorithmID integer,
+	trainedClassifier varchar(1000),
+	primary key(stockID),
+	foreign key(algorithmID) references ML_ALGORITHMS(algorithmID)
+);
+
+
 CREATE TABLE RAW_STOCKS_DATA (
 	stockID integer,
 	rawDate date,
@@ -84,20 +106,4 @@ CREATE TABLE TWITTER_FEEDS (
 	tweetID varchar(200),
 	foreign key(stockID) references STOCK_STATIC_INFO(stockID),
 	primary key(tweetID)
-);
-
-
-CREATE TABLE ML_STOCK (
-	stockID integer,
-	algorithmID integer,
-	trainedClassifier varchar(1000),
-	primary key(stockID),
-	foreign key(algorithmID) references ML_ALGORITHMS(algorithmID)
-);
-
-REATE TABLE ML_ALGORITHMS (
-	algorithmID integer,
-	algorithmName varchar(200),
-	usageComments varchar(200),
-	primary key(algorithmID)
 );
