@@ -1,242 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>StockStokr - Browse</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="bootstrap.css" rel = "stylesheet" type = "text/css">
-        <link rel="stylesheet" type="text/css" href="stockr.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    
-    <body>
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>StockStokr - Browse</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="stockr.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/login.js" type="text/javascript"></script>
+    <script src="js/glue.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
+                        <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">StockStockr</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="browse.html">Browse</a></li>
-                        <!-- <li><a href="#">Manage Account</a></li> -->
-                        <li><a data-toggle = "modal" data-target = "#login">Account</a></li>
-                        <li><a href="info.html">Info</a></li>
-                        <li><a href="contact.html">Request Training</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
-                    </ul>
-                </div>
+                <a class="navbar-brand" href="#">StockStockr</a>
             </div>
-        </nav>
-        
-        <!-- LOGIN MODAL -->
-        <div class="container">
-            <div id="login" class="modal">
-                <form class="modal-content animate" action="action_page.php">
-
-                    <div class="container">
-                        <label><b>Username</b></label><br />
-                        <input type="text" placeholder="Enter Username" name="uname" required><br />
-
-                        <label><b>Password</b></label><br />
-                        <input type="password" placeholder="Enter Password" name="psw" required><br />
-        
-                        <button type="submit">Login</button>
-                        
-                        <input type="checkbox" checked="checked" class="rightbox" > 
-                        <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me   </div><br />
-                        <a href="signup.html"><p style="test-align: center;">Don't have an account? Sign up now!</p></a>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" class="cancelbtn"><a href="#">Cancel</a></button>
-                        <span class="psw">Forgot <a href="#">password?</a></span>
-                    </div>
-                    
-                </form>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <!-- <li><a href="#">Manage Account</a></li> -->
+                    <li><a data-toggle="modal" data-target="#login">Account</a></li>
+                    <li><a href="info.html">Info</a></li>
+                    <li><a href="contact.html">Request Training</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
+                </ul>
             </div>
         </div>
-        
-        <!-- MAIN PAGE -->
-        
+    </nav>
+
+    <!-- LOGIN MODAL -->
+    <div class="container">
+        <div id="login" class="modal">
+            <form class="modal-content animate" name="loginform">
+
+                <div class="container">
+
+                    <label><b>Username</b></label>
+                    <br />
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <br />
+                    <label><b>Password</b></label>
+                    <br />
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <br />
+
+                    <button type="button" onClick="requestLogin()">Login</button>
+
+                    <input type="checkbox" checked="checked" class="rightbox">
+                    <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me </div>
+                    <br />
+                    <a href="signup.html">
+                        <p style="test-align: center;">Don't have an account? Sign up now!</p>
+                    </a>
+
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" class="cancelbtn" onClick="closeModal()">Cancel</a></button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN PAGE -->
+
+    <p></p>
+    <div class="container-fluid">
+        <div class="row">
             <p></p>
-            <div class="container-fluid">
-                <div class="row">
-                    <p></p>
-                    
-                    <h3 style="margin-left: 20px;">Browse Available Stocks</h3>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Google Inc.</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Apple Inc.</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Microsoft Inc.</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Company #4</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Company #5</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                            
-                                <div class="window">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th>Stock Name</th>
-                                                <th>Current Price</th>
-                                                <th>Projected Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Comapny #6</td>
-                                                <td>1234.56</td>
-                                                <td>1234.78</td>
-                                            </tr>    
-                                        </tbody>    
-                                    </table>
-                                    <figure>
-                                        <img src="stockky.png" alt="graph" width="100%">
-                                    </figure>
-                                </div>    
-                    </div>
-                    
+
+            <h3 style="margin-left: 20px;">Browse Available Stocks</h3>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Google Inc.</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
                 </div>
             </div>
-        
-        <!-- FOOTER -->
-        <div class="jumbotron" style="padding-bottom: 0px;">
-            <div class= "bottom-text">
-                <h5>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Apple Inc.</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Microsoft Inc.</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Company #4</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Company #5</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Comapny #6</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <figure>
+                        <img src="stockky.png" alt="graph" width="100%">
+                    </figure>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="jumbotron" style="padding-bottom: 0px;">
+        <div class="bottom-text">
+            <h5>
                     Copyright or whatever. Maybe include some links to social media
                 </h5>
-            </div>    
         </div>
-    </body>
-</html>    
+    </div>
+</body>
+
+</html>

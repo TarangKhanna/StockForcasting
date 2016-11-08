@@ -36,6 +36,8 @@ def get_password(username):
     # compare passwords and usernames
     if username == 'miguel':
         return 'python'
+    if username == 'a':
+        return 'b'
     return None
 
 @auth.error_handler
@@ -102,7 +104,7 @@ def delete_task(task_id):
 ##################
 @app.route('/ss/v1.0/login', methods=['POST'])
 def login():
-    print("here")
+    #print("here")
     if not request.json:
         abort(400)  # no request.json
     data = request.get_json()
@@ -113,9 +115,10 @@ def login():
         abort(400)    # missing arguments
 
     if get_password(username) == password:
-        return (jsonify({'response': "Welcome " + username}), 201)
+        ret = jsonify({"response" : [{"dispName" : username}]})
+        return (ret, 201)
     else:
-        return (jsonify({'response': "Incorrect Username or Password. Please try again"}), 201)
+        return (jsonify({"response": "Incorrect Username or Password. Please try again"}), 400)
 
 def make_public_task(task):
     new_task = {}

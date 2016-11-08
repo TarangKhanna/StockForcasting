@@ -1,160 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>StockStokr - Account</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="bootstrap.css" rel = "stylesheet" type = "text/css">
-        <link rel="stylesheet" type="text/css" href="stockr.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    
-    <body>
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>StockStokr - Account</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="stockr.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/login.js" type="text/javascript"></script>
+    <script src="js/glue.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
+                        <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">StockStockr</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="browse.html">Browse</a></li>
-                        <!-- <li><a href="#">Manage Account</a></li> -->
-                        <li><a data-toggle = "modal" data-target = "#login">Account</a></li>
-                        <li><a href="info.html">Info</a></li>
-                        <li><a href="contact.html">Request Training</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
-                    </ul>
-                </div>
+                <a class="navbar-brand" href="#">StockStockr</a>
             </div>
-        </nav>
-        
-        <!-- LOGIN MODAL -->
-        <div class="container">
-            <div id="login" class="modal">
-                <form class="modal-content animate" action="action_page.php">
-
-                    <div class="container">
-                        <label><b>Username</b></label><br />
-                        <input type="text" placeholder="Enter Username" name="uname" required><br />
-
-                        <label><b>Password</b></label><br />
-                        <input type="password" placeholder="Enter Password" name="psw" required><br />
-        
-                        <button type="submit">Login</button>
-                        
-                        <input type="checkbox" checked="checked" class="rightbox" > 
-                        <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me   </div><br />
-                        <a href="signup.html"><p style="test-align: center;">Don't have an account? Sign up now!</p></a>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" class="cancelbtn"><a href="#">Cancel</a></button>
-                        <span class="psw">Forgot <a href="#">password?</a></span>
-                    </div>
-                    
-                </form>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <!-- <li><a href="#">Manage Account</a></li> -->
+                    <li><a data-toggle="modal" data-target="#login">Account</a></li>
+                    <li><a href="info.html">Info</a></li>
+                    <li><a href="contact.html">Request Training</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
+                </ul>
             </div>
         </div>
-        
-        <!-- MAIN PAGE -->
-    
+    </nav>
+
+    <!-- LOGIN MODAL -->
+    <div class="container">
+        <div id="login" class="modal">
+            <form class="modal-content animate" name="loginform">
+
+                <div class="container">
+
+                    <label><b>Username</b></label>
+                    <br />
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <br />
+                    <label><b>Password</b></label>
+                    <br />
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <br />
+
+                    <button type="button" id="submitBtn" onClick="requestLogin()">Login</button>
+
+                    <input type="checkbox" checked="checked" class="rightbox">
+                    <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me </div>
+                    <br />
+                    <a href="signup.html">
+                        <p style="test-align: center;">Don't have an account? Sign up now!</p>
+                    </a>
+
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" class="cancelbtn" onClick="closeModal()">Cancel</a></button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN PAGE -->
+
+    <p></p>
+    <div class="container-fluid">
+        <div class="row">
             <p></p>
-            <div class="container-fluid">
-                <div class="row">
-                    <p></p>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <div class="side-window">
-                                <h3 style="margin-left: 10px;">Welcome *name*</h3>
-                                <figure>
-                                    <img src="user.png" alt="user" style="display: block; width: 100%;">
-                                </figure>
-                                <div class="container">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">User name</a>
-                                    <a href="#" class="list-group-item">User email</a>  
-                                </div>  
-                                <div class="panel-group">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="side-window">
+                    <h3 id="welcomeDisp" style="margin-left: 10px;">Welcome *name*</h3>
+                    <figure>
+                        <img src="user.png" alt="user" style="display: block; width: 100%;">
+                    </figure>
+                    <div class="container">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">User name</a>
+                            <a href="#" class="list-group-item">User email</a>
+                        </div>
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
                                                     <a data-toggle="collapse" href="#collapse1">Stocks Watching</a>
                                                 </h4>
-                                            </div>
-                                            <div id="collapse1" class="panel-collapse collapse">
-                                                <div class="panel-body">
-                                                    <p>Google Inc.</p>
-                                                    <p>Initial Ammount: 500.00</p>
-                                                    <p>Initial Time: 08/26/2016</p>
-                                                    <p>Current Ammount: 667.56</p>
-                                                    <p>Current Return: +167.56</p><br />
-                                                </div>
-                                                <div class="panel-footer">
-                                                    <p>Total Returns: +167.56</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <p>Google Inc.</p>
+                                        <p>Initial Ammount: 500.00</p>
+                                        <p>Initial Time: 08/26/2016</p>
+                                        <p>Current Ammount: 667.56</p>
+                                        <p>Current Return: +167.56</p><br />
                                     </div>
-                                </div>    
-                            
-                            </div>    
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                            
-                        <h3>Your Stock Watchlist</h3>
-                        <div class="window">
-                            <table class="table table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Stock Name</th>
-                                        <th>Stock Symbol</th>
-                                        <th>Current Price</th>
-                                        <th>Projected Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Google Inc.</td>
-                                        <td>GOOG</td>
-                                        <td>1234.56</td>
-                                        <td>1234.78</td>
-                                    </tr>    
-                                </tbody>    
-                            </table>
-                            <div id="chart1">
-                                <!-- CHART -->
-                                <svg id="chart" width="900" height="500"
-                                    viewBox="0 0 900 500"
-                                    preserveAspectRatio="xMidYMid meet">
-                                </svg>
-                                <script src="https://d3js.org/d3.v4.min.js"></script>
-                                <script src="lgraph.js"></script>
+                                    <div class="panel-footer">
+                                        <p>Total Returns: +167.56</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
-                    </div>   
+                    </div>
+
                 </div>
             </div>
-        
-        <!-- FOOTER -->
-        <div class="jumbotron" style="padding-bottom: 0px;">
-            <div class= "bottom-text">
-                <h5>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
+                <h3>Your Stock Watchlist</h3>
+                <div class="window">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Stock Name</th>
+                                <th>Stock Symbol</th>
+                                <th>Current Price</th>
+                                <th>Projected Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Google Inc.</td>
+                                <td>GOOG</td>
+                                <td>1234.56</td>
+                                <td>1234.78</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="chart1">
+                        <!-- CHART -->
+                        <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet">
+                                </svg>
+                        <script src="https://d3js.org/d3.v4.min.js"></script>
+                        <script src="lgraph.js"></script>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="jumbotron" style="padding-bottom: 0px;">
+        <div class="bottom-text">
+            <h5>
                     Copyright or whatever. Maybe include some links to social media
                 </h5>
-            </div>    
         </div>
-    </body>
-</html>    
+    </div>
+</body>
+
+</html>

@@ -1,175 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>StockStokr - Info</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="bootstrap.css" rel = "stylesheet" type = "text/css">
-        <link rel="stylesheet" type="text/css" href="stockr.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    
-    <body>
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>StockStokr - Info</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="stockr.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/login.js" type="text/javascript"></script>
+    <script src="js/glue.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="width: 45px;">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>                        
+                        <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">StockStockr</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="browse.html">Browse</a></li>
-                        <!-- <li><a href="#">Manage Account</a></li> -->
-                        <li><a data-toggle = "modal" data-target = "#login">Account</a></li>
-                        <li><a href="info.html">Info</a></li>
-                        <li><a href="contact.html">Request Training</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
-                    </ul>
-                </div>
+                <a class="navbar-brand" href="#">StockStockr</a>
             </div>
-        </nav>
-        
-        <!-- LOGIN MODAL -->
-        <div class="container">
-            <div id="login" class="modal">
-                <form class="modal-content animate" action="action_page.php">
-
-                    <div class="container">
-                        <label><b>Username</b></label><br />
-                        <input type="text" placeholder="Enter Username" name="uname" required><br />
-
-                        <label><b>Password</b></label><br />
-                        <input type="password" placeholder="Enter Password" name="psw" required><br />
-        
-                        <button type="submit">Login</button>
-                        
-                        <input type="checkbox" checked="checked" class="rightbox" > 
-                        <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me   </div><br />
-                        <a href="signup.html"><p style="test-align: center;">Don't have an account? Sign up now!</p></a>
-                    </div>
-
-                    <div class="container" style="background-color:#f1f1f1">
-                        <button type="button" class="cancelbtn"><a href="#">Cancel</a></button>
-                        <span class="psw">Forgot <a href="#">password?</a></span>
-                    </div>
-                    
-                </form>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <!-- <li><a href="#">Manage Account</a></li> -->
+                    <li><a data-toggle="modal" data-target="#login">Account</a></li>
+                    <li><a href="info.html">Info</a></li>
+                    <li><a href="contact.html">Request Training</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contact.html"><span class="glyphicon glyphicon-log-in"></span> Contact Us</a></li>
+                </ul>
             </div>
         </div>
-        
-        <!-- MAIN PAGE -->
-        
+    </nav>
+
+    <!-- LOGIN MODAL -->
+    <div class="container">
+        <div id="login" class="modal">
+            <form class="modal-content animate" name="loginform">
+
+                <div class="container">
+
+                    <label><b>Username</b></label>
+                    <br />
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <br />
+                    <label><b>Password</b></label>
+                    <br />
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <br />
+
+                    <button type="button" onClick="requestLogin()">Login</button>
+
+                    <input type="checkbox" checked="checked" class="rightbox">
+                    <div style="float: right; margin-right: 10px; margin-top: 22px;"> Remember me </div>
+                    <br />
+                    <a href="signup.html">
+                        <p style="test-align: center;">Don't have an account? Sign up now!</p>
+                    </a>
+
+
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" class="cancelbtn" onClick="closeModal()">Cancel</a></button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN PAGE -->
+
+    <p></p>
+    <div class="container-fluid">
+        <div class="row">
             <p></p>
-            <div class="container-fluid">
-                <div class="row">
-                    <p></p>
-                    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-                            <div class="side-window">
-                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+            <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                <div class="side-window">
+                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                                     <h4> Company #1 </h4>
                                         <img src="stockky.png" alt="graph" width="100%" height="100%" >
                                 </button>
-                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                                     <h4> Company #2 </h4>
                                         <img src="stockky.png" alt="graph" width="100%" height="100%" >
                                 </button>
-                                <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
                                     <h4> Company #3 </h4>
                                         <img src="stockky.png" alt="graph" width="100%" height="100%" >
                                 </button>
-                                
-                            </div>    
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                            <div class="window" style="margin-top: 20px;">
-                                <h3 style= "margin-left: 20px;">What does it all mean?</h3>
-                                <h4 style= "margin-left: 20px;">Here you can learn about stock metrics and more!</h4><br />
-                                 
-                                <div class="container">
-                                  <div class="panel-group" id="accordion">
-                                    <div class="panel panel-default">
-                                      <div class="panel-heading" style="background-color: #c4c4c4;">
-                                        <h4 class="panel-title">
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="window" style="margin-top: 20px;">
+                    <h3 style="margin-left: 20px;">What does it all mean?</h3>
+                    <h4 style="margin-left: 20px;">Here you can learn about stock metrics and more!</h4><br />
+
+                    <div class="container">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="background-color: #c4c4c4;">
+                                    <h4 class="panel-title">
                                           <a data-toggle="collapse" href="#collapse1">What does GDP mean? Why is it important?</a>
                                         </h4>
-                                      </div>
-                                      <div id="collapse1" class="panel-collapse collapse in">
-                                        <div class="panel-body">It's important. Trust us :).<br />
-                                          But seriously, GDP stands for Gross Domestic Product. It is a measure of a nation's total economic output. If a buisness resides in a nation that has a rapidly increasing GDP it is a sign that a company could see great gains in the future.</div>
-                                      </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                      <div class="panel-heading"  style="background-color: #c4c4c4;">
-                                        <h4 class="panel-title">
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in">
+                                    <div class="panel-body">It's important. Trust us :).<br /> But seriously, GDP stands for Gross Domestic Product. It is a measure of a nation's total economic output. If a buisness resides in a nation that has a rapidly increasing GDP it is
+                                        a sign that a company could see great gains in the future.</div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="background-color: #c4c4c4;">
+                                    <h4 class="panel-title">
                                           <a data-toggle="collapse" href="#collapse2">Collapsible Group 2</a>
                                         </h4>
-                                      </div>
-                                      <div id="collapse2" class="panel-collapse collapse">
-                                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                                      </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                      <div class="panel-heading"  style="background-color: #c4c4c4;">
-                                        <h4 class="panel-title">
+                                </div>
+                                <div id="collapse2" class="panel-collapse collapse">
+                                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.</div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="background-color: #c4c4c4;">
+                                    <h4 class="panel-title">
                                           <a data-toggle="collapse" href="#collapse3">Collapsible Group 3</a>
                                         </h4>
-                                      </div>
-                                      <div id="collapse3" class="panel-collapse collapse">
-                                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                                      </div>
-                                    </div>
-                                  </div> 
                                 </div>
-                        </div>     
-                    </div>
-                    <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
-                            <div class="jumbotron">
-                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
-                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
-                                        <h4> Company #1 </h4>
-                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
-                                    </button>
-                                </div>    
-                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
-                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
-                                        <h4> Company #2 </h4>
-                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
-                                    </button>
+                                <div id="collapse3" class="panel-collapse collapse">
+                                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.</div>
                                 </div>
-                                <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
-                                    <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
-                                        <h4> Company #3 </h4>
-                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
-                                    </button>
-                                </div>
-                            </div>    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        
-        <!-- FOOTER -->
-        <div class="jumbotron" style="padding-bottom: 0px;">
-            <div class= "bottom-text">
-                <h5>
+            <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                <div class="jumbotron">
+                    <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                        <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Company #1 </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                    </div>
+                    <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                        <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Company #2 </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                    </div>
+                    <div class="hidden-lg hidden-md col-sm-4 col-xs-6">
+                        <button type="button" class="btn btn-block" style="padding: 0px; margin-bottom: 5px;">
+                                        <h4> Company #3 </h4>
+                                        <img src="stockky.png" alt="graph" width="100%" height="100%" >
+                                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="jumbotron" style="padding-bottom: 0px;">
+        <div class="bottom-text">
+            <h5>
                     Copyright or whatever. Maybe include some links to social media
                 </h5>
-            </div>    
         </div>
-    </body>
-</html>    
+    </div>
+</body>
+
+</html>
