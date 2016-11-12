@@ -136,6 +136,13 @@ def delete_task(task_id):
     tasks.remove(task[0])
     return jsonify({'result': True})
 
+
+
+@app.route('/ss/v1.0/contact', methods=['POST'])
+def contact():
+    
+    
+
 ##################
 # Authentication #
 ##################
