@@ -11,13 +11,7 @@ id = 0
 # extenstions
 auth = HTTPBasicAuth()
 
-"""
-<<<<<<< HEAD
-                              #host='localhost',
-                              #database='stocks')
-=======
 cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
->>>>>>> 136646c0175f740cef650253b1c84f3be467b00d
 
 # Other Vars
 Predicted_Prices = {}
