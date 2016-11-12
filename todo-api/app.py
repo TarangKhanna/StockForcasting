@@ -79,16 +79,11 @@ def add_user():
     if not request.json:
         print("aborted here")
         abort(400)
-<<<<<<< HEAD
 
-    id = 1
-=======
-    
     global id
     id += 1
-
->>>>>>> 136646c0175f740cef650253b1c84f3be467b00d
- """   new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+    
+    new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
     cursor = cnx.cursor()
     add_user = ("INSERT INTO USER_BASIC_INFO "
                    "(userID, firstName, lastName, age, phoneNumber, password, email) "
