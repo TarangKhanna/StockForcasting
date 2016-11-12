@@ -4,6 +4,10 @@ from flask_httpauth import HTTPBasicAuth
 from flask_cors import CORS, cross_origin
 import sys
 import mysql.connector
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
 #initilization
 app = Flask(__name__)
 CORS(app)
@@ -137,10 +141,28 @@ def delete_task(task_id):
     return jsonify({'result': True})
 
 
-
+#################
+#     Email     #
+#################
 @app.route('/ss/v1.0/contact', methods=['POST'])
 def contact():
     
+    fromaddr = "stockstockr@gmail.com"
+    toaddr = "stockstockr@gmail.com"
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = "SUBJECT OF THE MAIL"
+ 
+    body = "YOUR MESSAGE HERE"
+    msg.attach(MIMEText(body, 'plain'))
+ 
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(fromaddr, "StocksOnStocks")
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+    server.quit()
     
 
 ##################
