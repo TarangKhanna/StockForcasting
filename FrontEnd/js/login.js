@@ -30,43 +30,30 @@ function requestLogin() {
     var uname = info[0].value;
     var pswd = info[1].value;
     var dataToSend = {
-        "uname": uname,
+        "email": email,
         "pswd": pswd
     }
 
-    var data = post(uri, dataToSend);
-    if (data.success) {
-        isLoggedIn = true;
-        alert(data.response[0].dispName);
-        dispName = data.response[0].dispName;
-        alert(dispName);
-        window.location.assign("account.html");
-        //loadAccountPage();
-    } else {
-        alert(data.responseJSON.response);
-    }
-    /*
-        $.post({
-            url: uri,
-            contentType: "application/json",
-            dataType: 'json',
-            data: JSON.stringify(dataToSend),
-            success: function(data) {
-                isLoggedIn = true;
-                alert(data.response[0].dispName);
-                dispName = data.response[0].dispName;
-                alert(dispName);
-                window.location.assign("account.html");
-                //loadAccountPage();
-            },
-            error: function(data) {
-                alert(data.responseJSON.response);
-            }
-        });
-        */
+    $.post({
+        url: uri,
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            isLoggedIn = true;
+            alert(data.response[0].dispName);
+            dispName = data.response[0].dispName;
+            //alert(dispName);
+            window.location.assign("account.html");
+        },
+        error: function(data) {
+            alert(data.responseJSON.response);
+        }
+    });
 }
 
 function loadAccountPage() {
     console.log(dispName);
     $welcomeDisp.text("Welcome " + dispName);
+
 }
