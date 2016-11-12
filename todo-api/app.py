@@ -12,8 +12,7 @@ id = 0
 auth = HTTPBasicAuth()
 
 
-                              host='localhost',
-                              database='stocks')
+cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
 
 # Other Vars
 Predicted_Prices = {}
@@ -60,6 +59,21 @@ def get_task(task_id):
         abort(404)
     return jsonify({'task': task[0]})
 
+@app.route('/todo/api/v1.0/tasks', methods=['GETUSERDATA'])
+def get_user_data():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+    
+    cursor = cnx.cursor()
+    cursor.execute("SELECT * FROM USER_BASIC_INFO WHERE firstName = %s AND lastName = %s", [request.json['firstName'], request.json['lastName']])
+
+    data = cursor.fetchone()
+    cnx.commit()
+    cursor.close()
+
+    return jsonify({"data": data}), 201
+
 
 @app.route('/todo/api/v1.0/tasks', methods=['ADDUSER'])
 def add_user():
@@ -67,7 +81,9 @@ def add_user():
         print("aborted here")
         abort(400)
     
-    id = 1
+    global id
+    id += 1
+
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
     cursor = cnx.cursor()
     add_user = ("INSERT INTO USER_BASIC_INFO "
@@ -78,7 +94,6 @@ def add_user():
 
     cnx.commit()
     cursor.close()
-    cnx.close()
     return jsonify({'new_user': new_user}), 201
 
 

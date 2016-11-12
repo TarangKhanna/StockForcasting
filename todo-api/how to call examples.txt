@@ -1,0 +1,10 @@
+curl -i -H "Content-Type: application/json" -X ADDUSER -d '{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass", "email":"khanna17@purdue.edu"}' http://localhost:5000/todo/api/v1.0/tasks
+
+
+(userID, firstName, lastName, age, phoneNumber, password, email)
+
+curl -i -H "Content-Type: application/json" -X ADDUSER -d '{"firstName":"Atul"}' http://localhost:5000/todo/api/v1.0/tasks
+
+curl -i -H "Content-Type: application/json" -X GETUSERDATA -d '{"userID":"2","firstName":"Atul", "lastName":"Aneja"}' http://localhost:5000/todo/api/v1.0/tasks
+
+
