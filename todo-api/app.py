@@ -12,8 +12,8 @@ id = 0
 auth = HTTPBasicAuth()
 
 
-                              host='localhost',
-                              database='stocks')
+                              #host='localhost',
+                              #database='stocks')
 
 # Other Vars
 Predicted_Prices = {}
@@ -66,7 +66,7 @@ def add_user():
     if not request.json:
         print("aborted here")
         abort(400)
-    
+
     id = 1
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
     cursor = cnx.cursor()
@@ -131,14 +131,14 @@ def login():
     if not request.json:
         abort(400)  # no request.json
     data = request.get_json()
-    username = data.get('uname')
+    email = data.get('email')
     password = data.get('pswd')
 
     if username is None or password is None:
         abort(400)    # missing arguments
 
     if get_password(username) == password:
-        ret = jsonify({"response" : [{"dispName" : username}]})
+        ret = jsonify({"response" : [{"dispName" : email}]})
         return (ret, 201)
     else:
         return (jsonify({"response": "Incorrect Username or Password. Please try again"}), 400)
