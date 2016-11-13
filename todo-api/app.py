@@ -10,28 +10,36 @@ from email.MIMEText import MIMEText
 
 #initilization
 app = Flask(__name__)
+<<<<<<< Updated upstream
 CORS(app, supports_credentials=True)
 id = 0
 # extenstions
 auth = HTTPBasicAuth()
 
+=======
+CORS(app)
+# extenstions
+auth = HTTPBasicAuth()
+
+
+>>>>>>> Stashed changes
 cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
 
 # Other Vars
-Predicted_Prices = {}
-Predicted_Prices['Google'] = '55.00'
-Predicted_Prices['Apple'] = '53.00'
-tasks = [
-    {
-        'userId': 2,
-        'firstName': u'Tarang',
-        'lastName': u'Khanna',
-        'age': u'20',
-        'phoneNumber': u'4794228206',
-        'password': u'Khanna',
-        'email': u'TarangKhanna',
-    }
-]
+# Predicted_Prices = {}
+# Predicted_Prices['Google'] = '55.00'
+# Predicted_Prices['Apple'] = '53.00'
+# tasks = [
+#     {
+#         'userId': 2,
+#         'firstName': u'Tarang',
+#         'lastName': u'Khanna',
+#         'age': u'20',
+#         'phoneNumber': u'4794228206',
+#         'password': u'Khanna',
+#         'email': u'TarangKhanna',
+#     }
+# ]
 
 @auth.get_password
 def get_password(username):
@@ -40,7 +48,15 @@ def get_password(username):
         return 'python'
     if username == 'a':
         return 'b'
-    return None
+
+    cursor = cnx.cursor()
+    cursor.execute("SELECT password FROM USER_BASIC_INFO WHERE email = \"%s\"", username);
+
+    data = cursor.fetchone()
+    cnx.commit()
+    cursor.close()
+
+    return data[0]
 
 @auth.error_handler
 def unauthorized():
@@ -55,12 +71,12 @@ def not_found(error):
 def get_tasks():
     return jsonify({'tasks': tasks})
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    return jsonify({'task': task[0]})
+# @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
+# def get_task(task_id):
+#     task = [task for task in tasks if task['id'] == task_id]
+#     if len(task) == 0:
+#         abort(404)
+#     return jsonify({'task': task[0]})
 
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
@@ -83,16 +99,27 @@ def add_user():
     if not request.json:
         print("aborted here")
         abort(400)
+<<<<<<< Updated upstream
 
     global id
     id += 1
 
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+=======
+    
+    
+>>>>>>> Stashed changes
     cursor = cnx.cursor()
+    cursor.execute("SELECT userID FROM USER_BASIC_INFO ORDER BY userID DESC LIMIT 1;")
+    data = cursor.fetchone()
+
+    new_user = (data[0] + 1, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+    
+    
     add_user = ("INSERT INTO USER_BASIC_INFO "
                    "(userID, firstName, lastName, age, phoneNumber, password, email) "
                    "VALUES (%s, %s, %s, %s, %s, %s, %s)")
-
+    
     cursor.execute(add_user, new_user)
 
     cnx.commit()
@@ -174,14 +201,14 @@ def login():
     if not request.json:
         abort(400)  # no request.json
     data = request.get_json()
-    email = data.get('email')
+    username = data.get('uname')
     password = data.get('pswd')
 
     if username is None or password is None:
         abort(400)    # missing arguments
 
     if get_password(username) == password:
-        ret = jsonify({"response" : [{"dispName" : email}]})
+        ret = jsonify({"response" : [{"dispName" : username}]})
         return (ret, 201)
     else:
         return (jsonify({"response": "Incorrect Username or Password. Please try again"}), 400)
