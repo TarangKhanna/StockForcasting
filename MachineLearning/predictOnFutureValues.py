@@ -22,6 +22,8 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import pylab
 from sklearn.metrics import f1_score
+import schedule
+import time
 
 # use ensemble for faster classification
 
@@ -143,7 +145,8 @@ def plot(data_frame, title_label, x_label, y_label):
 	ax.set_ylabel(y_label)
 	pylab.show()
 
-if __name__ == "__main__":
+def job():
+	print 'Running Daily Learning'
 	symbols = ['AAPL', 'GOOGL', 'GLD']
 
 	# use current date
@@ -181,3 +184,11 @@ if __name__ == "__main__":
 	# print read_df
 	# predictMLSaved(read_df, 'GOOGL')
 	predictML(read_df, True, 'GOOGL')
+
+if __name__ == "__main__":
+	schedule.every().day.at("15:28").do(job)
+
+	while True:
+	    schedule.run_pending()
+	    time.sleep(1)
+

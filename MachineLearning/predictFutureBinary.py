@@ -10,6 +10,7 @@
 # wolframalpha for more data
 # find pre market movers
 # use xgboost
+# arc 
 
 # mean reversion for long term prediction
 from __future__ import division # preventing division issue in 2.7
@@ -43,9 +44,9 @@ def predictML(stocksDf, useRegression, symbol):
 	X = preprocessing.scale(X)
 	predict_index = len(X)-2
 	predict_value = X[predict_index-20:]
-	X = X[:predict_index-2]
+	# X = X[:predict_index-2]
 	print(X.shape)
-	
+
 	# X_lately = X[-forecast_out:]
 	# X = X[:-forecast_out:]
 	# y = np.array()
@@ -68,7 +69,7 @@ def predictML(stocksDf, useRegression, symbol):
 
 	# y = le_decision.inverse_transform(y)
 
-	y = y[:predict_index-2] # to keep consistent
+	# y = y[:predict_index-2] # to keep consistent
 	X_train, X_test, y_train, y_test = cross_validation.train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
 	
 	print y
