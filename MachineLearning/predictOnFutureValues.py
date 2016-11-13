@@ -76,9 +76,6 @@ def predictML(stocksDf, useLinear, symbol):
 		print(accuracy)
 		print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
 		# print clf.predict() # predict into 1% future given todays ['Adj. Open','Adj. Close','S&P Open', 'Adj. Volume','Adj. High', 'Adj. Low']
-		y_true = y_test
-		y_pred = clf.predict(X_test)
-		print f1_score(y_true, y_pred, average='macro')  
 	else:
 		X = np.array(stocksDf.drop(['future'],1))
 		X = preprocessing.scale(X)
