@@ -10,12 +10,12 @@ from email.MIMEText import MIMEText
 
 #initilization
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 id = 0
 # extenstions
 auth = HTTPBasicAuth()
 
-cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
+#cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
 
 # Other Vars
 Predicted_Prices = {}
@@ -62,12 +62,12 @@ def get_task(task_id):
         abort(404)
     return jsonify({'task': task[0]})
 
-@app.route('/todo/api/v1.0/tasks', methods=['GETUSERDATA'])
+@app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
     if not request.json:
         print("aborted here")
         abort(400)
-    
+
     cursor = cnx.cursor()
     cursor.execute("SELECT * FROM USER_BASIC_INFO WHERE firstName = %s AND lastName = %s", [request.json['firstName'], request.json['lastName']])
 
@@ -78,7 +78,7 @@ def get_user_data():
     return jsonify({"data": data}), 201
 
 
-@app.route('/todo/api/v1.0/tasks', methods=['ADDUSER'])
+@app.route('/todo/api/v1.0/tasks/addUser', methods=['POST'])
 def add_user():
     if not request.json:
         print("aborted here")
@@ -86,18 +86,18 @@ def add_user():
 
     global id
     id += 1
-    
+
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
-    cursor = cnx.cursor()
+    #cursor = cnx.cursor()
     add_user = ("INSERT INTO USER_BASIC_INFO "
                    "(userID, firstName, lastName, age, phoneNumber, password, email) "
                    "VALUES (%s, %s, %s, %s, %s, %s, %s)")
 
-    cursor.execute(add_user, new_user)
+    #cursor.execute(add_user, new_user)
 
-    cnx.commit()
-    cursor.close()
-    return jsonify({'new_user': new_user}), 201
+    #cnx.commit()
+    #cursor.close()
+    return (jsonify({'new_user': new_user}), 201)
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
@@ -114,7 +114,7 @@ def create_task():
     tasks.append(task)
     return jsonify({'task': task}), 201
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['ADDSTOCKS'])
+@app.route('/todo/api/v1.0/tasks/<int:task_id>/addStocks', methods=['POST'])
 def update_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0:
@@ -132,7 +132,7 @@ def update_task(task_id):
     task[0]['Predicted_Price'] = request.json.get('Predicted_Price', task[0]['Predicted_Price'])
     return jsonify({'task': task[0]})
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
+@app.route('/todo/api/v1.0/tasks/<int:task_id>/delete', methods=['POST'])
 def delete_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0:
@@ -146,24 +146,24 @@ def delete_task(task_id):
 #################
 @app.route('/ss/v1.0/contact', methods=['POST'])
 def contact():
-    
+
     fromaddr = "stockstockr@gmail.com"
     toaddr = "stockstockr@gmail.com"
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = toaddr
     msg['Subject'] = "SUBJECT OF THE MAIL"
- 
+
     body = "YOUR MESSAGE HERE"
     msg.attach(MIMEText(body, 'plain'))
- 
+
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
     server.login(fromaddr, "StocksOnStocks")
     text = msg.as_string()
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
-    
+
 
 ##################
 # Authentication #
