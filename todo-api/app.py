@@ -15,7 +15,7 @@ id = 0
 # extenstions
 auth = HTTPBasicAuth()
 
-#cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
+cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
 
 # Other Vars
 Predicted_Prices = {}
@@ -88,15 +88,15 @@ def add_user():
     id += 1
 
     new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
-    #cursor = cnx.cursor()
+    cursor = cnx.cursor()
     add_user = ("INSERT INTO USER_BASIC_INFO "
                    "(userID, firstName, lastName, age, phoneNumber, password, email) "
                    "VALUES (%s, %s, %s, %s, %s, %s, %s)")
 
-    #cursor.execute(add_user, new_user)
+    cursor.execute(add_user, new_user)
 
-    #cnx.commit()
-    #cursor.close()
+    cnx.commit()
+    cursor.close()
     return (jsonify({'new_user': new_user}), 201)
 
 
