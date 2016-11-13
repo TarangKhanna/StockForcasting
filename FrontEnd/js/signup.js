@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 function signup() {
     //  alert("here");
-    var uri = "http://127.0.0.1:5000/todo/api/v1.0/tasks";
+    var uri = "http://127.0.0.1:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
     var email = ($("#email")[0].value);
     var pwd = ($("#pwd")[0].value);
@@ -30,21 +30,16 @@ function signup() {
     }
     $.ajax({
         url: uri,
-        method: "ADDUSER",
+        method: "POST",
         contentType: "application/json",
         dataType: "json",
-        headers: {
-            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "ADDUSER"
-        },
         data: JSON.stringify(dataToSend),
         success: function(data) {
-            dispName = data.response[0].dispName;
             window.location.assign("account.html");
         },
         error: function(data) {
-            alert(data.responseJSON.response);
+            console.log(data);
+            alert("An error occured.");
         }
     });
 
