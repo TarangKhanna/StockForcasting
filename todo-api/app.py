@@ -10,19 +10,17 @@ from email.MIMEText import MIMEText
 
 #initilization
 app = Flask(__name__)
-<<<<<<< Updated upstream
+
 CORS(app, supports_credentials=True)
 id = 0
 # extenstions
 auth = HTTPBasicAuth()
 
-=======
+
 CORS(app)
 # extenstions
 auth = HTTPBasicAuth()
 
-
->>>>>>> Stashed changes
 cnx = mysql.connector.connect(user='root', password='hellostocks', host='localhost', database='stocks')
 
 # Other Vars
@@ -99,18 +97,15 @@ def add_user():
     if not request.json:
         print("aborted here")
         abort(400)
-<<<<<<< Updated upstream
+
 
     global id
     id += 1
 
-    new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
-=======
-    
-    
->>>>>>> Stashed changes
+    # new_user = (id, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+
     cursor = cnx.cursor()
-    cursor.execute("SELECT userID FROM USER_BASIC_INFO ORDER BY userID DESC LIMIT 1;")
+    cursor.execute("SELECT COUNT(*) FROM USER_BASIC_INFO;")
     data = cursor.fetchone()
 
     new_user = (data[0] + 1, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
