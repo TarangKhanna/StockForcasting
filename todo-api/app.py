@@ -92,6 +92,30 @@ def get_user_data():
     return jsonify({"data": data}), 201
 
 
+@app.route('/todo/api/v1.0/tasks/addStocks', methods=['POST'])
+def add_stock():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+
+    cursor = cnx.cursor()
+    cursor.execute("SELECT COUNT(*) FROM USER_BASIC_INFO;")
+    data = cursor.fetchone()
+
+    new_stock = (data[0] + 1, request.json['stockID'], request.json['trend'], request.json['userID'])
+    
+    add_stock = ("INSERT INTO STOCK_WATCH_LIST "
+                   "(stockID, trend, userID, age, phoneNumber, password, email) "
+                   "VALUES (%s, %s, %s)")
+    
+
+
+    cursor.execute(add_stock, new_stock)
+
+    cnx.commit()
+    cursor.close()
+    return (jsonify({'data':data}), 201)
+
 @app.route('/todo/api/v1.0/tasks/addUser', methods=['POST'])
 def add_user():
     if not request.json:
