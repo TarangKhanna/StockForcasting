@@ -240,7 +240,10 @@ def regressionSaved(stocksDf, symbol):
 	clf = joblib.load(file_name)
 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
 	frames = [predicted_df, temp_df]
+	file_name = 'data/%s_predicted_values.csv' %symbol
+	predicted_df.to_csv(file_name, encoding='utf-8')
 	result = pd.concat(frames, axis=1)
+
 	print result
 
 def dailyReturn(data):
@@ -263,7 +266,9 @@ def plot(data_frame, title_label, x_label, y_label):
 def download_data(symbol):
 	# use current date
 	till_date = time.strftime("%Y-%m-%d")
+	print 'Till Date:'
 	print till_date
+
 	to_download = 'Wiki/%s' %symbol
 	df = quandl.get(to_download, authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
 
@@ -283,7 +288,7 @@ def download_data(symbol):
 
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
-	symbol = 'AAPL'
+	symbol = 'GOOGL'
 	download_data(symbol)
 
 	# max
@@ -337,11 +342,10 @@ if __name__ == "__main__":
 
 	read_df_binary = read_df_binary.drop(['Future'], axis=1)
 	# for regression
-	# predictML(read_df_regression, True, symbol)
+	predictML(read_df_regression, True, symbol)
+	regressionSaved(to_predict_df, symbol)
 	# for classification 
-	predictML(read_df_binary, False, symbol)
+	# predictML(read_df_binary, False, symbol)
 	# binaryClassifySaved(to_predict_df, symbol)
-	# regressionSaved(to_predict_df, symbol)
-	binaryClassifySaved(to_predict_df, symbol)
 
 
