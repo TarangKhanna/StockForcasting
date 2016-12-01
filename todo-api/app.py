@@ -103,11 +103,11 @@ def add_stock():
     data = cursor.fetchone()
 
     new_stock = (data[0] + 1, request.json['stockID'], request.json['trend'], request.json['userID'])
-    
+
     add_stock = ("INSERT INTO STOCK_WATCH_LIST "
                    "(stockID, trend, userID, age, phoneNumber, password, email) "
                    "VALUES (%s, %s, %s)")
-    
+
 
 
     cursor.execute(add_stock, new_stock)
@@ -133,12 +133,12 @@ def add_user():
     data = cursor.fetchone()
 
     new_user = (data[0] + 1, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
-    
-    
+
+
     add_user = ("INSERT INTO USER_BASIC_INFO "
                    "(userID, firstName, lastName, age, phoneNumber, password, email) "
                    "VALUES (%s, %s, %s, %s, %s, %s, %s)")
-    
+
     cursor.execute(add_user, new_user)
 
     cnx.commit()
@@ -209,6 +209,13 @@ def contact():
     text = msg.as_string()
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
+
+##################
+#    Testing     #
+##################
+@app.route('/ss/v1.0/test')
+def test():
+    return "testing"
 
 
 ##################
