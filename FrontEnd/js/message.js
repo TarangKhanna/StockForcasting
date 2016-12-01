@@ -21,7 +21,7 @@ $(document).ready(function() {
 function sendMessage() {
 
 
-    var uri = "http://127.0.0.1:5000/ss/v1.0/contact";
+    var uri = "stockstockrs.duckdns.org:9000/ss/v1.0/contact";
     var info = $('form').serializeArray();
     var subject = info[0].value;
     var bodyMessage = info[1].value;
@@ -34,18 +34,17 @@ function sendMessage() {
     if (data.success) {
         // check if user is logged in
         if (isLoggedIn == true) {
-            
+
             alert(data.response[0].dispSub);
             dispSub = data.response[0].dispSub;
             alert(dispSub);
-            
-        }
-        else {
+
+        } else {
             alert("You need to be logged in to use this feature.");
         }
-        
+
         window.location.assign("account.html");
-        
+
     } else {
         alert(data.responseJSON.response);
     }
