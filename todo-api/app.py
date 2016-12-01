@@ -213,7 +213,7 @@ def contact():
 ##################
 #    Testing     #
 ##################
-@app.route('/ss/v1.0/test')
+@app.route('/test')
 def test():
     return "testing"
 
