@@ -125,47 +125,75 @@
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 
                 <h3>Your Stock Watchlist</h3>
-                <div class="window">
+                
+                <script src="js/print_watchlist.js"></script>
+                
+            </div>
+            
+            <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                <div class="jumbotron" style="box-shadow: 0 0 3pt 2pt #545454;">
 
-                    <h3 style="margin-left: 25px;">Google Inc.</h3>
+                    <h3 style="margin-left: 10px;"> Other Stocks to Consider </h3>
 
-                    <div id="chart1">
-                        <!-- CHART -->
-                        <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet">
-                                </svg>
-                        <script src="https://d3js.org/d3.v4.min.js"></script>
-                        <script src="lgraph.js"></script>
+                    <div class = "dropdown">
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
+                            style="padding: 0px; margin-bottom: 5px;">
+
+                            <h3 style="text-align: left; margin-left: 10px;"> Google Inc. </h3>
+                            <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-center">
+                            <li style="background-color: #ffffff; text-align: center;">
+                                <h4>Add Google to Watchlist</h4>
+                            </li>
+                        </ul>
                     </div>
 
-                    <button data-toggle="collapse" data-target="#demo1">More</button>
+                    <div class = "dropdown">
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
+                            style="padding: 0px; margin-bottom: 5px;">
 
-                    <div id="demo1" class="collapse">
-                        <table class="table table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>Stock Name</th>
-                                    <th>Google Inc.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Stock Symbol</td>
-                                    <td>GOOG</td>
-                                </tr>
-                                <tr>
-                                    <td>Current Price</td>
-                                    <td>1234.56</td>
-                                </tr>
-                                <tr>
-                                    <td>Projected Price (1w)</td>
-                                    <td>1234.78</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            <h3 style="text-align: left; margin-left: 10px;"> Apple Inc. </h3>
+                            <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li style="background-color: #ffffff; text-align: center;">
+                                <h4>Add Apple to Watchlist</h4>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class = "dropdown">
+                        <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown"
+                            style="padding: 0px; margin-bottom: 5px;">
+
+                            <h3 style="text-align: left; margin-left: 10px;"> Microsoft Inc. </h3>
+                            <h4 style="text-align: right; margin-right: 10px;"> Current Price: 1234.56 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1w): 1234.78 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Projected (1m): 1235.36 </h4>
+                            <h4 style="text-align: right; margin-right: 10px;"> Good long term investment </h4>
+
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li style="background-color: #ffffff; text-align: center;">
+                                <h4>Add Microsoft to Watchlist</h4>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-
+            
         </div>
     </div>
 

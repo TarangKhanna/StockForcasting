@@ -74,15 +74,6 @@ $(window).on("resize", function() {
     var targetWidth = container.width();
     chart1.attr("width", targetWidth);
     chart1.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize");
-
-var chart2 = $("#chart2 > #chart"),
-    aspect = chart2.width() / chart2.height(),
-    container = chart2.parent();
-$(window).on("resize", function() {
-    var targetWidth = container.width();
-    chart2.attr("width", targetWidth);
-    chart2.attr("height", Math.round(targetWidth / aspect));
 }).trigger("resize"); 
 
 var chart3 = $("#chart3 > #chart"),

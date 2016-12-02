@@ -38,7 +38,7 @@ var arcs = group.selectAll(".arc")
 
 arcs.append("path")
     .style("fill", function(d) { return color(d.data); })
-    .transition().delay(function(d, i) { return 0; }).duration(500)
+    .transition().delay(function(d, i) { return 0; }).duration(1500)
     .attrTween('d', function(d) {
        var i = d3.interpolate(d.startAngle+0.1, d.endAngle);
        return function(t) {
@@ -75,5 +75,8 @@ var legend = svg.selectAll('.legend')
         legend.append('text')                                     
           .attr('x', legendRectSize + legendSpacing)              
           .attr('y', legendRectSize - legendSpacing)              
-          .text(function(d) { return d; });                       
+          .text(function(d) { return d; });
+
+
+// RESIZE CHART
 

@@ -103,7 +103,6 @@ function getInterpolation() {
       return lineFunction(interpolatedLine);
       }
   }
-
 //////////////////////////////////////////////////////////////
 
 // RESIZE CHART
@@ -111,18 +110,9 @@ var chart1 = $("#chart1 > #chart"),
     aspect = chart1.width() / chart1.height(),
     container = chart1.parent();
 $(window).on("resize", function() {
-    var targetWidth = container.width();
+var targetWidth = container.width();
     chart1.attr("width", targetWidth);
     chart1.attr("height", Math.round(targetWidth / aspect));
 }).trigger("resize");
-
-var chart2 = $("#chart2 > #chart"),
-    aspect = chart2.width() / chart2.height(),
-    container = chart2.parent();
-$(window).on("resize", function() {
-    var targetWidth = container.width();
-    chart2.attr("width", targetWidth);
-    chart2.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize"); 
 
 //////////////////////////////////////////////////////////////

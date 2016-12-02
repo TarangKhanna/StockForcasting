@@ -11,10 +11,16 @@ var parseTime = d3.timeParse("%d-%b-%y");
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 
-// define the line
+// define the lines
 var valueline = d3.line()
+    .curve(d3.curveBasis)
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.close); });
+
+var valuelinestart = d3.line()
+    .curve(d3.curveBasis)
+    .x(0)
+    .y(450);
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
@@ -27,7 +33,7 @@ var svg = d3.select("#chart2 > svg")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.tsv("AAPL.txt", function(error, data) {
+d3.tsv("AAPL_predict.txt", function(error, data) {
   if (error) throw error;
 
   // format the data
@@ -61,13 +67,18 @@ d3.tsv("AAPL.txt", function(error, data) {
   .enter().append("stop")			
     .attr("offset", function(d) { return d.offset; })	
     .attr("stop-color", function(d) { return d.color; });
-
+    
   // Add the valueline path.
   svg.append("path")
       .data([data])
       .attr("class", "line")
-      .attr("d", valueline);
-
+        .attr("d", valuelinestart)
+        .attr("transform", null)
+        .transition()
+        .duration(3000)
+        //.attrTween("d", getInterpolation)
+        .attr("d", valueline);
+    
   // Add the X Axis
   svg.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -76,22 +87,26 @@ d3.tsv("AAPL.txt", function(error, data) {
   // Add the Y Axis
   svg.append("g")
       .call(d3.axisLeft(y));
-
+       
 });
 
+
+
+function getInterpolation() {
+  
+  var interpolate = d3.scaleQuantile()
+      .domain([0,1])
+      .range(d3.range(1, data.length + 1));
+
+  return function(t) {
+      var interpolatedLine = data.slice(0, interpolate(t));
+      return lineFunction(interpolatedLine);
+      }
+  }
 
 //////////////////////////////////////////////////////////////
 
 // RESIZE CHART
-var chart1 = $("#chart1 > #chart"),
-    aspect = chart1.width() / chart1.height(),
-    container = chart1.parent();
-$(window).on("resize", function() {
-    var targetWidth = container.width();
-    chart1.attr("width", targetWidth);
-    chart1.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize");
-
 var chart2 = $("#chart2 > #chart"),
     aspect = chart2.width() / chart2.height(),
     container = chart2.parent();
