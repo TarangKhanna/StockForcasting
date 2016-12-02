@@ -67,14 +67,14 @@ d3.tsv("AAPL.txt", function(error, data) {
 //////////////////////////////////////////////////////////////
 
 // RESIZE CHART
-var chart2 = $("#chart2 > #chart"),
-    aspect = chart2.width() / chart2.height(),
-    container = chart2.parent();
-$(window).on("resize", function() {
-    var targetWidth = container.width();
-    chart2.attr("width", targetWidth);
-    chart2.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize"); 
+//var chart2 = $("#chart2 > #chart"),
+//    aspect = chart2.width() / chart2.height(),
+//    container = chart2.parent();
+//$(window).on("resize", function() {
+//    var targetWidth = container.width();
+//    chart2.attr("width", targetWidth);
+//    chart2.attr("height", Math.round(targetWidth / aspect));
+//}).trigger("resize"); 
 
 var chart5 = $("#chart5 > #chart"),
     aspect = chart5.width() / chart5.height(),

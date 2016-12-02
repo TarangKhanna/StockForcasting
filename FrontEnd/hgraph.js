@@ -67,14 +67,14 @@ d3.tsv("GOOGL.txt", function(error, data) {
 //////////////////////////////////////////////////////////////
 
 // RESIZE CHART
-var chart1 = $("#chart1 > #chart"),
-    aspect = chart1.width() / chart1.height(),
-    container = chart1.parent();
-$(window).on("resize", function() {
-    var targetWidth = container.width();
-    chart1.attr("width", targetWidth);
-    chart1.attr("height", Math.round(targetWidth / aspect));
-}).trigger("resize"); 
+//var chart1 = $("#chart1 > #chart"),
+//    aspect = chart1.width() / chart1.height(),
+//    container = chart1.parent();
+//$(window).on("resize", function() {
+//    var targetWidth = container.width();
+//    chart1.attr("width", targetWidth);
+//    chart1.attr("height", Math.round(targetWidth / aspect));
+//}).trigger("resize"); 
 
 var chart3 = $("#chart3 > #chart"),
     aspect = chart3.width() / chart3.height(),
