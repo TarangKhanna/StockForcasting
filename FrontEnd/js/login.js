@@ -25,7 +25,7 @@ function closeModal() {
 function requestLogin() {
 
 
-    var uri = "http://localhost:5000/ss/v1.0/login";
+    var uri = "https://localhost:5000/ss/v1.0/login";
     var info = $('form').serializeArray();
     //console.log(info);
     var email = info[0].value;
