@@ -56,16 +56,17 @@ class predictStocks:
 		# X_lately = X[-forecast_out:]
 		# X = X[:-forecast_out:]
 		# y = np.array()
+
 		if useRegression:
-			y = np.array(stocksDf['Future']) # y is the 1% forcast 
+			y = np.array(stocksDf['Future']) # y is set forecast out
 		else:
-			y = np.array(stocksDf['Decision']) # y is the 1% forcast 
+			y = np.array(stocksDf['Decision']) 
 
 		# lb = preprocessing.LabelBinarizer(neg_label=0, pos_label=1, sparse_output=False)
 		# # lb.fit([0,1])
 		# y = lb.fit_transform(y)
 
-		le_decision = preprocessing.LabelEncoder()
+		# le_decision = preprocessing.LabelEncoder()
 
 		#to convert into numbers
 
@@ -76,7 +77,7 @@ class predictStocks:
 		# y = le_decision.inverse_transform(y)
 
 		# y = y[:predict_index-2] # to keep consistent
-		X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.5) # 20% training data, 80% testing 
+		X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.5) # 50% training data, 50% testing 
 		
 		print y
 
@@ -85,7 +86,7 @@ class predictStocks:
 		best_accuracy = 0.0
 		best_algo = 'RF'
 
-		num_runs = 15
+		num_runs = 2
 		for _ in xrange(num_runs):
 			if useRegression:
 				# use KNN or other binary classifiers
@@ -208,7 +209,7 @@ class predictStocks:
 		print stocksDf['Adj. Close'].tail(predict_index)
 		X = preprocessing.scale(X)
 		
-		predict_values = X[len(X)-predict_index:] # future for last 14 dates
+		predict_values = X[len(X)-predict_index:] # future for last set dates
 
 		print("Loading Classifier...")
 
@@ -228,8 +229,8 @@ class predictStocks:
 		print result
 
 	# returns file name of the csv with predicted values
-	def regressionSaved(self,stocksDf, symbol):
-		predict_index = 14
+	def regressionSaved(self,stocksDf, symbol, predict_index):
+		# predict_index = 14
 		stocksDf = stocksDf.dropna(how='any')
 		X = np.array(stocksDf)
 		print len(stocksDf['Adj. Close'].tail(predict_index))
@@ -239,7 +240,7 @@ class predictStocks:
 		print stocksDf['Adj. Close'].tail(predict_index)
 		X = preprocessing.scale(X)
 		
-		predict_values = X[len(X)-predict_index:] # future for last 14 dates
+		predict_values = X[len(X)-predict_index:] # future for last predict_index dates
 
 		print("Loading Classifier...")
 
@@ -296,11 +297,11 @@ class predictStocks:
 		file_name = 'data/%s_training.csv' %symbol
 		df.to_csv(file_name, encoding='utf-8')
 
-	def stocksRegression(self, stockName):
+	def stocksRegression(self, stockName, forecast_out):
 		self.download_data(stockName)
 		file_name = 'data/%s_training.csv' %stockName
 		read_df = pd.read_csv(file_name, index_col = "Date")
-		forecast_out = 14
+		# forecast_out = 14
 		print 'predicting into: ' + str(forecast_out)
 		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
@@ -310,14 +311,12 @@ class predictStocks:
 		read_df = read_df.dropna(how='any')
 
 		self.predictML(read_df, True, stockName)
-		return self.regressionSaved(to_predict_df, stockName)
-
-
+		return self.regressionSaved(to_predict_df, stockName, forecast_out)
 
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
-	print predict.stocksRegression(symbol)
+	print predict.stocksRegression(symbol, 40)
 	# symbols = ['AAPL', 'GOOGL', 'GLD']
 	# symbol = 'GOOGL'
 	# download_data(symbol)
