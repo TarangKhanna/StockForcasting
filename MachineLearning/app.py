@@ -7,7 +7,6 @@ import mysql.connector
 import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
-
 #initilization
 app = Flask(__name__)
 
@@ -190,8 +189,9 @@ def delete_task(task_id):
 #################
 #     Email     #
 #################
-@app.route('/ss/v1.0/contact', methods=['POST'])
+@app.route('/todo/api/v1.0/contact', methods=['POST'])
 def contact():
+    print "I am working"
 
     fromaddr = "stockstockr@gmail.com"
     toaddr = "stockstockr@gmail.com"
@@ -199,7 +199,6 @@ def contact():
     msg['From'] = fromaddr
     msg['To'] = toaddr
     msg['Subject'] = "SUBJECT OF THE MAIL"
-
     body = "YOUR MESSAGE HERE"
     msg.attach(MIMEText(body, 'plain'))
 
@@ -223,6 +222,8 @@ def test():
 ##################
 @app.route('/ss/v1.0/login', methods=['POST'])
 def login():
+    print "I am working"
+    
     #print("here")
     if not request.json:
         abort(400)  # no request.json
