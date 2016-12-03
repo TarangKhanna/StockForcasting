@@ -54,7 +54,7 @@ function requestLogin() {
 }
 
 function loadAccountPage() {
-    console.log(dispName);
+    //console.log(dispName);
     $welcomeDisp.text("Welcome " + dispName);
 
 }
