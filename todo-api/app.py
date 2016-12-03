@@ -225,13 +225,17 @@ def test():
 def login():
     #print("here")
     if not request.json:
-        abort(400)  # no request.json
+        ret = jsonify({"response" : "request.json missing"})
+        return (ret, 400)
+        #abort(400)  # no request.json
     data = request.get_json()
     username = data.get('uname')
     password = data.get('pswd')
 
     if username is None or password is None:
-        abort(400)    # missing arguments
+        ret = jsonify({"response": "username or password missing."})
+        return (ret, 400)
+        #abort(400)    # missing arguments
 
     if get_password(username) == password:
         ret = jsonify({"response" : [{"dispName" : username}]})
