@@ -7,6 +7,7 @@ import mysql.connector
 import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
+from predictStocks import predictStocks
 #initilization
 app = Flask(__name__)
 
