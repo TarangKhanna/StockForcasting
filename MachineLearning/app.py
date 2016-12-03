@@ -76,6 +76,15 @@ def get_tasks():
 #         abort(404)
 #     return jsonify({'task': task[0]})
 
+@app.route('/todo/api/v1.0/tasks/getAIdata', methods=['GET'])
+def get_ai_data():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+    stock = request.json['stock']
+    prediction = predictStocks()
+    print prediction.stocksRegression(stock, 14)
+
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
     if not request.json:
