@@ -85,7 +85,8 @@ def get_ai_data():
     stock = request.json['stock']
     print stock
     prediction = predictStocks()
-    print prediction.stocksRegression(stock, 14)
+    prediction_str = prediction.stocksRegression(stock, 14)
+    return jsonify({"prediction": prediction_str}), 201
 
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
