@@ -223,8 +223,9 @@ def test():
 ##################
 @app.route('/ss/v1.0/login', methods=['POST'])
 def login():
-    #print("here")
+    print("login endpoint")
     if not request.json:
+        print("NO REQUEST.JSON")
         ret = jsonify({"response" : "request.json missing"})
         return (ret, 400)
         #abort(400)  # no request.json
@@ -233,14 +234,17 @@ def login():
     password = data.get('pswd')
 
     if email is None or password is None:
+        print("EMAIL OR PASSWORD IS NONE")
         ret = jsonify({"response": "username or password missing."})
         return (ret, 400)
         #abort(400)    # missing arguments
 
     if get_password(email) == password:
+        print("IT ACTUALLY WORKED WTF")
         ret = jsonify({"response" : [{"dispName" : email}]})
         return (ret, 201)
     else:
+        print("INCORRECT EMAIL OR PSWD")
         return (jsonify({"response": "Incorrect Email or Password. Please try again"}), 400)
 
 def make_public_task(task):
