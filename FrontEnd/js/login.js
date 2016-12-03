@@ -49,6 +49,7 @@ function requestLogin() {
             window.location.assign("account.html");
         },
         error: function(data) {
+          console.log(data);
             alert(data.responseJSON.response);
         }
     });
