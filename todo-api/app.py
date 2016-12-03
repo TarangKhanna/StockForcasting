@@ -229,19 +229,19 @@ def login():
         return (ret, 400)
         #abort(400)  # no request.json
     data = request.get_json()
-    username = data.get('uname')
+    email = data.get('email')
     password = data.get('pswd')
 
-    if username is None or password is None:
+    if email is None or password is None:
         ret = jsonify({"response": "username or password missing."})
         return (ret, 400)
         #abort(400)    # missing arguments
 
-    if get_password(username) == password:
-        ret = jsonify({"response" : [{"dispName" : username}]})
+    if get_password(email) == password:
+        ret = jsonify({"response" : [{"dispName" : email}]})
         return (ret, 201)
     else:
-        return (jsonify({"response": "Incorrect Username or Password. Please try again"}), 400)
+        return (jsonify({"response": "Incorrect Email or Password. Please try again"}), 400)
 
 def make_public_task(task):
     new_task = {}

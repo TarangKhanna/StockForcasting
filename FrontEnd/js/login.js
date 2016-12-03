@@ -37,7 +37,7 @@ function requestLogin() {
 
     $.post({
         url: uri,
-        contentType: "application/json",
+        //contentType: "application/json",
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         success: function(data) {
