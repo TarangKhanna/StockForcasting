@@ -318,7 +318,13 @@ class predictStocks:
 		read_df = read_df.dropna(how='any')
 
 		self.predictML(read_df, True, stockName)
-		return self.regressionSaved(to_predict_df, stockName, forecast_out)
+		cur_path = os.getcwd()
+		file_paths = []
+		file_training = '/data/%s_training.csv' %stockName
+		abs_path = cur_path+file_training
+		file_paths.append(self.regressionSaved(to_predict_df, stockName, forecast_out))
+		file_paths.append(abs_path)
+		return file_paths
 
 	def stocksClassify(self, stockName, forecast_out):
 		self.download_data(stockName)
@@ -348,21 +354,27 @@ class predictStocks:
 	
 		read_df_binary = read_df.copy(deep=True)
 		read_df_binary['Decision'] = decisions
-		print read_df_binary['Decision'].value_counts()
+		# print read_df_binary['Decision'].value_counts()
 
 		read_df_regression = read_df.copy(deep=True)
 
 		read_df_binary = read_df_binary.drop(['Future'], axis=1)
-		print read_df_binary
-		self.predictML(read_df_binary, False, stockName)
-		print self.binaryClassifySaved(to_predict_df, symbol, forecast_out)
+		# print read_df_binary
+
+		cur_path = os.getcwd()
+		file_paths = []
+		file_training = '/data/%s_training.csv' %stockName
+		abs_path = cur_path+file_training
+		file_paths.append(self.binaryClassifySaved(to_predict_df, symbol, forecast_out))
+		file_paths.append(abs_path)
+		return file_paths
 
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
 	print predict.stocksRegression(symbol, 14)
 
-	predict.stocksClassify(symbol, 14)
+	print predict.stocksClassify(symbol, 14)
 	# symbols = ['AAPL', 'GOOGL', 'GLD']
 	# symbol = 'GOOGL'
 	# download_data(symbol)
