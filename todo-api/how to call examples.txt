@@ -11,4 +11,6 @@ curl -i -H "Content-Type: application/json" -X ADDUSER -d '{"firstName":"Atul"}'
 
 curl -i -H "Content-Type: application/json" -X GETUSERDATA -d '{"userID":"2","firstName":"Atul", "lastName":"Aneja"}' http://localhost:5000/todo/api/v1.0/tasks
 
-curl -i -H "Content-Type: application/json" -X POST -d '{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass", "email":"khanna17@purdue.edu"}' http://localhost:5000/todo/api/v1.0/tasks/addUser
+curl -i -H "Content-Type: application/json" -X POST -d ‘{“firstName”:”Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass","email":"khanna17@purdue.edu"}' http://localhost:5000/todo/api/v1.0/tasks/addUser
+
+curl -i -H "Content-Type: application/json" -X POST -d ‘{“stock”:”AAPL”}’ http://localhost:5000/todo/api/v1.0/tasks/getAIdata
