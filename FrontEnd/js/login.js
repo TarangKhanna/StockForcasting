@@ -50,7 +50,7 @@ function requestLogin() {
         },
         error: function(data) {
           console.log(data);
-            alert(data.responseJSON.responseText);
+            alert(data.responseText);
         }
     });
 }
