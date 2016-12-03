@@ -213,7 +213,7 @@ def contact():
 ##################
 #    Testing     #
 ##################
-@app.route('/todo/api/o/test')
+@app.route('/todo/api/test')
 def test():
     return "testing"
 
