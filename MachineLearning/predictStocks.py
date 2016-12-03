@@ -28,6 +28,7 @@ import pylab
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestClassifier
 import time
+import os
 # for tuning hyper parameters we use grid search
 from sklearn.grid_search import GridSearchCV   #Perforing grid search
 import xgboost
@@ -37,7 +38,7 @@ class predictStocks:
 	def __init__(self):
 		pass
 
-	def predictML(stocksDf, useRegression, symbol):
+	def predictML(self,stocksDf, useRegression, symbol):
 		stocksDf = stocksDf.dropna(how='any')
 		print stocksDf
 		# X = np.array()
@@ -89,7 +90,7 @@ class predictStocks:
 			if useRegression:
 				# use KNN or other binary classifiers
 				clf = LinearRegression(n_jobs=-1)
-				print("Crunching...")
+				# print("Crunching...")
 
 				clf.fit(X_train,y_train)
 				# clf.fit(X,y) # all data till now
@@ -159,7 +160,7 @@ class predictStocks:
 		print 'best accuracy:'
 		print best_accuracy
 
-	def modelOptimization():	
+	def modelOptimization(self):	
 		# param_test1 = {
 		# 	'max_depth':range(3,10,2),
 		# 	'min_child_weight':range(1,6,2)
@@ -192,7 +193,7 @@ class predictStocks:
 		# print gsearch2b.grid_scores_, gsearch2b.best_params_, gsearch2b.best_score_
 		pass	
 
-	def binaryClassifySaved(stocksDf, symbol):
+	def binaryClassifySaved(self,stocksDf, symbol):
 		# stocksDf = stocksDf.drop(['Decision'], axis=1)
 		predict_index = 14
 		stocksDf = stocksDf.dropna(how='any')
@@ -227,7 +228,7 @@ class predictStocks:
 		print result
 
 	# returns file name of the csv with predicted values
-	def regressionSaved(stocksDf, symbol):
+	def regressionSaved(self,stocksDf, symbol):
 		predict_index = 14
 		stocksDf = stocksDf.dropna(how='any')
 		X = np.array(stocksDf)
@@ -246,14 +247,16 @@ class predictStocks:
 		clf = joblib.load(file_name)
 		temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
 		frames = [predicted_df, temp_df]
-		file_name = 'data/%s_predicted_values.csv' %symbol
-		predicted_df.to_csv(file_name, encoding='utf-8')
+		cur_path = os.getcwd()
+		file_name = '/data/%s_predicted_values.csv' %symbol
+		abs_path = cur_path+file_name
+		predicted_df.to_csv(abs_path, encoding='utf-8')
 		result = pd.concat(frames, axis=1)
 
 		print result
-		return file_name
+		return abs_path
 
-	def dailyReturn(data):
+	def dailyReturn(self,data):
 		# make chart
 		# did price go up or down on a particular day
 		daily_returns = data.copy()
@@ -263,14 +266,14 @@ class predictStocks:
 		# print daily_returns
 	 	return daily_returns
 
-	def plot(data_frame, title_label, x_label, y_label):
+	def plot(self,data_frame, title_label, x_label, y_label):
 		ax = data_frame.plot(title=title_label)
 		ax.set_xlabel(x_label)
 		ax.set_ylabel(y_label)
 		pylab.show()
 
 	# download and clean symbol data
-	def download_data(symbol):
+	def download_data(self,symbol):
 		# use current date
 		till_date = time.strftime("%Y-%m-%d")
 		print 'Till Date:'
@@ -293,25 +296,28 @@ class predictStocks:
 		file_name = 'data/%s_training.csv' %symbol
 		df.to_csv(file_name, encoding='utf-8')
 
-	def stocksRegression(stockName):
-		download_data(stockName)
+	def stocksRegression(self, stockName):
+		self.download_data(stockName)
 		file_name = 'data/%s_training.csv' %stockName
 		read_df = pd.read_csv(file_name, index_col = "Date")
 		forecast_out = 14
 		print 'predicting into: ' + str(forecast_out)
+		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
-
+		
 		read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)	
 
 		read_df = read_df.dropna(how='any')
 
-		predictML(read_df_regression, True, stockName)
-		return regressionSaved(to_predict_df, stockName)
+		self.predictML(read_df, True, stockName)
+		return self.regressionSaved(to_predict_df, stockName)
 
 
 
 if __name__ == "__main__":
-	stocksRegression('GOOGL')
+	predict = predictStocks()
+	symbol = 'GOOGL'
+	print predict.stocksRegression(symbol)
 	# symbols = ['AAPL', 'GOOGL', 'GLD']
 	# symbol = 'GOOGL'
 	# download_data(symbol)
@@ -329,8 +335,8 @@ if __name__ == "__main__":
 	# file_name = 'data/%s_training.csv' %symbol
 	# read_df = pd.read_csv(file_name, index_col = "Date")
 
-	# # read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
-	# # dailyReturn(sp500_df_all['Close'])
+	# read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
+	# dailyReturn(sp500_df_all['Close'])
 	# print read_df
 	# # add decision column
 	# # if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
