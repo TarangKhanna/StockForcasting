@@ -222,7 +222,7 @@ def contact():
 ##################
 #    Testing     #
 ##################
-@app.route('/test')
+@app.route('/todo/api/test')
 def test():
     return "testing"
 
@@ -232,23 +232,35 @@ def test():
 ##################
 @app.route('/ss/v1.0/login', methods=['POST'])
 def login():
+<<<<<<< HEAD:MachineLearning/app.py
     print "I am working"
     
     #print("here")
+=======
+    print("login endpoint")
+>>>>>>> origin/master:todo-api/app.py
     if not request.json:
-        abort(400)  # no request.json
+        print("NO REQUEST.JSON")
+        ret = jsonify({"response" : "request.json missing"})
+        return (ret, 400)
+        #abort(400)  # no request.json
     data = request.get_json()
-    username = data.get('uname')
+    email = data.get('email')
     password = data.get('pswd')
 
-    if username is None or password is None:
-        abort(400)    # missing arguments
+    if email is None or password is None:
+        print("EMAIL OR PASSWORD IS NONE")
+        ret = jsonify({"response": "username or password missing."})
+        return (ret, 400)
+        #abort(400)    # missing arguments
 
-    if get_password(username) == password:
-        ret = jsonify({"response" : [{"dispName" : username}]})
+    if get_password(email) == password:
+        print("IT ACTUALLY WORKED WTF")
+        ret = jsonify({"response" : [{"dispName" : email}]})
         return (ret, 201)
     else:
-        return (jsonify({"response": "Incorrect Username or Password. Please try again"}), 400)
+        print("INCORRECT EMAIL OR PSWD")
+        return (jsonify({"response": "Incorrect Email or Password. Please try again"}), 400)
 
 def make_public_task(task):
     new_task = {}

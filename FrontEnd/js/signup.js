@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 function signup() {
     //  alert("here");
-    var uri = "http://stockstockrs.duckdns.org/todo/api/v1.0/tasks/addUser";
+    var uri = "localhost:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
     var email = ($("#email")[0].value);
     var pwd = ($("#pwd")[0].value);

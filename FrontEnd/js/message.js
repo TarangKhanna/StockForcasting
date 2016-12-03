@@ -21,7 +21,7 @@ $(document).ready(function() {
 function sendMessage() {
 
 
-    var uri = "http://stockstockrs.duckdns.org/ss/v1.0/contact";
+    var uri = "localhost:5000/ss/v1.0/contact";
     var info = $('form').serializeArray();
     var subject = info[0].value;
     var bodyMessage = info[1].value;
