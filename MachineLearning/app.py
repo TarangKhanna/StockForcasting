@@ -232,13 +232,8 @@ def test():
 ##################
 @app.route('/ss/v1.0/login', methods=['POST'])
 def login():
-<<<<<<< HEAD:MachineLearning/app.py
-    print "I am working"
-    
     #print("here")
-=======
     print("login endpoint")
->>>>>>> origin/master:todo-api/app.py
     if not request.json:
         print("NO REQUEST.JSON")
         ret = jsonify({"response" : "request.json missing"})
