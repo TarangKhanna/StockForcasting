@@ -87,7 +87,10 @@ def get_ai_data():
     print stock
     prediction = predictStocks()
     prediction_str = prediction.stocksRegression(stock, int(num_of_days))
-    return jsonify({"prediction": prediction_str}), 201
+    data = {}
+    data['predicted'] = prediction_str[0]
+    data['training'] = prediction_str[1]
+    return (jsonify({'data':data}), 201)
 
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
@@ -127,6 +130,25 @@ def add_stock():
     cursor.close()
     return (jsonify({'data':data}), 201)
 
+@app.route('/todo/api/v1.0/tasks/delStocks', methods=['POST'])
+def del_stock():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+
+    cursor = cnx.cursor()
+
+    cursor = cnx.cursor(buffered = True)
+    str_call = 'DELETE from STOCK_WATCH_LIST where userID = "%s" and stockSymbol = "%s"'%(request.json['userID'],request.json['stockSymbol'])
+    cursor.execute(str_call)
+    str_call2 = 'SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "%s"'%request.json['userID']
+    cursor.execute(str_call2)
+
+    data = cursor.fetchall()
+    cnx.commit()
+    cursor.close()
+    return (jsonify({'passed':data}), 201)
+
 @app.route('/todo/api/v1.0/tasks/getStocks', methods=['GET'])
 def get_stocks():
     if not request.json:
@@ -134,9 +156,8 @@ def get_stocks():
         abort(400)
 
     cursor = cnx.cursor(buffered = True)
-    print request.json['userID']
-    print 'SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "1" '
-    cursor.execute('SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "1" ')
+    str_call = 'SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "%s"'%request.json['userID']
+    cursor.execute(str_call)
 
     data = cursor.fetchall()
     print data
