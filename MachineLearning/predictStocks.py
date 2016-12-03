@@ -291,6 +291,23 @@ class predictStocks:
 		file_name = 'data/%s_training.csv' %symbol
 		df.to_csv(file_name, encoding='utf-8')
 
+	def stocksRegression(stockName):
+		download_data(stockName)
+		file_name = 'data/%s_training.csv' %stockName
+		read_df = pd.read_csv(file_name, index_col = "Date")
+		forecast_out = 14
+		print 'predicting into: ' + str(forecast_out)
+		to_predict_df = read_df.copy(deep=True)
+
+		read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)	
+
+		read_df = read_df.dropna(how='any')
+
+		predictML(read_df_regression, True, stockName)
+		regressionSaved(to_predict_df, stockName)
+
+
+
 if __name__ == "__main__":
 	symbols = ['AAPL', 'GOOGL', 'GLD']
 	symbol = 'GOOGL'
