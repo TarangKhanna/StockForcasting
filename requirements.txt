@@ -9,3 +9,5 @@ itsdangerous==0.24
 passlib==1.6.1
 flask-cors==3.0.2
 mysql-connector
+pandas
+quandl
