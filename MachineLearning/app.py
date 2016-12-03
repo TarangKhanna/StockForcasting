@@ -8,6 +8,7 @@ import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from predictStocks import predictStocks
+from twitter_analyze import twitter_analyze
 #initilization
 app = Flask(__name__)
 
@@ -87,6 +88,9 @@ def get_ai_data():
     print stock
     prediction = predictStocks()
     prediction_str = prediction.stocksRegression(stock, int(num_of_days))
+    twitter_analyze = twitter_analyze()
+    twitter_data = twitter_analyze.analyze_feelings(stock)
+    print twitter_data
     data = {}
     data['predicted'] = prediction_str[0]
     data['training'] = prediction_str[1]

@@ -16,25 +16,30 @@ import csv
 from textblob import TextBlob
 import numpy as np
 from pylab import *
+import os.path
+
+access_token = "301847288-lWXEQAwNc7kvyIF4E6w3TCzj7FfWYyUs2FKXbkcR"
+access_token_secret = "dXv1ktTNVsHVHsx7AUyVilLOx3tEWPc0Ffi8BvSh9VN10"
+consumer_key = "MyrxJJIAAbIupjvNbqyUTzJOZ"
+consumer_secret = "ZBZrMl7jEv1DGt76hCV60K7j8Z8uDx8K710cO1w6SBelNVSeqD"
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tweepy.API(auth)
 
 class twitter_analyze:
-	#Variables that contains the user credentials to access Twitter API 
-	access_token = "301847288-lWXEQAwNc7kvyIF4E6w3TCzj7FfWYyUs2FKXbkcR"
-	access_token_secret = "dXv1ktTNVsHVHsx7AUyVilLOx3tEWPc0Ffi8BvSh9VN10"
-	consumer_key = "MyrxJJIAAbIupjvNbqyUTzJOZ"
-	consumer_secret = "ZBZrMl7jEv1DGt76hCV60K7j8Z8uDx8K710cO1w6SBelNVSeqD"
-
-	auth = OAuthHandler(consumer_key, consumer_secret)
-	auth.set_access_token(access_token, access_token_secret)
-	api = tweepy.API(auth)
 
 	def __init__(self):
 		pass
-
+		
 	# current feelings about stock
 	# Todo plot according to location
 	def analyze_feelings(self, stock):
-		self.analyze_stock(stock)
+		
+		tweets_file = 'data/%s_tweets.csv' %stock
+
+		if not os.path.isfile(tweets_file) : 
+			self.analyze_stock(stock)
+		
 		tweets = pd.read_csv('data/%s_tweets.csv' %stock)
 
 		sentiment = []
@@ -57,10 +62,14 @@ class twitter_analyze:
 		counts_list.append(tweets['sentiment'].value_counts()['positive'])
 		counts_list.append(tweets['sentiment'].value_counts()['negative'])
 		counts_list.append(tweets['sentiment'].value_counts()['neutral'])
-		counts_list.to_csv('data/%s_feelings.csv' % stock)
+		# file_feelings = ('data/%s_feelings.csv' % stock)
+		# with open(file_feelings, "w") as output:
+		#     writer = csv.writer(output, lineterminator='\n')
+		#     for val in counts_list:
+		#         writer.writerow([val])    
+		return counts_list
 
 	def analyze_stock(self, stock):
-		print "EHEHHEHEHEH"
 		all_tweets = self.get_tweets(stock)
 		tweets = pd.DataFrame()
 		analysis_list = []
@@ -119,8 +128,8 @@ class twitter_analyze:
 
 if __name__ == "__main__":
 	analyze = twitter_analyze()
-	analyze.analyze_stock('$AAPL')
-	# print analyze.analyze_feelings('$AAPL')
+	# analyze.analyze_stock('$AAPL')
+	print analyze.analyze_feelings('$IBM')
 
 	# analyze_stock('$AAPL')
 	# analyze_stock('$GOOGL')
