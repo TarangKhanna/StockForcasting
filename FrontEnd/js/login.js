@@ -27,7 +27,7 @@ function requestLogin() {
 
     var uri = "http://stockstockrs.duckdns.org/ss/v1.0/login";
     var info = $('form').serializeArray();
-    console.log(info);
+    //console.log(info);
     var email = info[0].value;
     var pswd = info[1].value;
     var dataToSend = {
@@ -44,7 +44,7 @@ function requestLogin() {
             isLoggedIn = true;
             alert(data.response[0].dispName);
             dispName = data.response[0].dispName;
-            //alert(dispName);
+            alert(dispName);
             window.location.assign("account.html");
         },
         error: function(data) {
