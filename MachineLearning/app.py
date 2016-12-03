@@ -83,9 +83,10 @@ def get_ai_data():
         print("aborted here")
         abort(400)
     stock = request.json['stock']
+    num_of_days = request.json['days']
     print stock
     prediction = predictStocks()
-    prediction_str = prediction.stocksRegression(stock, 14)
+    prediction_str = prediction.stocksRegression(stock, int(num_of_days))
     return jsonify({"prediction": prediction_str}), 201
 
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
