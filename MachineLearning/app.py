@@ -40,7 +40,6 @@ cnx = mysql.connector.connect(user='root', password='hellostocks', host='localho
 #     }
 # ]
 
-@auth.get_password
 def get_password(username):
     # compare passwords and usernames
     if username == 'miguel':
@@ -48,8 +47,9 @@ def get_password(username):
     if username == 'a':
         return 'b'
 
-    cursor = cnx.cursor()
-    cursor.execute("SELECT password FROM USER_BASIC_INFO WHERE email = \"%s\"", username);
+    cursor = cnx.cursor(buffered = True)
+    str_call = 'SELECT password FROM USER_BASIC_INFO WHERE email = "%s"'%username
+    cursor.execute(str_call);
 
     data = cursor.fetchone()
     cnx.commit()
@@ -88,10 +88,13 @@ def get_ai_data():
     print stock
     prediction = predictStocks()
     prediction_str = prediction.stocksRegression(stock, int(num_of_days))
-    twitter_analyze = twitter_analyze()
-    twitter_data = twitter_analyze.analyze_feelings(stock)
+    twitter_analyzer = twitter_analyze()
+    twitter_data = twitter_analyzer.analyze_feelings(stock)
     print twitter_data
     data = {}
+    data['positive'] = twitter_data[0]
+    data['negative'] = twitter_data[1]
+    data['neutral'] = twitter_data[2]
     data['predicted'] = prediction_str[0]
     data['training'] = prediction_str[1]
     return (jsonify({'data':data}), 201)
@@ -283,23 +286,29 @@ def login():
         ret = jsonify({"response" : "request.json missing"})
         return (ret, 400)
         #abort(400)  # no request.json
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('pswd')
 
-    if email is None or password is None:
-        print("EMAIL OR PASSWORD IS NONE")
-        ret = jsonify({"response": "username or password missing."})
-        return (ret, 400)
-        #abort(400)    # missing arguments
+    print "I come here"
+    email = request.json['email']
+    password = request.json['pswd']
 
     if get_password(email) == password:
-        print("IT ACTUALLY WORKED WTF")
-        ret = jsonify({"response" : [{"dispName" : email}]})
-        return (ret, 201)
+        return jsonify({'logged in' : 'Logged IN'})
     else:
-        print("INCORRECT EMAIL OR PSWD")
-        return (jsonify({"response": "Incorrect Email or Password. Please try again"}), 400)
+        return jsonify({'logged in' : 'Wrong password'})
+
+    # if email is None or password is None:
+    #     print("EMAIL OR PASSWORD IS NONE")
+    #     ret = jsonify({"response": "username or password missing."})
+    #     return (ret, 400)
+    #     #abort(400)    # missing arguments
+
+    # if get_password(email) == password:
+    #     print("IT ACTUALLY WORKED WTF")
+    #     ret = jsonify({"response" : [{"dispName" : email}]})
+    #     return (ret, 201)
+    # else:
+    #     print("INCORRECT EMAIL OR PSWD")
+    #     return (jsonify({"response": "Incorrect Email or Password. Please try again"}), 400)
 
 def make_public_task(task):
     new_task = {}

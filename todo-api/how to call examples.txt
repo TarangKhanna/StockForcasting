@@ -8,3 +8,6 @@ curl -i -H "Content-Type: application/json" -X GET -d '{"userID":"1"}' http://lo
 
 // returns the new watch list
 curl -i -H "Content-Type: application/json" -X POST -d '{"userID":"1", "stockSymbol":"GOOGL"}' http://localhost:5000/todo/api/v1.0/tasks/delStocks
+
+
+curl -i -H "Content-Type: application/json" -X POST -d '{"email":"khanna17@purdue.edu", "pswd": "hellopass"}' http://localhost:5000//ss/v1.0/login
