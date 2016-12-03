@@ -17,10 +17,9 @@ CREATE TABLE USER_BASIC_INFO (
 
 /* */
 CREATE TABLE STOCK_WATCH_LIST (
-	stockID varchar(200)_,
-	trend integer,
 	userID integer,
-	primary key(userID, stockID),
+	stockSymbol varchar(200),
+	primary key(userID, stockSymbol), 
 	foreign key(userID) references USER_BASIC_INFO(userID)
 );
 

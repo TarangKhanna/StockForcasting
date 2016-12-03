@@ -114,11 +114,11 @@ def add_stock():
     cursor.execute("SELECT COUNT(*) FROM USER_BASIC_INFO;")
     data = cursor.fetchone()
 
-    new_stock = (data[0] + 1, request.json['stockID'], request.json['trend'], request.json['userID'])
+    new_stock = (request.json['userID'], request.json['stockSymbol'])
 
     add_stock = ("INSERT INTO STOCK_WATCH_LIST "
-                   "(stockID, trend, userID, age, phoneNumber, password, email) "
-                   "VALUES (%s, %s, %s)")
+                   "(userID, stockSymbol) "
+                   "VALUES (%s, %s)")
 
 
 

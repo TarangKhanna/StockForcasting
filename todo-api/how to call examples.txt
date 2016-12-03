@@ -1,5 +1,5 @@
 curl -i -H "Content-Type: application/json" -X POST -d '{"stock":"AAPL"}' http://localhost:5000/todo/api/v1.0/tasks/getAIdata
 
-curl -i -H "Content-Type: application/json" -X POST -d ‘{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass","email":"khanna17@purdue.edu"}' http://localhost:5000/todo/api/v1.0/tasks/addUser
+curl -i -H "Content-Type: application/json" -X POST -d '{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass","email":"khanna17@purdue.edu"}' http://localhost:5000/todo/api/v1.0/tasks/addUser
 
-curl -i -H "Content-Type: application/json" -X POST -d ‘{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass","email":"khanna17@purdue.edu"}’ http://localhost:5000/todo/api/v1.0/tasks/addUser
+curl -i -H "Content-Type: application/json" -X POST -d '{"userID":"2", "stockSymbol": "AAPL"}' http://localhost:5000/todo/api/v1.0/tasks/addStocks
