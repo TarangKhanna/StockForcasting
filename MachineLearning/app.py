@@ -111,8 +111,6 @@ def add_stock():
         abort(400)
 
     cursor = cnx.cursor()
-    cursor.execute("SELECT COUNT(*) FROM USER_BASIC_INFO;")
-    data = cursor.fetchone()
 
     new_stock = (request.json['userID'], request.json['stockSymbol'])
 
@@ -124,6 +122,23 @@ def add_stock():
 
     cursor.execute(add_stock, new_stock)
 
+    cnx.commit()
+    cursor.close()
+    return (jsonify({'data':data}), 201)
+
+@app.route('/todo/api/v1.0/tasks/getStocks', methods=['GET'])
+def get_stocks():
+    if not request.json:
+        print("aborted here")
+        abort(400)
+
+    cursor = cnx.cursor(buffered = True)
+    print request.json['userID']
+    print 'SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "1" '
+    cursor.execute('SELECT stockSymbol FROM STOCK_WATCH_LIST WHERE userID = "1" ')
+
+    data = cursor.fetchall()
+    print data
     cnx.commit()
     cursor.close()
     return (jsonify({'data':data}), 201)
