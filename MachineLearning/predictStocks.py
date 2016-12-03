@@ -134,7 +134,6 @@ class predictStocks:
 											colsample_bytree=0.8,
 											objective= 'binary:logistic',
 											nthread=4,
-											scale_pos_weight=1,
 											seed=27)
 
 				# print("Crunching...")
@@ -194,9 +193,9 @@ class predictStocks:
 		# print gsearch2b.grid_scores_, gsearch2b.best_params_, gsearch2b.best_score_
 		pass	
 
-	def binaryClassifySaved(self,stocksDf, symbol):
+	def binaryClassifySaved(self,stocksDf, symbol, predict_index):
 		# stocksDf = stocksDf.drop(['Decision'], axis=1)
-		predict_index = 14
+		# predict_index = 14
 		stocksDf = stocksDf.dropna(how='any')
 		X = np.array(stocksDf)
 		# use same preprocessing scale used while training
@@ -226,7 +225,15 @@ class predictStocks:
 		le = preprocessing.LabelEncoder()
 		# le.classes_ = np.load('Label_Encoder.npy')
 
+		print result
+		cur_path = os.getcwd()
+		file_name = '/data/%s_predicted_classification.csv' %symbol
+		abs_path = cur_path+file_name
+		temp_df.to_csv(abs_path, encoding='utf-8')
+		result = pd.concat(frames, axis=1)
+
 		# print result
+		return abs_path
 
 	# returns file name of the csv with predicted values
 	def regressionSaved(self,stocksDf, symbol, predict_index):
@@ -313,51 +320,49 @@ class predictStocks:
 		self.predictML(read_df, True, stockName)
 		return self.regressionSaved(to_predict_df, stockName, forecast_out)
 
-	# def stocksClassify(self, stockName, forecast_out):
-	# 	self.download_data(stockName)
-	# 	file_name = 'data/%s_training.csv' %stockName
-	# 	read_df = pd.read_csv(file_name, index_col = "Date")
-	# 	# forecast_out = 14
-	# 	print 'predicting into: ' + str(forecast_out)
-	# 	read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
-	# 	to_predict_df = read_df.copy(deep=True)
+	def stocksClassify(self, stockName, forecast_out):
+		self.download_data(stockName)
+		file_name = 'data/%s_training.csv' %stockName
+		read_df = pd.read_csv(file_name, index_col = "Date")
+		# forecast_out = 14
+		# print 'predicting into: ' + str(forecast_out)
+		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
+		to_predict_df = read_df.copy(deep=True)
 		
-	# 	read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
+		read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
 
-	# 	read_df = read_df.dropna(how='any')
+		read_df = read_df.dropna(how='any')
 
-	# 	decisions = []
-	# 	pe_ratio = []
-	# 	for index, row in read_df.iterrows():
-	# 		# floating point comparison careful
-	# 		# if 3 % increase in two weeks, then classify as a buy
-	# 		# another method is to get historical buy-sell ratings
-	# 		if (round(row['Future'],3) > round((1.03*row['Adj. Close']),3)):
-	# 			decisions.append('Buy')
-	# 		elif (round(row['Future'],3) < ((1.03*row['Adj. Close']),3)):
-	# 			decisions.append('Sell')
-	# 		else:
-	# 			decisions.append('Hold')
+		decisions = []
+		pe_ratio = []
+		for index, row in read_df.iterrows():
+			# floating point comparison careful
+			# if 2 % increase in two weeks, then classify as a buy
+			# another method is to get historical buy-sell ratings
+			if (round(row['Future'],3) > round((1.02*row['Adj. Close']),3)):
+				decisions.append('Buy')
+			elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
+				decisions.append('Sell')
+			else:
+				decisions.append('Hold')
+	
+		read_df_binary = read_df.copy(deep=True)
+		read_df_binary['Decision'] = decisions
+		print read_df_binary['Decision'].value_counts()
 
-	# 	# read_df['P/E Ratio'] = pe_ratio	
-	# 	read_df_binary = read_df.copy(deep=True)
-	# 	read_df_binary['Decision'] = decisions
-	# 	print read_df_binary['Decision'].value_counts()
+		read_df_regression = read_df.copy(deep=True)
 
-	# 	read_df_regression = read_df.copy(deep=True)
-
-	# 	read_df_binary = read_df_binary.drop(['Future'], axis=1)
-
-
-	# 	read_df = read_df.dropna(how='any')
-
-	# 	self.predictML(read_df, True, stockName)
-	# 	return self.regressionSaved(to_predict_df, stockName, forecast_out)
+		read_df_binary = read_df_binary.drop(['Future'], axis=1)
+		print read_df_binary
+		self.predictML(read_df_binary, False, stockName)
+		print self.binaryClassifySaved(to_predict_df, symbol, forecast_out)
 
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
 	print predict.stocksRegression(symbol, 14)
+
+	predict.stocksClassify(symbol, 14)
 	# symbols = ['AAPL', 'GOOGL', 'GLD']
 	# symbol = 'GOOGL'
 	# download_data(symbol)
