@@ -41,6 +41,7 @@ function requestLogin() {
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         success: function(data) {
+          console.log(data);
             isLoggedIn = true;
             alert(data.response[0].dispName);
             dispName = data.response[0].dispName;
