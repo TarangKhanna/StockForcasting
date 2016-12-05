@@ -54,7 +54,7 @@ def get_password(username):
     data = cursor.fetchone()
     cnx.commit()
     cursor.close()
-
+    print data[0]
     return data[0]
 
 @auth.error_handler

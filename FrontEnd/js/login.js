@@ -51,10 +51,14 @@ function requestLogin() {
         success: function(data) {
             console.log(data);
             isLoggedIn = true;
-            alert("in success");
-            dispName = data.response[0].firstName;
-            alert(dispName);
-            window.location.assign("account.html");
+            status = data.status;
+            if(status == 'loggedIN') {
+                alert(dispName);
+                window.location.assign("account.html");
+            }
+            else {
+                alert("wrong password, please retry");
+            }
         },
         error: function(data) {
             console.log(data);
