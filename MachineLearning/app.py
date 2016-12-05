@@ -292,9 +292,9 @@ def login():
     password = request.json['pswd']
 
     if get_password(email) == password:
-        return jsonify({'logged in' : 'Logged IN'})
+        return jsonify({'status' : 'loggedIN'})
     else:
-        return jsonify({'logged in' : 'Wrong password'})
+        return jsonify({'status' : 'Wrong password'})
 
     # if email is None or password is None:
     #     print("EMAIL OR PASSWORD IS NONE")
