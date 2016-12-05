@@ -290,7 +290,8 @@ def login():
     print "I come here"
     email = request.json['email']
     password = request.json['pswd']
-
+    print password
+    print get_password(email)
     if get_password(email) == password:
         return jsonify({'status' : 'loggedIN'})
     else:
