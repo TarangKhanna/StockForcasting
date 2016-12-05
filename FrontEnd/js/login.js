@@ -21,7 +21,7 @@ $(document).ready(function() {
 function Post(yourUrl, dataToSend){
     var xmlhttp = new XMLHttpRequest(); // a new request
     xmlhttp.open("POST", yourUrl);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
     xmlhttp.send(dataToSend);
     return xmlhttp.responseText;          
 }
@@ -33,7 +33,7 @@ function closeModal() {
 function requestLogin() {
 
     alert("logging in");
-    var uri = "https://10.186.57.168:5000/ss/v1.0/login";
+    var uri = "http://10.186.57.168:5000/ss/v1.0/login";
     var info = $('form').serializeArray();
     //console.log(info);
     var email = info[0].value;
@@ -42,36 +42,39 @@ function requestLogin() {
         "email": email,
         "pswd": pswd
     }
-    
-    data: JSON.stringify(dataToSend),
-    alert("now sending data");
-    json_response = JSON.parse(Post(uri, dataToSend));
-    if(json_response['logged in'] == "Logged IN") {
-        alert('logged in ');
-        window.location.assign("account.html");
-    }
-    else {
-        alert("wrong password");
-    }
+    // dataToSend = JSON.stringify(dataToSend),
+    // console.log(dataToSend)
+    // alert("now sending data");
+    // Post(uri, dataToSend)
+    // json_response = Post(uri, dataToSend);
+    // alert(json_response['logged in']);
+    // if(json_response['logged in'] == "Logged IN") {
+    //     alert('logged in ');
+    //     window.location.assign("account.html");
+    // }
+    // else {
+    //     alert("wrong password");
+    // }
 
-    // $.post({
-    //     url: uri,
-    //     dataType: 'json',
-    //     contentType: "application/json",
-    //     data: JSON.stringify(dataToSend),
-    //     success: function(data) {
-    //         console.log(data);
-    //         isLoggedIn = true;
-    //         alert("in success");
-    //         dispName = data.response[0].firstName;
-    //         alert(dispName);
-    //         window.location.assign("account.html");
-    //     },
-    //     error: function(data) {
-    //         console.log(data);
-    //         alert("giving here");
-    //     }
-    // });
+    $.ajax({
+        type:'POST',
+        url: uri,
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            console.log(data);
+            isLoggedIn = true;
+            alert("in success");
+            dispName = data.response[0].firstName;
+            alert(dispName);
+            window.location.assign("account.html");
+        },
+        error: function(data) {
+            console.log(data);
+            alert("giving here");
+        }
+    });
 }
 
 function loadAccountPage() {

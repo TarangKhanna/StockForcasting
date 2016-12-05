@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 function signup() {
     //  alert("here");
-    var uri = "http://stockapi.duckdns.org:5000/todo/api/v1.0/tasks/addUser";
+    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
     var email = ($("#email")[0].value);
     var pwd = ($("#pwd")[0].value);
@@ -20,7 +20,7 @@ function signup() {
     if (pwd != cpwd) {
         alert("Passwords do not match.");
         // signup();
-        break;
+        // break;
     }
     var dataToSend = {
         "firstName": fname,
@@ -36,12 +36,11 @@ function signup() {
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dataToSend),
-        alert(data)
         success: function(data) {
             window.location.assign("account.html");
         },
         error: function(data) {
-            console.log(data);
+            // console.log(data);
             alert("An error occured.");
         }
     });
