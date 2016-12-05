@@ -35,7 +35,6 @@ function requestLogin() {
     alert("logging in");
     var uri = "http://10.186.57.168:5000/ss/v1.0/login";
     var info = $('form').serializeArray();
-    //console.log(info);
     var email = info[0].value;
     var pswd = info[1].value;
     var dataToSend = {
