@@ -40,6 +40,17 @@ cnx = mysql.connector.connect(user='root', password='hellostocks', host='localho
 #     }
 # ]
 
+def get_username(email):
+    cursor = cnx.cursor(buffered = True)
+    str_call = 'SELECT firstName FROM USER_BASIC_INFO WHERE email = "%s"'%email
+    cursor.execute(str_call);
+
+    data = cursor.fetchone()
+    cnx.commit()
+    cursor.close()
+    # print data[0]
+    return data[0]
+
 def get_password(username):
     # compare passwords and usernames
     if username == 'miguel':
@@ -54,7 +65,7 @@ def get_password(username):
     data = cursor.fetchone()
     cnx.commit()
     cursor.close()
-    print data[0]
+    # print data[0]
     return data[0]
 
 @auth.error_handler
@@ -290,10 +301,11 @@ def login():
     print "I come here"
     email = request.json['email']
     password = request.json['pswd']
-    print password
-    print get_password(email)
+    # print password
+    # print get_password(email)
     if get_password(email) == password:
-        return jsonify({'status' : 'loggedIN'})
+        firstName = get_username(email);
+        return jsonify({'status' : 'loggedIN', 'firstName' : firstName})
     else:
         return jsonify({'status' : 'Wrong password'})
 
