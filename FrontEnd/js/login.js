@@ -18,13 +18,13 @@ $(document).ready(function() {
     }
 });
 
-function Post(yourUrl, dataToSend){
-    var xmlhttp = new XMLHttpRequest(); // a new request
-    xmlhttp.open("POST", yourUrl);
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send(dataToSend);
-    return xmlhttp.responseText;          
-}
+// function Post(yourUrl, dataToSend){
+//     var xmlhttp = new XMLHttpRequest(); // a new request
+//     xmlhttp.open("POST", yourUrl);
+//     xmlhttp.setRequestHeader("Content-Type", "application/json");
+//     xmlhttp.send(dataToSend);
+//     return xmlhttp.responseText;
+// }
 
 function closeModal() {
     $("#login").modal("toggle");
@@ -42,19 +42,6 @@ function requestLogin() {
         "email": email,
         "pswd": pswd
     }
-    // dataToSend = JSON.stringify(dataToSend),
-    // console.log(dataToSend)
-    // alert("now sending data");
-    // Post(uri, dataToSend)
-    // json_response = Post(uri, dataToSend);
-    // alert(json_response['logged in']);
-    // if(json_response['logged in'] == "Logged IN") {
-    //     alert('logged in ');
-    //     window.location.assign("account.html");
-    // }
-    // else {
-    //     alert("wrong password");
-    // }
 
     $.ajax({
         type:'POST',
@@ -78,7 +65,6 @@ function requestLogin() {
 }
 
 function loadAccountPage() {
-    //console.log(dispName);
     $welcomeDisp.text("Welcome " + dispName);
 
 }
