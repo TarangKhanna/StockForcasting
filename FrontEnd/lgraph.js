@@ -13,7 +13,7 @@ var y = d3.scaleLinear().range([height, 0]);
 
 // define the lines
 var valueline = d3.line()
-    .curve(d3.curveBasis)
+    .curve(d3.curveLinear)
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.close); });
 
@@ -78,6 +78,14 @@ d3.tsv("GOOGL_predict.txt", function(error, data) {
         .duration(3000)
         //.attrTween("d", getInterpolation)
         .attr("d", valueline);
+    
+    // Add the scatterplot
+  //svg.selectAll("dot")
+    //  .data(data)
+    //.enter().append("circle")
+    //  .attr("r", 4)
+    //  .attr("cx", function(d) { return //x(d.date); })
+    //  .attr("cy", function(d) { return y(d.close); });
     
   // Add the X Axis
   svg.append("g")

@@ -13,7 +13,7 @@ var y = d3.scaleLinear().range([height, 0]);
 
 // define the lines
 var valueline = d3.line()
-    .curve(d3.curveBasis)
+    //.curve(d3.curveBasis)
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.close); });
 
