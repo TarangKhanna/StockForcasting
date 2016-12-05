@@ -53,7 +53,7 @@ function requestLogin() {
             isLoggedIn = true;
             status = data.status;
             if(status == 'loggedIN') {
-                alert(dispName);
+                alert("welcome" + data.firstName);
                 window.location.assign("account.html");
             }
             else {
@@ -67,7 +67,7 @@ function requestLogin() {
     });
 }
 
-function loadAccountPage() {
-    $welcomeDisp.text("Welcome " + dispName);
+// function loadAccountPage() {
+//     $welcomeDisp.text("Welcome " + dispName);
 
-}
+// }
