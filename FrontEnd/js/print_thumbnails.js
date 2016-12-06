@@ -48,8 +48,30 @@ document.write(message);
 
     
 
-function addWatchlist(comp) {
+function addWatchlist(userID, comp) {
     
-    alert("Added " + comp + " to watchlist");
+    // alert("Added " + comp + " to watchlist");
+    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks";
+
+    dataToSend = {
+    	'userID': userID,
+    	'stockSymbol': comp
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: uri,
+        contentType: "application/json",
+        dataType: 'json',
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            console.log(data);
+            alert("stock " + comp + "added")
+        },
+        error: function(data) {
+            console.log(data);
+            alert("stock adding failed")
+        }
+    });
     
 }
