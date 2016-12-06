@@ -53,6 +53,7 @@ function populate_stocks(userID) {
             alert("An error occured.");
         }
     });
+    return "populated stocks";
 }
 
 function tweeter_data(stock){
@@ -106,17 +107,23 @@ function requestLogin() {
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         success: function(data) {
-            alert("in success")
+            // alert("in success")
             console.log(data);
             isLoggedIn = true;
             status = data.status;
-            if (status == 'loggedIN') {
-                localStorage['firstName'] = data.firstName;
-                localStorage['UID'] = data.userID;
-                populate_stocks(data.userID);
-                // window.location.assign("account.html");
-            } else {
-                alert("wrong password, please retry");
+            var status = "no stocks";
+            while(1) {
+                if (status == 'loggedIN') {
+                    localStorage['firstName'] = data.firstName;
+                    localStorage['UID'] = data.userID;
+                    status = populate_stocks(data.userID);
+                    // window.location.assign("account.html");
+                } else {
+                    alert("wrong password, please retry");
+                }
+                if (status == "no stocks" || status == "populated") {
+                    break;
+                }
             }
         },
         error: function(data) {

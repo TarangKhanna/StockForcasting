@@ -18,7 +18,7 @@ $(document).ready(function() {
 });
 
 function signup() {
-     alert("here");
+     // alert("here");
 
     var uri = "http://10.186.53.39:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
@@ -64,6 +64,7 @@ function signup() {
                 }
                 i++;
             }
+            alert("Welcome " + localStorage['firstName']);
             window.location.assign("account.html");
         },
         error: function(data) {
