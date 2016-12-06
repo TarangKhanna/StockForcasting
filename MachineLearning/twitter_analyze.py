@@ -38,8 +38,8 @@ class twitter_analyze:
 		
 		tweets_file = 'data/%s_tweets.csv' %stock
 
-		if not os.path.isfile(tweets_file) : 
-			self.analyze_stock(stock)
+		# if not os.path.isfile(tweets_file) : 
+		self.analyze_stock(stock)
 		
 		tweets = pd.read_csv('data/%s_tweets.csv' %stock)
 
