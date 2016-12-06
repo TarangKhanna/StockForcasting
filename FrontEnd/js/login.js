@@ -34,7 +34,7 @@ function closeModal() {
 }
 
 function populate_stocks(userID) {
-    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks";
+    var uri = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getStocks";
 
     var dataToSend = {
         "userID":"11"
@@ -67,7 +67,7 @@ function save_cookies(stockInfo){
 function requestLogin() {
 
     alert("logging in");
-    var uri = "http://10.186.57.168:5000/ss/v1.0/login";
+    var uri = "http://192.168.1.142:5000/ss/v1.0/login";
     var info = $('form').serializeArray();
     var email = info[0].value;
     var pswd = info[1].value;
@@ -83,6 +83,7 @@ function requestLogin() {
         dataType: 'json',
         data: JSON.stringify(dataToSend),
         success: function(data) {
+            alert("in success")
             console.log(data);
             isLoggedIn = true;
             status = data.status;
