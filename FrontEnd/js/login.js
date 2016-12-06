@@ -41,7 +41,7 @@ function populate_stocks(userID) {
     }
     $.ajax({
         url: uri,
-        method: "POST",
+        method: "GET",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dataToSend),
@@ -58,9 +58,9 @@ function populate_stocks(userID) {
 function save_cookies(stockInfo){
     var data = stockInfo.data;
     alert("data[i] "+data[0]);
-    for(var i = 0; i < data.length; i++){
-
-      localStorage['stockWatch' + i] = data[i];
+    for(var i = 0; i <= data.length; i++){
+        var index = 'stockWatch' + i;
+      localStorage[index] = data[i];
     }
 }
 
