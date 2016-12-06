@@ -180,6 +180,7 @@ def del_stock():
 
 @app.route('/todo/api/v1.0/tasks/getStocks', methods=['GET'])
 def get_stocks():
+    print request.json
     if not request.json:
         print("aborted here")
         abort(400)

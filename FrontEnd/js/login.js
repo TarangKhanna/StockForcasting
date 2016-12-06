@@ -36,7 +36,7 @@ function closeModal() {
 function populate_stocks(userID) {
     var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks";
     dataToSend = {
-        'userID':userID
+        'userID': userID
     }
     $.ajax({
         url: uri,
@@ -56,7 +56,9 @@ function populate_stocks(userID) {
 
 function save_cookies(stockInfo){
     var data = stockInfo.data;
+    alert("data[i] "+data[0]);
     for(var i = 0; i < data.length; i++){
+
       localStorage['stockWatch' + i] = data[i];
     }
 }
@@ -87,7 +89,7 @@ function requestLogin() {
                 localStorage['firstName'] = data.firstName;
                 localStorage['UID'] = data.userID;
                 populate_stocks(data.userID)
-                window.location.assign("account.html");
+                // window.location.assign("account.html");
             } else {
                 alert("wrong password, please retry");
             }
