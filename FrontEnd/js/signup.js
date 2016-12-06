@@ -51,7 +51,7 @@ function signup() {
         success: function(data) {
             // alert("new user " + data.new_user[1]);
             localStorage['firstName'] = data.new_user[1];
-            localStorage['UID'] = "" + data.new_user[0];
+            localStorage['UID'] = data.new_user[0];
             window.location.assign("account.html");
         },
         error: function(data) {

@@ -2,7 +2,7 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"stock":"TWTR", "days":
 
 curl -i -H "Content-Type: application/json" -X POST -d '{"firstName":"Tarang", "lastName":"Khanna", "age":"21", "phoneNumber":"no phone", "password":"hellopass","email":"khanna17@purdue.edu"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/addUser
 
-curl -i -H "Content-Type: application/json" -X POST -d '{"userID":"2", "stockSymbol": "GOOGL"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks
+curl -i -H "Content-Type: application/json" -X POST -d '{"userID”:4, "stockSymbol": "GOOGL"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks
 
 curl -i -H "Content-Type: application/json" -X GET -d '{"userID":"1"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks
 
