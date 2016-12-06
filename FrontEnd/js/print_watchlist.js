@@ -40,8 +40,26 @@ while (1) {
 
 
 function stock_update(comp) {
-    
-    
+    var uri2 = "http://10.186.53.39:5000/todo/api/v1.0/tasks/getAIdata";
+
+    var dataToSend = {
+        "stock":comp
+        "days":10
+    }
+    $.ajax({
+        method: "POST",
+        url: uri2,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            alert(comp + " data updated");
+        },
+        error: function(data) {
+            // console.log(data);
+            alert("An error occured.");
+        }
+    }); 
 }
 //Check if Google is in the watchlist
 //if (0) {
