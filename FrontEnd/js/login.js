@@ -35,12 +35,13 @@ function closeModal() {
 
 function populate_stocks(userID) {
     var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks";
-    dataToSend = {
-        'userID': userID
+
+    var dataToSend = {
+        "userID":"11"
     }
     $.ajax({
         url: uri,
-        method: "POST",
+        method: "GET",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dataToSend),
@@ -88,7 +89,7 @@ function requestLogin() {
             if (status == 'loggedIN') {
                 localStorage['firstName'] = data.firstName;
                 localStorage['UID'] = data.userID;
-                populate_stocks(data.userID)
+                populate_stocks(data.userID);
                 // window.location.assign("account.html");
             } else {
                 alert("wrong password, please retry");

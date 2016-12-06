@@ -197,6 +197,7 @@ def get_stocks():
 
 @app.route('/todo/api/v1.0/tasks/addUser', methods=['POST'])
 def add_user():
+    print request.json
     if not request.json:
         print("aborted here")
         abort(400)
