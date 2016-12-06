@@ -34,14 +34,14 @@ function closeModal() {
 }
 
 function populate_stocks(userID) {
-    var uri = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getStocks";
+    var uri2 = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getStocks";
 
     var dataToSend = {
         "userID":userID
     }
     $.ajax({
-        url: uri,
         method: "POST",
+        url: uri2,
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dataToSend),
@@ -91,7 +91,7 @@ function requestLogin() {
                 localStorage['firstName'] = data.firstName;
                 localStorage['UID'] = data.userID;
                 populate_stocks(data.userID);
-                window.location.assign("account.html");
+                // window.location.assign("account.html");
             } else {
                 alert("wrong password, please retry");
             }
@@ -100,7 +100,9 @@ function requestLogin() {
             console.log(data);
             // alert("giving here");
         }
+
     });
+    
 }
 
 
