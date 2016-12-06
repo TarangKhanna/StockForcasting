@@ -369,10 +369,11 @@ class predictStocks:
 		file_list_paths = []
 		file_list_paths.append(abs_merged_path)
 		file_list_paths.append(abs_path_training)
+		file_list_paths.append(to_predict_df.tail(1)['Adj. Close'].item())
 
 		return file_list_paths
 
-		# using yahoo finance api to get current stock price
+	# using yahoo finance api to get current stock price
 	def getCurrentPrice(self, stockName):
 		stock = Share(stockName)
 		return stock.get_price()
@@ -382,8 +383,6 @@ class predictStocks:
 		self.download_data(stockName)
 		file_name = 'data/%s_training.csv' %stockName
 		read_df = pd.read_csv(file_name, index_col = "Date")
-
-		# print 'predicting into: ' + str(forecast_out)
 
 		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
@@ -426,6 +425,6 @@ if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
 	print predict.stocksRegression(symbol, 14)
-	print predict.stocksClassify(symbol, 14)
-	print predict.getCurrentPrice(symbol)
+	# print predict.stocksClassify(symbol, 14)
+	# print predict.getCurrentPrice(symbol)
 
