@@ -154,10 +154,10 @@ def add_stock():
 
 
     cursor.execute(add_stock, new_stock)
-    data = cursor.fetchall()
+    # data = cursor.fetchall()
     cnx.commit()
     cursor.close()
-    return (jsonify({'data':data}), 201)
+    return (201)
 
 @app.route('/todo/api/v1.0/tasks/delStocks', methods=['POST'])
 def del_stock():
