@@ -12,7 +12,7 @@ $(document).ready(function() {
 
     if (document.title == "StockStokr - Home") {
         dispName = localStorage['firstName'] || 'User';
-        userID = localStorage['UID'] || 'UserID';
+        userID = localStorage['UID'] || '-1';
         $parag = $("#parag");
     }
     if (document.title == "StockStokr - Account") {
