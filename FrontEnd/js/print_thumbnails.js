@@ -9,7 +9,7 @@ var userID = localStorage['UID']||'-1';
 // create for loop that will iterate for every stock in our database
 
 //Check if Google is in the watchlist
-company = "Google Inc.";
+company = "GOOGL";
 //currentPrice = Google's latest price.
 //projected = googles latest projected value.
 buyorsell = "buy";
@@ -19,7 +19,7 @@ if (1) {
 }
 
 //Check if Apple is in the watchlist
-company = "Apple\ Inc.";
+company = "AAPL";
 //currentPrice = Google's latest price.
 //projected = googles latest projected value.
 buyorsell = "buy";
@@ -30,7 +30,7 @@ if (1) {
 
 //Check if IBM is in the watchlist
 //Check if Apple is in the watchlist
-company = "IBM Inc.";
+company = "IBM";
 //currentPrice = Google's latest price.
 //projected = googles latest projected value.
 buyorsell = "buy";
