@@ -50,6 +50,10 @@ document.write(message);
 
 function addWatchlist(userID, comp) {
     
+    if(userID == "-1") {
+    	alert("broken userID");
+    	break;
+    }
     // alert("Added " + comp + " to watchlist");
     var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks";
 
