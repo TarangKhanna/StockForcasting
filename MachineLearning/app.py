@@ -78,9 +78,8 @@ def get_password(username):
     cursor.close()
     # print data[0]
     toreturn = 0
-    if(data[0]) {
+    if(data[0]):
         toreturn = data[0]
-    }
     return toreturn
 
 @auth.error_handler
@@ -227,7 +226,7 @@ def get_stocks():
 
 @app.route('/todo/api/v1.0/tasks/addUser', methods=['POST'])
 def add_user():
-    print request.json
+#    print request.json
     if not request.json:
         print("aborted here")
         abort(400)
