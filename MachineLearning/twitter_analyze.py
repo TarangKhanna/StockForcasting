@@ -138,7 +138,6 @@ if __name__ == "__main__":
 	# analyze.analyze_stock('$AAPL')
 	print analyze.analyze_feelings('$TSLA')
 
-	# analyze_stock('$AAPL')
-	# analyze_stock('$GOOGL')
-	# analyze_feelings('$GOOGL')
+	analyze.analyze_feelings('$AAPL')
+	analyze.analyze_feelings('$GOOGL')
 
