@@ -113,6 +113,7 @@ def get_ai_data():
     twitter_analyzer = twitter_analyze()
     twitter_data = twitter_analyzer.analyze_feelings(stock)
     print twitter_data
+    print prediction.getCurrentPrice(stock)
     data = {}
     data['positive'] = twitter_data[0]
     data['negative'] = twitter_data[1]
