@@ -77,7 +77,11 @@ def get_password(username):
     cnx.commit()
     cursor.close()
     # print data[0]
-    return data[0]
+    toreturn = 0
+    if(data[0]) {
+        toreturn = data[0]
+    }
+    return toreturn
 
 @auth.error_handler
 def unauthorized():
