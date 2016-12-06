@@ -54,6 +54,13 @@ function populate_stocks(userID) {
     });
 }
 
+function save_cookies(stockInfo){
+    var data = stockInfo.data;
+    for(var i = 0; i < data.length; i++){
+      localStorage['stockWatch' + i] = data[i];
+    }
+}
+
 function requestLogin() {
 
     alert("logging in");
