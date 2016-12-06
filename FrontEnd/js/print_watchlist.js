@@ -20,7 +20,8 @@ while (1) {
     }
     else {
         if (watchlisted == "GOOGL") {
-            message = '<div class="window"> <h3 style="margin-left: 25px;">Google Inc.</h3> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 25px;"> -- Projected Closing Stock Price -- </h4> <div id="chart1"> <style> /* set the CSS */ .line { fill: none; stroke: url(#line-gradient); stroke-width: 2px; } </style> <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="lgraph.js"></script> </div> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 50px;"> -- Numerical and Qualitative Analysis -- </h4> <div class="row"> <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> <table class="table table-responsive"> <thead> <tr> <th>Stock Name</th> <th>Google Inc.</th> </tr> </thead> <tbody> <tr> <td>Suggested Action</td> <td>' + buyorsell + '</td> </tr> <tr> <td>Current Price</td> <td>' + currentPrice + '</td> </tr> <tr> <td>Projected Price </td> <td>' + projected + '</td> </tr> </tbody> </table> </div> <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> <div id="chart4"> <svg id="chart" width="450" height="250" viewBox="0 0 450 250" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="pgraph.js"></script> </div> </div> </div> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 50px;"> -- Company History -- </h4> <div id="chart3"> <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="hgraph.js"></script> </div> </div>';
+            currentPrice = '';
+            message = '<div class="window"> <h3 style="margin-left: 25px;">Google Inc.</h3> <button type="button" style="margin-right: 25px;" onClick="stock_update(' + watchlisted + ')">Update Stock</button> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 25px;"> -- Projected Closing Stock Price -- </h4> <div id="chart1"> <style> /* set the CSS */ .line { fill: none; stroke: url(#line-gradient); stroke-width: 2px; } </style> <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="lgraph.js"></script> </div> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 50px;"> -- Numerical and Qualitative Analysis -- </h4> <div class="row"> <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> <table class="table table-responsive"> <thead> <tr> <th>Stock Name</th> <th>Google Inc.</th> </tr> </thead> <tbody> <tr> <td>Suggested Action</td> <td>' + buyorsell + '</td> </tr> <tr> <td>Current Price</td> <td>' + currentPrice + '</td> </tr> <tr> <td>Projected Price </td> <td>' + projected + '</td> </tr> </tbody> </table> </div> <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"> <div id="chart4"> <svg id="chart" width="450" height="250" viewBox="0 0 450 250" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="pgraph.js"></script> </div> </div> </div> <h4 style="text-align: center; padding-bottom: 25px; padding-top: 50px;"> -- Company History -- </h4> <div id="chart3"> <svg id="chart" width="900" height="500" viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet"> </svg> <script src="https://d3js.org/d3.v4.min.js"></script> <script src="hgraph.js"></script> </div> </div>';
             document.write(message);
         }
         if (watchlisted == "AAPL") {
@@ -34,6 +35,13 @@ while (1) {
     }
     
     i++;
+}
+
+
+
+function stock_update(comp) {
+    
+    
 }
 //Check if Google is in the watchlist
 //if (0) {
