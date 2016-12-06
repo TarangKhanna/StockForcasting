@@ -102,6 +102,7 @@ function addWatchlist(comp, userID) {
                 // tweeter_data(data[i]);
                 var watchlisted = localStorage[index]||"default";
                 if(watchlisted == "default") {
+                    alert("I came in here ")
                     localStorage[index] = comp;
                     break;
                 }
@@ -109,7 +110,7 @@ function addWatchlist(comp, userID) {
         },
         error: function(data) {
             console.log(data);
-            alert("stock adding failed")
+            alert(comp + " already in your watch list");
         }
     });
 
