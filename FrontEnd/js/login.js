@@ -112,6 +112,7 @@ function requestLogin() {
             isLoggedIn = true;
             status = data.status;
             var status = "no stocks";
+            var condition = 1;
             while(1) {
                 if (status == 'loggedIN') {
                     localStorage['firstName'] = data.firstName;
@@ -122,7 +123,7 @@ function requestLogin() {
                     alert("wrong password, please retry");
                 }
                 if (status == "no stocks" || status == "populated") {
-                    break;
+                    condition = 0;
                 }
             }
         },
