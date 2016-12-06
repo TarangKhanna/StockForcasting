@@ -55,7 +55,7 @@ function requestLogin() {
             status = data.status;
             if (status == 'loggedIN') {
                 localStorage['firstName'] = data.firstName;
-                localStorage['userID'] = data.userID;
+                localStorage['UID'] = data.userID;
                 window.location.assign("account.html");
             } else {
                 alert("wrong password, please retry");
@@ -70,7 +70,7 @@ function requestLogin() {
 
 function loadAccountPage() {
     dispName = localStorage['firstName'] || 'User';
-    userID = localStorage['userID'] || 'UserID';
+    userID = localStorage['UID'] || 'UserID';
     loggedIN = true;
     $welcomeDisp.text("Welcome " + dispName);
 
