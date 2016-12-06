@@ -178,7 +178,7 @@ def del_stock():
     cursor.close()
     return (jsonify({'passed':data}), 201)
 
-@app.route('/todo/api/v1.0/tasks/getStocks', methods=['GET'])
+@app.route('/todo/api/v1.0/tasks/getStocks', methods=['POST'])
 def get_stocks():
     print request.json
     if not request.json:
