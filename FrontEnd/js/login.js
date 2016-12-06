@@ -41,7 +41,7 @@ function populate_stocks(userID) {
     }
     $.ajax({
         url: uri,
-        method: "GET",
+        method: "POST",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dataToSend),
