@@ -6,6 +6,7 @@
 # remove tweets from other languages?
 from __future__ import division
 import tweepy
+import shutil
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -62,12 +63,18 @@ class twitter_analyze:
 		counts_list.append(tweets['sentiment'].value_counts()['positive'])
 		counts_list.append(tweets['sentiment'].value_counts()['negative'])
 		counts_list.append(tweets['sentiment'].value_counts()['neutral'])
-		# file_feelings = ('data/%s_feelings.csv' % stock)
-		# with open(file_feelings, "w") as output:
-		#     writer = csv.writer(output, lineterminator='\n')
-		#     for val in counts_list:
-		#         writer.writerow([val])    
-		return counts_list
+		file_feelings = ('data/%s_feelings.csv' % stock)
+		cur_path = os.getcwd()
+		abs_path_feelings = cur_path+'/'+file_feelings
+		with open(file_feelings, "w") as output:
+		    writer = csv.writer(output, lineterminator='\n')
+		    for val in counts_list:
+		        writer.writerow([val])  
+
+
+		shutil.copy(abs_path_feelings, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
+
+		return "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/" + ('%s_feelings.csv' % stock)
 
 	def analyze_stock(self, stock):
 		all_tweets = self.get_tweets(stock)
