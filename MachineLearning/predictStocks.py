@@ -32,6 +32,8 @@ import os
 # for tuning hyper parameters we use grid search
 from sklearn.grid_search import GridSearchCV   #Perforing grid search
 import xgboost
+import datetime
+from yahoo_finance import Share
 
 class predictStocks:
 
@@ -86,7 +88,7 @@ class predictStocks:
 		best_accuracy = 0.0
 		best_algo = 'RF'
 
-		num_runs = 2
+		num_runs = 1
 		for _ in xrange(num_runs):
 			if useRegression:
 				# use KNN or other binary classifiers
@@ -155,7 +157,8 @@ class predictStocks:
 					best_clf = clf
 					best_accuracy = accuracy
 					best_algo = 'XG'
-		file_name = 'XGClf_%s.pkl' %symbol
+
+			file_name = 'XGClf_%s.pkl' %symbol
 		joblib.dump(best_clf, file_name) # save the classifier to file
 		# print 'best accuracy:'
 		# print best_accuracy
@@ -222,13 +225,13 @@ class predictStocks:
 		frames = [predicted_df, temp_df]
 		result = pd.concat(frames, axis=1)
 
-		le = preprocessing.LabelEncoder()
 		# le.classes_ = np.load('Label_Encoder.npy')
 
-		print result
+		# print result
 		cur_path = os.getcwd()
 		file_name = '/data/%s_predicted_classification.csv' %symbol
 		abs_path = cur_path+file_name
+		# print temp_df
 		temp_df.to_csv(abs_path, encoding='utf-8')
 		result = pd.concat(frames, axis=1)
 
@@ -258,7 +261,7 @@ class predictStocks:
 		cur_path = os.getcwd()
 		file_name = '/data/%s_predicted_values.csv' %symbol
 		abs_path = cur_path+file_name
-		predicted_df.to_csv(abs_path, encoding='utf-8')
+		temp_df.to_csv(abs_path, encoding='utf-8')
 		result = pd.concat(frames, axis=1)
 
 		# print result
@@ -305,11 +308,12 @@ class predictStocks:
 		df.to_csv(file_name, encoding='utf-8')
 
 	def stocksRegression(self, stockName, forecast_out):
+		# only download if new data avaliable
 		self.download_data(stockName)
-		file_name = 'data/%s_training.csv' %stockName
-		read_df = pd.read_csv(file_name, index_col = "Date")
-		# forecast_out = 14
-		# print 'predicting into: ' + str(forecast_out)
+
+		file_name_training = 'data/%s_training.csv' %stockName
+		read_df = pd.read_csv(file_name_training, index_col = "Date")
+
 		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
 		
@@ -319,19 +323,68 @@ class predictStocks:
 
 		self.predictML(read_df, True, stockName)
 		cur_path = os.getcwd()
-		file_paths = []
-		file_training = '/data/%s_training.csv' %stockName
-		abs_path = cur_path+file_training
-		file_paths.append(self.regressionSaved(to_predict_df, stockName, forecast_out))
-		file_paths.append(abs_path)
-		return file_paths
+		abs_path_training = cur_path+'/'+file_name_training
+		file_prediction = self.regressionSaved(to_predict_df, stockName, forecast_out)
+		prediction_df = pd.read_csv(file_prediction, index_col=False)
+
+		current_date = datetime.date.today()
+		prediction_dates = []
+
+		for i in range(forecast_out):
+			# do not count weekend
+			current_date = current_date + datetime.timedelta(days=1)
+			weekno = current_date.weekday()
+			while weekno>4:
+				current_date = current_date + datetime.timedelta(days=1)
+				weekno = current_date.weekday()
+
+			prediction_dates.append(current_date)
+
+		prediction_df['Date'] = prediction_dates
+
+		prediction_df = prediction_df[['Date','Predicted']]
+		prediction_df = prediction_df.rename(columns = {'Predicted':'Adj. Close'})
+		prediction_df = prediction_df.reset_index()
+		prediction_df = prediction_df.set_index(['Date'])
+		prediction_df = prediction_df[['Adj. Close']]
+
+		# print prediction_df
+
+		to_predict_df = to_predict_df[['Adj. Close']]
+
+		to_predict_df = to_predict_df.append(prediction_df)
+
+		to_predict_df = to_predict_df.tail(forecast_out*4)
+		# print "merged:"
+		# print to_predict_df
+
+		file_merged_path = 'data/%s_merged.csv' %stockName
+
+		to_predict_df.to_csv(file_merged_path, encoding='utf-8')
+
+		abs_merged_path = cur_path+'/'+file_merged_path
+
+		file_training = 'data/%s_training.csv' %stockName
+		abs_path_training = cur_path+'/'+file_training
+		file_list_paths = []
+		file_list_paths.append(abs_merged_path)
+		file_list_paths.append(abs_path_training)
+
+		return file_list_paths
+
+		# using yahoo finance api to get current stock price
+	def getCurrentPrice(self, stockName):
+		stock = Share(stockName)
+		return stock.get_price()
 
 	def stocksClassify(self, stockName, forecast_out):
+		# check last line of training csv to see if latest data
 		self.download_data(stockName)
 		file_name = 'data/%s_training.csv' %stockName
 		read_df = pd.read_csv(file_name, index_col = "Date")
-		# forecast_out = 14
+
 		# print 'predicting into: ' + str(forecast_out)
+
 		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
 		
@@ -343,9 +396,9 @@ class predictStocks:
 		pe_ratio = []
 		for index, row in read_df.iterrows():
 			# floating point comparison careful
-			# if 2 % increase in two weeks, then classify as a buy
+			# if 1 % increase in two weeks, then classify as a buy
 			# another method is to get historical buy-sell ratings
-			if (round(row['Future'],3) > round((1.02*row['Adj. Close']),3)):
+			if (round(row['Future'],3) > round((1.01*row['Adj. Close']),3)):
 				decisions.append('Buy')
 			elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
 				decisions.append('Sell')
@@ -356,83 +409,23 @@ class predictStocks:
 		read_df_binary['Decision'] = decisions
 		# print read_df_binary['Decision'].value_counts()
 
-		read_df_regression = read_df.copy(deep=True)
-
 		read_df_binary = read_df_binary.drop(['Future'], axis=1)
+		self.predictML(read_df_binary, False, stockName)
+
 		# print read_df_binary
 
 		cur_path = os.getcwd()
 		file_paths = []
-		file_training = '/data/%s_training.csv' %stockName
-		abs_path = cur_path+file_training
+		file_training = 'data/%s_training.csv' %stockName
+		abs_path_training = cur_path+'/'+file_training
 		file_paths.append(self.binaryClassifySaved(to_predict_df, symbol, forecast_out))
-		file_paths.append(abs_path)
+		file_paths.append(abs_path_training)
 		return file_paths
 
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
 	print predict.stocksRegression(symbol, 14)
-
 	print predict.stocksClassify(symbol, 14)
-	# symbols = ['AAPL', 'GOOGL', 'GLD']
-	# symbol = 'GOOGL'
-	# download_data(symbol)
-
-	# # max
-	# # print df['Adj. Close'].max()''
-
-	# # compare with S&P 
-	
-	# # only when need new classifier
-
-	# # use trained classifier
-
-	# # read_df = pd.read_csv('data/AAPL_training.csv', index_col = "Date")
-	# file_name = 'data/%s_training.csv' %symbol
-	# read_df = pd.read_csv(file_name, index_col = "Date")
-
-	# read_df['Daily Returns'] = dailyReturn(read_df['Adj. Close'])
-	# dailyReturn(sp500_df_all['Close'])
-	# print read_df
-	# # add decision column
-	# # if ['future'] > ['Adj. Close'] then ['Decision'] = Buy
-	
-	# # forecast_out = int(math.ceil(0.01*len(read_df))) # train 1% into future
-	# forecast_out = 14
-	# print 'predicting into: ' + str(forecast_out)
-	# to_predict_df = read_df.copy(deep=True)
-
-	# read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
-
-	# read_df = read_df.dropna(how='any')
-
-	# decisions = []
-	# pe_ratio = []
-	# for index, row in read_df.iterrows():
-	# 	# floating point comparison careful
-	# 	# if 3 % increase in two weeks, then classify as a buy
-	# 	# another method is to get historical buy-sell ratings
-	# 	if (round(row['Future'],3) > round((1.03*row['Adj. Close']),3)):
-	# 		decisions.append('Buy')
-	# 	elif (round(row['Future'],3) < ((1.03*row['Adj. Close']),3)):
-	# 		decisions.append('Sell')
-	# 	else:
-	# 		decisions.append('Hold')
-
-	# # read_df['P/E Ratio'] = pe_ratio	
-	# read_df_binary = read_df.copy(deep=True)
-	# read_df_binary['Decision'] = decisions
-	# print read_df_binary['Decision'].value_counts()
-
-	# read_df_regression = read_df.copy(deep=True)
-
-	# read_df_binary = read_df_binary.drop(['Future'], axis=1)
-	# # for regression
-	# predictML(read_df_regression, True, symbol)
-	# regressionSaved(to_predict_df, symbol)
-	# for classification 
-	# predictML(read_df_binary, False, symbol)
-	# binaryClassifySaved(to_predict_df, symbol)
-
+	print predict.getCurrentPrice(symbol)
 

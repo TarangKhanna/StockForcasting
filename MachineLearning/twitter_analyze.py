@@ -35,7 +35,7 @@ class twitter_analyze:
 	# Todo plot according to location
 	def analyze_feelings(self, stock):
 		
-		tweets_file = 'data/%s_tweets.csv' %stock
+		tweets_feile = 'data/%s_tweets.csv' %stock
 
 		if not os.path.isfile(tweets_file) : 
 			self.analyze_stock(stock)
@@ -129,7 +129,7 @@ class twitter_analyze:
 if __name__ == "__main__":
 	analyze = twitter_analyze()
 	# analyze.analyze_stock('$AAPL')
-	print analyze.analyze_feelings('$IBM')
+	print analyze.analyze_feelings('$TSLA')
 
 	# analyze_stock('$AAPL')
 	# analyze_stock('$GOOGL')
