@@ -122,6 +122,31 @@ def get_ai_data():
     data['training'] = prediction_str[1]
     return (jsonify({'data':data}), 201)
 
+@app.route('/todo/api/v1.0/tasks/getTweetdata', methods=['POST'])
+def get_tweet_data():
+    if not request.json:
+        print "im here"
+        print("aborted here")
+        abort(400)
+    stock = request.json['stock']
+    # num_of_days = request.json['days']
+    # print stock
+    # prediction = predictStocks()
+    # prediction_str = prediction.stocksRegression(stock, int(num_of_days))
+    twitter_analyzer = twitter_analyze()
+    twitter_data = twitter_analyzer.analyze_feelings(stock)
+    print twitter_data
+    print prediction.getCurrentPrice(stock)
+    data = {}
+    data['positive'] = twitter_data[0]
+    data['negative'] = twitter_data[1]
+    data['neutral'] = twitter_data[2]
+    # data['predicted'] = prediction_str[0]
+    # data['training'] = prediction_str[1]
+    return (jsonify({'data':data}), 201)
+
+
+
 @app.route('/todo/api/v1.0/tasks/getUserData', methods=['GET'])
 def get_user_data():
     if not request.json:

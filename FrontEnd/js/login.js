@@ -55,12 +55,35 @@ function populate_stocks(userID) {
     });
 }
 
+function tweeter_data(stock){
+    var uri2 = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getTweetdata";
+
+    var dataToSend = {
+        "stock":stock
+    }
+    $.ajax({
+        method: "POST",
+        url: uri2,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            // localStorage
+        },
+        error: function(data) {
+            // console.log(data);
+            alert("An error occured.");
+        }
+    });
+}
+
 function save_cookies(stockInfo){
     var data = stockInfo.data;
     alert("data[i] "+data[0]);
     for(var i = 0; i <= data.length; i++){
         var index = 'stockWatch' + i;
-      localStorage[index] = data[i];
+        // tweeter_data(data[i]);
+        localStorage[index] = data[i];
     }
 }
 
