@@ -14,7 +14,7 @@ company = "Google Inc.";
 buyorsell = "buy";
 
 if (1) {
-    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist()"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
+    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
 }
 
 //Check if Apple is in the watchlist
@@ -24,7 +24,7 @@ company = "Apple\ Inc.";
 buyorsell = "buy";
 
 if (1) {
-    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist()"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
+    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
 }
 
 //Check if IBM is in the watchlist
@@ -35,7 +35,7 @@ company = "IBM Inc.";
 buyorsell = "buy";
 
 if (1) {
-    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist()"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
+    message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
 }
 
 // If nothing is in the watchlist
@@ -48,6 +48,8 @@ document.write(message);
 
     
 
-function addWatchlist() {
-    alert("Added to watchlist");
+function addWatchlist(comp) {
+    
+    alert("Added " + comp + " to watchlist");
+    
 }
