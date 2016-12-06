@@ -4,7 +4,7 @@ curl -i -H "Content-Type: application/json" -X POST -d '{"firstName":"Tarang", "
 
 curl -i -H "Content-Type: application/json" -X POST -d '{"userID”:4, "stockSymbol": "GOOGL"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks
 
-curl -i -H "Content-Type: application/json" -X GET -d '{"userID":"1"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks
+curl -i -H "Content-Type: application/json" -X GET -d ‘{“userID":"11”}’ http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks
 
 // returns the new watch list
 curl -i -H "Content-Type: application/json" -X POST -d '{"userID":"1", "stockSymbol":"GOOGL"}' http://10.186.57.168:5000/todo/api/v1.0/tasks/delStocks

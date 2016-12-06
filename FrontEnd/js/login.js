@@ -33,6 +33,27 @@ function closeModal() {
     $("#login").modal("toggle");
 }
 
+function populate_stocks(userID) {
+    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/getStocks";
+    dataToSend = {
+        'userID':userID
+    }
+    $.ajax({
+        url: uri,
+        method: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(dataToSend),
+        success: function(data) {
+            save_cookies(data);
+        },
+        error: function(data) {
+            // console.log(data);
+            alert("An error occured.");
+        }
+    });
+}
+
 function requestLogin() {
 
     alert("logging in");
@@ -58,6 +79,7 @@ function requestLogin() {
             if (status == 'loggedIN') {
                 localStorage['firstName'] = data.firstName;
                 localStorage['UID'] = data.userID;
+                populate_stocks(data.userID)
                 window.location.assign("account.html");
             } else {
                 alert("wrong password, please retry");
@@ -69,6 +91,7 @@ function requestLogin() {
         }
     });
 }
+
 
 function loadAccountPage() {
     dispName = localStorage['firstName'] || 'User';
