@@ -27,7 +27,7 @@ var svg = d3.select("#chart3 > svg")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("GOOGL_merged.csv", function(error, data) {
+d3.csv("GOOGL_training.csv", function(error, data) {
   if (error) throw error;
 
   // format the data
