@@ -80,7 +80,7 @@ function addWatchlist(comp, userID) {
       return;
     }
     // alert("Added " + comp + " to watchlist");
-    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks";
+    var uri = "http://10.186.53.39:5000/todo/api/v1.0/tasks/addStocks";
 
     dataToSend = {
     	'userID': userID,
@@ -96,6 +96,16 @@ function addWatchlist(comp, userID) {
         success: function(data) {
             console.log(data);
             alert("stock " + comp + "added")
+            var i = 0;
+            while(i++) {
+                var index = 'stockWatch' + i;
+                // tweeter_data(data[i]);
+                var watchlisted = localStorage[index]||"default";
+                if(watchlisted == "default") {
+                    localStorage[index] = comp;
+                    break;
+                }
+            }
         },
         error: function(data) {
             console.log(data);
