@@ -51,6 +51,17 @@ def get_username(email):
     # print data[0]
     return data[0]
 
+def get_id(email):
+    cursor = cnx.cursor(buffered = True)
+    str_call = 'SELECT userID FROM USER_BASIC_INFO WHERE email = "%s"'%email
+    cursor.execute(str_call);
+
+    data = cursor.fetchone()
+    cnx.commit()
+    cursor.close()
+    # print data[0]
+    return data[0]
+
 def get_password(username):
     # compare passwords and usernames
     if username == 'miguel':
@@ -305,7 +316,8 @@ def login():
     # print get_password(email)
     if get_password(email) == password:
         firstName = get_username(email);
-        return jsonify({'status' : 'loggedIN', 'firstName' : firstName})
+        userID = get_id(email);
+        return jsonify({'status' : 'loggedIN', 'firstName' : firstName, 'userID' : userID})
     else:
         return jsonify({'status' : 'Wrong password'})
 
