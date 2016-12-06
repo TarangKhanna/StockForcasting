@@ -154,7 +154,7 @@ def add_stock():
 
 
     cursor.execute(add_stock, new_stock)
-
+    data = cursor.fetchall()
     cnx.commit()
     cursor.close()
     return (jsonify({'data':data}), 201)
