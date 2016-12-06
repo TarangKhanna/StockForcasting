@@ -370,8 +370,8 @@ class predictStocks:
 		file_list_paths = []
 		print abs_merged_path
 		if(abs_merged_path and abs_path_training):
-			shutil.move(abs_merged_path, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
-        	shutil.move(abs_path_training, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
+			shutil.copy(abs_merged_path, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
+        	shutil.copy(abs_path_training, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
         	file_list_paths.append(abs_merged_path)
         	file_list_paths.append(abs_path_training)
 
