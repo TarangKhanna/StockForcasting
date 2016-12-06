@@ -47,13 +47,13 @@ if (message == '') {
 message = message + '</div>';
 document.write(message);
 
-    
 
-function addWatchlist(userID, comp) {
-    
+
+function addWatchlist(comp, userID) {
+
     if(userID == "-1") {
     	alert("broken userID");
-    	break;
+      return;
     }
     // alert("Added " + comp + " to watchlist");
     var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addStocks";
@@ -78,5 +78,5 @@ function addWatchlist(userID, comp) {
             alert("stock adding failed")
         }
     });
-    
+
 }

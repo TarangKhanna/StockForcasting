@@ -11,6 +11,8 @@ $(document).ready(function() {
     // Page specific js
 
     if (document.title == "StockStokr - Home") {
+        dispName = localStorage['firstName'] || 'User';
+        userID = localStorage['UID'] || 'UserID';
         $parag = $("#parag");
     }
     if (document.title == "StockStokr - Account") {
