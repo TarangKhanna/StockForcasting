@@ -15,7 +15,7 @@
 # mean reversion for long term prediction
 from __future__ import division # preventing division issue in 2.7
 import pandas as pd 
-import quandl
+import quandl, shutil
 import math
 import numpy as np
 from sklearn import svm
@@ -325,6 +325,7 @@ class predictStocks:
 		cur_path = os.getcwd()
 		abs_path_training = cur_path+'/'+file_name_training
 		file_prediction = self.regressionSaved(to_predict_df, stockName, forecast_out)
+        
 		prediction_df = pd.read_csv(file_prediction, index_col=False)
 
 		current_date = datetime.date.today()
@@ -367,10 +368,15 @@ class predictStocks:
 		file_training = 'data/%s_training.csv' %stockName
 		abs_path_training = cur_path+'/'+file_training
 		file_list_paths = []
-		file_list_paths.append(abs_merged_path)
-		file_list_paths.append(abs_path_training)
+		print abs_merged_path
+		if(abs_merged_path and abs_path_training):
+			shutil.move(abs_merged_path, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
+        	shutil.move(abs_path_training, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
+        	file_list_paths.append(abs_merged_path)
+        	file_list_paths.append(abs_path_training)
 
-		return file_list_paths
+        
+        # return file_list_paths
 
 		# using yahoo finance api to get current stock price
 	def getCurrentPrice(self, stockName):
