@@ -210,7 +210,7 @@ def add_user():
     cursor.execute("SELECT COUNT(*) FROM USER_BASIC_INFO;")
     data = cursor.fetchone()
 
-    new_user = (data[0] + 1, request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
+    new_user = (str(data[0] + 1), request.json['firstName'], request.json['lastName'], request.json['age'], request.json['phoneNumber'], request.json['password'], request.json['email'])
 
 
     add_user = ("INSERT INTO USER_BASIC_INFO "

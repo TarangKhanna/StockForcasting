@@ -1,13 +1,25 @@
 var $signupForm;
 
 $(document).ready(function() {
+    // On ready things
+    // Also gets run when the login modal is closed
 
-    $signupForm = $("#signupForm");
+    // Page specific js
 
+    if (document.title == "StockStokr - Home") {
+        dispName = localStorage['firstName'] || 'User';
+        userID = localStorage['UID'] || '-1';
+        $parag = $("#parag");
+    }
+    if (document.title == "StockStokr - Account") {
+        $welcomeDisp = $("#welcomeDisp");
+        loadAccountPage();
+    }
 });
 
 function signup() {
-    //  alert("here");
+     // alert("here");
+
     var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
     var email = ($("#email")[0].value);
@@ -37,6 +49,9 @@ function signup() {
         dataType: "json",
         data: JSON.stringify(dataToSend),
         success: function(data) {
+            // alert("new user " + data.new_user[1]);
+            localStorage['firstName'] = data.new_user[1];
+            localStorage['UID'] = "" + data.new_user[0];
             window.location.assign("account.html");
         },
         error: function(data) {
@@ -44,5 +59,13 @@ function signup() {
             alert("An error occured.");
         }
     });
+
+}
+
+function loadAccountPage() {
+    dispName = localStorage['firstName'] || 'User';
+    userID = localStorage['UID'] || 'UserID';
+    loggedIN = true;
+    $welcomeDisp.text("Welcome " + dispName);
 
 }
