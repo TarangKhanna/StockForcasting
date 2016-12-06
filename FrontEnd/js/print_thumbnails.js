@@ -10,9 +10,9 @@ var userID = localStorage['UID']||'-1';
 
 //Check if Google is in the watchlist
 company = "GOOGL";
-currentPrice = '780.88';
-projected = '762.52';
-buyorsell = 'Sell'; 
+currentPrice = "779.38";
+projected = "765.54";
+buyorsell = "Sell";
 
 if (1) {
     message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\', \'' + userID + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
@@ -20,9 +20,9 @@ if (1) {
 
 //Check if Apple is in the watchlist
 company = "AAPL";
-currentPrice = '109.62';
-projected = '110.28';
-buyorsell = 'Buy'; 
+currentPrice = '109.48';
+projected = '110.80';
+buyorsell = "Buy";
 
 if (1) {
     message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\', \'' + userID + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
@@ -30,9 +30,10 @@ if (1) {
 
 //Check if IBM is in the watchlist
 //Check if Apple is in the watchlist
-currentPrice = '159.56';
+company = "IBM";
+currentPrice = '159.54';
 projected = '158.80';
-buyorsell = 'Sell'; 
+buyorsell = "Sell";
 
 if (1) {
     message = message + '<div class = "dropdown"> <button type="button" class="btn btn-block dropdown-toggle" data-toggle="dropdown" style="padding: 0px; margin-bottom: 5px;"> <h3 style="text-align: left; margin-left: 10px;">' + company + '</h3> <h4 style="text-align: right; margin-right: 10px;"> Current Price: ' + currentPrice + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> Projected: ' + projected + ' </h4> <h4 style="text-align: right; margin-right: 10px;"> ' + buyorsell + ' </h4> </button> <ul class="dropdown-menu dropdown-menu-right" onClick="addWatchlist(\'' + company + '\', \'' + userID + '\')"> <li style="background-color: #ffffff; text-align: center;"> <h4>Add ' + company + ' to Watchlist</h4> </li> </ul> </div>';
