@@ -5,7 +5,7 @@ var margin = {top: 20, right: 50, bottom: 30, left: 50},
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-var parseTime = d3.timeParse("%d-%b-%y");
+var parseTime = d3.timeParse("%Y-%m-%d");
 
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
@@ -32,8 +32,8 @@ d3.csv("GOOGL_training.csv", function(error, data) {
 
   // format the data
   data.forEach(function(d) {
-      d.date = parseTime(d.date);
-      d.close = +d.close;
+      d.date = parseTime(d.Date);
+      d.close = +d['Adj. Close'];
   });
 
   // Scale the range of the data

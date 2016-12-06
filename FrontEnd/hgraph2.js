@@ -5,7 +5,7 @@ var margin = {top: 20, right: 50, bottom: 30, left: 50},
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-var parseTime = d3.timeParse("%d-%b-%y");
+var parseTime = d3.timeParse("%Y-%m-%d");
 
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
@@ -27,13 +27,13 @@ var svg = d3.select("#chart5 > svg")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.tsv("AAPL.txt", function(error, data) {
+d3.csv("AAPL_training.csv", function(error, data) {
   if (error) throw error;
 
   // format the data
   data.forEach(function(d) {
-      d.date = parseTime(d.date);
-      d.close = +d.close;
+      d.date = parseTime(d.Date);
+      d.close = +d['Adj. Close'];
   });
 
   // Scale the range of the data
