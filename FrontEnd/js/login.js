@@ -110,8 +110,7 @@ function requestLogin() {
             // alert("in success")
             console.log(data);
             isLoggedIn = true;
-            status = data.status;
-            var status = "no stocks";
+            var status = data.status;
             var condition = 1;
             while(1) {
                 if (status == 'loggedIN') {
