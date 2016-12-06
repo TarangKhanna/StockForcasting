@@ -97,7 +97,7 @@ function addWatchlist(comp, userID) {
             console.log(data);
             alert("stock " + comp + "added")
             var i = 0;
-            while(i++) {
+            while(1) {
                 var index = 'stockWatch' + i;
                 // tweeter_data(data[i]);
                 var watchlisted = localStorage[index]||"default";
@@ -106,6 +106,7 @@ function addWatchlist(comp, userID) {
                     localStorage[index] = comp;
                     break;
                 }
+                i++;
             }
         },
         error: function(data) {

@@ -34,7 +34,7 @@ function closeModal() {
 }
 
 function populate_stocks(userID) {
-    var uri2 = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getStocks";
+    var uri2 = "http://10.186.53.39:5000/todo/api/v1.0/tasks/getStocks";
 
     var dataToSend = {
         "userID":userID
@@ -56,7 +56,7 @@ function populate_stocks(userID) {
 }
 
 function tweeter_data(stock){
-    var uri2 = "http://192.168.1.142:5000/todo/api/v1.0/tasks/getTweetdata";
+    var uri2 = "http://10.186.53.39:5000/todo/api/v1.0/tasks/getTweetdata";
 
     var dataToSend = {
         "stock":stock
@@ -89,8 +89,8 @@ function save_cookies(stockInfo){
 
 function requestLogin() {
 
-    // alert("logging in");
-    var uri = "http://192.168.1.142:5000/ss/v1.0/login";
+    alert("logging in");
+    var uri = "http://10.186.53.39:5000/ss/v1.0/login";
     var info = $('form').serializeArray();
     var email = info[0].value;
     var pswd = info[1].value;

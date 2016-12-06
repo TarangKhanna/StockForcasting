@@ -18,9 +18,9 @@ $(document).ready(function() {
 });
 
 function signup() {
-     // alert("here");
+     alert("here");
 
-    var uri = "http://10.186.57.168:5000/todo/api/v1.0/tasks/addUser";
+    var uri = "http://10.186.53.39:5000/todo/api/v1.0/tasks/addUser";
     var info = $('form').serializeArray();
     var email = ($("#email")[0].value);
     var pwd = ($("#pwd")[0].value);
@@ -52,6 +52,18 @@ function signup() {
             // alert("new user " + data.new_user[1]);
             localStorage['firstName'] = data.new_user[1];
             localStorage['UID'] = data.new_user[0];
+            var i = 0;
+            while(1) {
+                var index = 'stockWatch' + i;
+                // tweeter_data(data[i]);
+                if(localStorage[index] != "default") {
+                    localStorage[index] = "default";
+                }
+                else {
+                    break;
+                }
+                i++;
+            }
             window.location.assign("account.html");
         },
         error: function(data) {

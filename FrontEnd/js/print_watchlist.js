@@ -5,12 +5,12 @@ var currentPrice = '0.00';
 var projected = '0.00';
 var buyorsell = 'unch';
 var userID = localStorage['UID']||'-1';
-
+// alert("In browse");
 var i = 0;
 while (1) {
     var name = "stockWatch" + i;
     var watchlisted = localStorage[name]||"default";
-    
+    // alert(watchlisted);
     if (watchlisted == "default") {
         if (i == 0) {
             message = '<div class="window"><h4>There is currently nothing in your watchlist.</h4>Add stocks to your watchlist from "Browse" or "Home" to see them here.</div>';
@@ -43,7 +43,7 @@ function stock_update(comp) {
     var uri2 = "http://10.186.53.39:5000/todo/api/v1.0/tasks/getAIdata";
 
     var dataToSend = {
-        "stock":comp
+        "stock":comp,
         "days":10
     }
     $.ajax({
