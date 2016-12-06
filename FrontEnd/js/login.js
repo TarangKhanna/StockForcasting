@@ -61,7 +61,7 @@ function requestLogin() {
         },
         error: function(data) {
             console.log(data);
-            alert("giving here");
+            // alert("giving here");
         }
     });
 }
