@@ -33,13 +33,13 @@ var svg = d3.select("#chart1 > svg")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.tsv("GOOGL_predict.txt", function(error, data) {
+d3.csv("GOOGL_merged.csv", function(error, data) {
   if (error) throw error;
 
   // format the data
   data.forEach(function(d) {
-      d.date = parseTime(d.date);
-      d.close = +d.close;
+      d.date = parseTime(d.Date);
+      d.close = +d['Adj. Close'];
   });
 
   // Scale the range of the data
