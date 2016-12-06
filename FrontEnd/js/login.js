@@ -43,7 +43,7 @@ function requestLogin() {
     }
 
     $.ajax({
-        type:'POST',
+        type: 'POST',
         url: uri,
         contentType: "application/json",
         dataType: 'json',
@@ -52,11 +52,10 @@ function requestLogin() {
             console.log(data);
             isLoggedIn = true;
             status = data.status;
-            if(status == 'loggedIN') {
-                alert("welcome" + data.firstName);
+            if (status == 'loggedIN') {
+                localStorage['firstName'] = data.firstName;
                 window.location.assign("account.html");
-            }
-            else {
+            } else {
                 alert("wrong password, please retry");
             }
         },
@@ -67,7 +66,8 @@ function requestLogin() {
     });
 }
 
-// function loadAccountPage() {
-//     $welcomeDisp.text("Welcome " + dispName);
+function loadAccountPage() {
+    dispName = localStorage['firstName'] || 'User';
+    $welcomeDisp.text("Welcome " + dispName);
 
-// }
+}
