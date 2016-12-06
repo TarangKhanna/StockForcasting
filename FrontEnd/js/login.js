@@ -57,7 +57,7 @@ function populate_stocks(userID) {
 
 function save_cookies(stockInfo){
     var data = stockInfo.data;
-    // alert("data[i] "+data[0]);
+    alert("data[i] "+data[0]);
     for(var i = 0; i <= data.length; i++){
         var index = 'stockWatch' + i;
       localStorage[index] = data[i];
